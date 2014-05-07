@@ -4,7 +4,7 @@
 		<legend><?php echo __('Add Invite'); ?></legend>
 	<?php
 		echo $this->Form->input('user_from');
-		echo $this->Form->input('user_to');
+		echo $this->Form->input('user_to', array('type'=>'select'));
 		echo $this->Form->input('event_id');
 		echo $this->Form->input('ivitation_accept');
 	?>

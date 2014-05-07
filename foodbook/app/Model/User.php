@@ -13,7 +13,6 @@ class User extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'phone';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -54,7 +53,7 @@ class User extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 		),
-		'Invite' => array(
+		'UserInvite' => array(
           'className' => 'User',
           'joinTable' => 'invites',
           'foreignKey' => 'user_from',
