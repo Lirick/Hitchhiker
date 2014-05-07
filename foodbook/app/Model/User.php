@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 /**
  * User Model
  *
@@ -7,6 +8,27 @@ App::uses('AppModel', 'Model');
  * @property Event $Event
  */
 class User extends AppModel {
+    public $validate = array(
+        'username' => array(
+            'required' => array('rule' => array('notEmpty'),'message' => 'A username is required'),
+            'unique' => array('rule' => array('isUnique'),'message' => 'Username already exists')
+        ),
+        'password' => array(
+            'required' => array('rule' => array('notEmpty'),'message' => 'A password is required'),
+            'length' => array('rule' => array('minLength', 8),'message' => 'Minimum length is 8 characters')
+        )
+    );
+
+
+	public function beforeSave($options = array()) {
+		if (isset($this->data[$this->alias]['password'])) {
+		    $passwordHasher = new SimplePasswordHasher();
+		    $this->data[$this->alias]['password'] = $passwordHasher->hash(
+		        $this->data[$this->alias]['password']
+		    );
+		}
+		return true;
+	}
 
 /**
  * Display field
