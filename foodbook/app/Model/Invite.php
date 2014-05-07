@@ -3,9 +3,9 @@ App::uses('AppModel', 'Model');
 /**
  * Invite Model
  *
- * @property IviterUser $IviterUser
- * @property InvitedUser $InvitedUser
  * @property Event $Event
+ * @property User $User
+ * @property User $User
  */
 class Invite extends AppModel {
 
@@ -18,23 +18,23 @@ class Invite extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'IviterUser' => array(
-			'className' => 'IviterUser',
-			'foreignKey' => 'iviter_user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'InvitedUser' => array(
-			'className' => 'InvitedUser',
-			'foreignKey' => 'invited_user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Event' => array(
 			'className' => 'Event',
 			'foreignKey' => 'event_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'UserFrom' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_from',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'UserTo' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_to',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

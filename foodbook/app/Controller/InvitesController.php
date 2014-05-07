@@ -63,6 +63,10 @@ class InvitesController extends AppController {
 				$this->Session->setFlash(__('The invite could not be saved. Please, try again.'));
 			}
 		}
+		$usersfrom = $this->Invite->UserFrom->find('list');
+		$usersto = $this->Invite->UserTo->find('list');
+		$events = $this->Invite->Event->find('list');
+		$this->set(compact('usersfrom', 'usersto', 'events'));
 	}
 
 /**
@@ -87,6 +91,9 @@ class InvitesController extends AppController {
 			$options = array('conditions' => array('Invite.' . $this->Invite->primaryKey => $id));
 			$this->request->data = $this->Invite->find('first', $options);
 		}
+		$users = $this->Invite->User->find('list');
+		$events = $this->Invite->Event->find('list');
+		$this->set(compact('users', 'events'));
 	}
 
 /**
