@@ -13,7 +13,7 @@ class Event extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'id';
+	public $displayField = 'ename';
 
 /**
  * Validation rules
@@ -40,21 +40,7 @@ class Event extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'Invite' => array(
-			'className' => 'Invite',
-			'foreignKey' => 'event_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+	public $hasMany = 'Invite';
 
 
 /**

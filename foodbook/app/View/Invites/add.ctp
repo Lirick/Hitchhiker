@@ -3,8 +3,8 @@
 	<fieldset>
 		<legend><?php echo __('Add Invite'); ?></legend>
 	<?php
-		echo $this->Form->input('iviter_user_id');
-		echo $this->Form->input('invited_user_id');
+		echo $this->Form->input('user_from');
+		echo $this->Form->input('user_to');
 		echo $this->Form->input('event_id');
 		echo $this->Form->input('ivitation_accept');
 	?>
@@ -16,5 +16,9 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Invites'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Events'), array('controller' => 'events', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Event'), array('controller' => 'events', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
