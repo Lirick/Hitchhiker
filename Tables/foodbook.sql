@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.4.10.1deb1
 -- http://www.phpmyadmin.net
 --
--- Värd: localhost
--- Skapad: 07 maj 2014 kl 11:07
--- Serverversion: 5.5.29
--- PHP-version: 5.4.10
+-- Host: localhost
+-- Generation Time: May 07, 2014 at 11:09 PM
+-- Server version: 5.5.22
+-- PHP Version: 5.3.10-1ubuntu3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,18 +17,19 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databas: `foodbook`
+-- Database: `foodbook`
 --
+
 CREATE DATABASE `foodbook` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `foodbook`;
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `events`
+-- Table structure for table `events`
 --
 
-CREATE TABLE `events` (
+CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ename` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `host` int(11) NOT NULL,
@@ -41,10 +42,10 @@ CREATE TABLE `events` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `followers`
+-- Table structure for table `followers`
 --
 
-CREATE TABLE `followers` (
+CREATE TABLE IF NOT EXISTS `followers` (
   `uid` int(11) unsigned NOT NULL COMMENT 'user who is tracked',
   `follower_id` int(11) NOT NULL COMMENT 'user who follows '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -52,10 +53,10 @@ CREATE TABLE `followers` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `invites`
+-- Table structure for table `invites`
 --
 
-CREATE TABLE `invites` (
+CREATE TABLE IF NOT EXISTS `invites` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `iviter_user_id` int(11) unsigned NOT NULL,
   `invited_user_id` int(11) unsigned NOT NULL,
@@ -70,10 +71,10 @@ CREATE TABLE `invites` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `recipes`
+-- Table structure for table `recipes`
 --
 
-CREATE TABLE `recipes` (
+CREATE TABLE IF NOT EXISTS `recipes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `author` int(11) NOT NULL,
   `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
@@ -86,35 +87,36 @@ CREATE TABLE `recipes` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `phone` int(28) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users_events`
+-- Table structure for table `users_events`
 --
 
-CREATE TABLE `users_events` (
+CREATE TABLE IF NOT EXISTS `users_events` (
   `uid` int(11) unsigned NOT NULL,
   `event_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Restriktioner för dumpade tabeller
+-- Constraints for dumped tables
 --
 
 --
--- Restriktioner för tabell `invites`
+-- Constraints for table `invites`
 --
 ALTER TABLE `invites`
   ADD CONSTRAINT `BlongsTo` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
