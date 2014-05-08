@@ -30,13 +30,18 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		// Allow users to register and logout.
+		$this->Auth->allow('display');
+	}
+
 /**
  * This controller does not use a model
  *
  * @var array
  */
 	public $uses = array();
-
 /**
  * Displays a view
  *

@@ -31,7 +31,9 @@ class UsersController extends AppController {
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
-        $this->set('user', $this->User->read(null, $id));
+		$this->set('username', ClassRegistry::init('users')->field('username', $id));
+		$this->set('email', ClassRegistry::init('users')->field('email', $id));
+		$this->set('phone', ClassRegistry::init('users')->field('phone', $id));  
     }
 
     public function signup() {
@@ -47,23 +49,35 @@ class UsersController extends AppController {
         }
     }
 
-    public function edit($id = null) {
-        $this->User->id = $id;
+    public function edit() {
+        $this->User->id = $this->Auth->user('id');
+		$id = $this->Auth->user('id');
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => 'home'));
             }
             $this->Session->setFlash(
                 __('The user could not be saved. Please, try again.')
             );
         } else {
-            $this->request->data = $this->User->read(null, $id);
-            unset($this->request->data['User']['password']);
+			$this->set('email', ClassRegistry::init('users')->field('email', $id));
+			$this->set('phone', ClassRegistry::init('users')->field('phone', $id));
         }
+    }
+    
+    public function home() {
+		$this->User->id = $this->Auth->user('id');
+		$id = $this->Auth->user('id');
+		if (!$this->User->exists()) {
+		    throw new NotFoundException(__('Invalid user'));
+		}
+		$this->set('username', ClassRegistry::init('users')->field('username', $id));
+		$this->set('email', ClassRegistry::init('users')->field('email', $id));
+		$this->set('phone', ClassRegistry::init('users')->field('phone', $id));
     }
 
     public function delete($id = null) {
