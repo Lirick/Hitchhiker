@@ -47,6 +47,11 @@ class UsersController extends AppController {
     }
 
     public function signup() {
+    	// Don't allow sign ups when user is logged in
+    	if ($this->Auth->user())
+		{
+			return $this->redirect($this->Auth->redirect());
+		}
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
