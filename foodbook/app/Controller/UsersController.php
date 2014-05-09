@@ -5,7 +5,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		// Allow users to register and logout.
-		$this->Auth->allow('signup', 'logout');
+		$this->Auth->allow('signup', 'logout', 'login');
 	}
 
 	public function login() {
@@ -14,6 +14,10 @@ class UsersController extends AppController {
 		        return $this->redirect($this->Auth->redirect());
 		    }
 		    $this->Session->setFlash(__('Invalid username or password, try again'));
+		}
+		else if ($this->Auth->user())
+		{
+			return $this->redirect($this->Auth->redirect());
 		}
 	}
 
@@ -26,21 +30,30 @@ class UsersController extends AppController {
         $this->set('users', $this->paginate());
     }
 
+	private function readData($id = null){
+		$lookup = ClassRegistry::init('users');
+		$lookup->id = $id;
+		$this->set('username', $lookup->field('username'));
+		$this->set('email', $lookup->field('email'));
+		$this->set('phone', $lookup->field('phone'));  
+	}
+
     public function view($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
-		$this->set('username', ClassRegistry::init('users')->field('username', $id));
-		$this->set('email', ClassRegistry::init('users')->field('email', $id));
-		$this->set('phone', ClassRegistry::init('users')->field('phone', $id));  
+        $this->readData($id);
     }
 
     public function signup() {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
+                $this->Session->setFlash(__('The user has been created'));
+                if ($this->Auth->login()) {
+		        	return $this->redirect($this->Auth->redirect());
+		    	}
                 return $this->redirect(array('action' => 'index'));
             }
             $this->Session->setFlash(
@@ -50,8 +63,8 @@ class UsersController extends AppController {
     }
 
     public function edit() {
-        $this->User->id = $this->Auth->user('id');
-		$id = $this->Auth->user('id');
+    	$id = $this->Auth->user('id');
+        $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
@@ -64,20 +77,17 @@ class UsersController extends AppController {
                 __('The user could not be saved. Please, try again.')
             );
         } else {
-			$this->set('email', ClassRegistry::init('users')->field('email', $id));
-			$this->set('phone', ClassRegistry::init('users')->field('phone', $id));
+			$this->readData($id);
         }
     }
     
     public function home() {
-		$this->User->id = $this->Auth->user('id');
-		$id = $this->Auth->user('id');
+    	$id = $this->Auth->user('id');
+		$this->User->id = $id;
 		if (!$this->User->exists()) {
 		    throw new NotFoundException(__('Invalid user'));
 		}
-		$this->set('username', ClassRegistry::init('users')->field('username', $id));
-		$this->set('email', ClassRegistry::init('users')->field('email', $id));
-		$this->set('phone', ClassRegistry::init('users')->field('phone', $id));
+		$this->readData($id);
     }
 
     public function delete($id = null) {

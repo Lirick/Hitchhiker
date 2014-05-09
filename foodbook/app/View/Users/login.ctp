@@ -1,4 +1,4 @@
-//app/View/Users/login.ctp
+
 <div class="users form">
 <?php echo $this->Session->flash('auth'); ?>
 <?php echo $this->Form->create('User'); ?>
@@ -11,5 +11,6 @@
     ?>
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
+Not a member yet? <a href="/users/signup" class="button">sign up</a> 
 </div>
 
