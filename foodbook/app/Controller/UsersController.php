@@ -109,4 +109,21 @@ class UsersController extends AppController {
         $this->Session->setFlash(__('User was not deleted'));
         return $this->redirect(array('action' => 'index'));
     }
+    
+    public function search() {
+		if ($this->request->is('post')) {
+			$this->set('searched', true);
+			$search = $this->request->data['User']['Search'];
+			$this->set('username', $search);
+			$lookup = ClassRegistry::init('users');
+			$cond=array('OR'=>array("users.username LIKE '%$search%'") );
+			$this->set('found', $lookup->find('list', array('conditions' => $cond, 'fields' => array('username', 'id'))));
+		
+		}
+		else {
+			$this->set('searched', False);
+		}
+	}
 }
+
+	
