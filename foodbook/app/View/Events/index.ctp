@@ -24,4 +24,5 @@
     	</tr>
 		<?php endforeach; ?>
 	</table>
+	<p><?php echo $this->Html->link('Create', array('action' => 'create'));?></p>
 </div>

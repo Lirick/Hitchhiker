@@ -7,6 +7,7 @@ class EventsController extends AppController {
      * #!todo: 
      * Add paginator to index
      * Add function doc
+     * Change label names in the view
      */
     
     /**
