@@ -11,13 +11,13 @@ class UsersController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 		    if ($this->Auth->login()) {
-		        return $this->redirect($this->Auth->redirect());
+		        return $this->redirect($this->Auth->redirectUrl());
 		    }
 		    $this->Session->setFlash(__('Invalid username or password, try again'));
 		}
 		else if ($this->Auth->user())
 		{
-			return $this->redirect($this->Auth->redirect());
+			return $this->redirect($this->Auth->redirectUrl());
 		}
 	}
 
@@ -50,14 +50,14 @@ class UsersController extends AppController {
     	// Don't allow sign ups when user is logged in
     	if ($this->Auth->user())
 		{
-			return $this->redirect($this->Auth->redirect());
+			return $this->redirect($this->Auth->redirectUrl());
 		}
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been created'));
                 if ($this->Auth->login()) {
-		        	return $this->redirect($this->Auth->redirect());
+		        	return $this->redirect($this->Auth->redirectUrl());
 		    	}
                 return $this->redirect(array('action' => 'index'));
             }
