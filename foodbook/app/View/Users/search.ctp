@@ -16,7 +16,7 @@
 	{
 		foreach($found as $user => $id)
 		{
-			echo '<a href="/users/view/'. $id . '" class="button">' . $user . '</a><br>';
+			echo $this->Html->link($user,array('controller' => 'users', 'action' => 'view/' . $id , 'full_base' => true)) . '<br>';
 		}
 	}
 }?>
