@@ -69,8 +69,15 @@ class User extends AppModel {
 		'InvitedTo' => array(
           'className' => 'User',
           'joinTable' => 'invitedto',
-          'foreignKey' => 'user_from',
-          'associationForeignKey' => 'user_to'
+          'foreignKey' => 'user_id',
+          'associationForeignKey' => 'event_id'
+          )
+          ,
+		'RequestInvite' => array(
+          'className' => 'User',
+          'joinTable' => 'requestinvites',
+          'foreignKey' => 'user_id',
+          'associationForeignKey' => 'event_id'
           )
 	);
 
