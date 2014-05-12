@@ -97,5 +97,6 @@ class Event extends AppModel {
           'joinTable' => 'requestinvites',
           'foreignKey' => 'event_id',
           'associationForeignKey' => 'user_id'
+          )
 	);
 }

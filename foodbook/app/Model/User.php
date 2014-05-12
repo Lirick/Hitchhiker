@@ -71,8 +71,7 @@ class User extends AppModel {
           'joinTable' => 'invitedto',
           'foreignKey' => 'user_id',
           'associationForeignKey' => 'event_id'
-          )
-          ,
+          ),
 		'RequestInvite' => array(
           'className' => 'User',
           'joinTable' => 'requestinvites',
