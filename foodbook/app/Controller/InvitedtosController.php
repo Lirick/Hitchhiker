@@ -9,11 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class InvitedtosController extends AppController {
 
-public function beforeFilter() {
-		parent::beforeFilter();
-		// Allow users to register and logout.
-		$this->Auth->allow();
-	}
+
 
 /**
  * Helpers

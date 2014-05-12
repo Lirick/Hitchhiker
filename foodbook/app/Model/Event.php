@@ -85,6 +85,12 @@ class Event extends AppModel {
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',
-		)
+		),
+		'InvitedTo' => array(
+          'className' => 'User',
+          'joinTable' => 'invitedto',
+          'foreignKey' => 'user_from',
+          'associationForeignKey' => 'user_to'
+          )
 	);
 }

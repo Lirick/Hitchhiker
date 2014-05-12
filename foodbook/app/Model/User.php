@@ -45,16 +45,6 @@ class User extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'InviteFrom' => array(
-			'className' => 'Invite',
-			'foreignkey' => 'user_from'
-		),
-		'InviteTo' => array(
-			'className' => 'Invite',
-			'foreignkey' => 'user_to'
-		)
-	);
 
 
 /**
@@ -76,9 +66,9 @@ class User extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 		),
-		'Invite' => array(
+		'InvitedTo' => array(
           'className' => 'User',
-          'joinTable' => 'invites',
+          'joinTable' => 'invitedto',
           'foreignKey' => 'user_from',
           'associationForeignKey' => 'user_to'
           )
