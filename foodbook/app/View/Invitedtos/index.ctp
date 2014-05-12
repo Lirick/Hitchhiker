@@ -5,7 +5,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('event_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('ivitation_accept'); ?></th>
+			<th><?php echo $this->Paginator->sort('invitation_accept'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($invitedtos as $invitedto): ?>
@@ -17,7 +17,7 @@
 		<td>
 			<?php echo $this->Html->link($invitedto['Event']['ename'], array('controller' => 'events', 'action' => 'view', $invitedto['Event']['id'])); ?>
 		</td>
-		<td><?php echo h($invitedto['Invitedto']['ivitation_accept']); ?>&nbsp;</td>
+		<td><?php echo h($invitedto['Invitedto']['invitation_accept']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $invitedto['Invitedto']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $invitedto['Invitedto']['id'])); ?>

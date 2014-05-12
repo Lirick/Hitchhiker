@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('event_id');
-		echo $this->Form->input('ivitation_accept');
+		echo $this->Form->input('invitation_accept');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

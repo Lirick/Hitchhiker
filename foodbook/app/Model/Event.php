@@ -64,7 +64,6 @@ class Event extends AppModel {
 	 *
 	 * @var array
 	 */
-	public $hasMany = 'Invite';
 
 
 	/**
@@ -86,14 +85,14 @@ class Event extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 		),
-		'InvitedTo' => array(
-          'className' => 'User',
+		'InvitedToEvent' => array(
+          'className' => 'Invitedto',
           'joinTable' => 'invitedto',
           'foreignKey' => 'event_id',
           'associationForeignKey' => 'user_id'
          ),
-		'RequestInvite' => array(
-          'className' => 'User',
+		'RequestInviteToEvent' => array(
+          'className' => 'Requestinvite',
           'joinTable' => 'requestinvites',
           'foreignKey' => 'event_id',
           'associationForeignKey' => 'user_id'
