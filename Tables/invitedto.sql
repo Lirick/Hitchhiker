@@ -29,14 +29,14 @@ CREATE TABLE `invitedto` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `event_id` int(11) unsigned NOT NULL,
-  `ivitation_accept` tinyint(1) DEFAULT NULL,
+  `invitation_accept` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `invitedto` WRITE;
 /*!40000 ALTER TABLE `invitedto` DISABLE KEYS */;
 
-INSERT INTO `invitedto` (`id`, `user_id`, `event_id`, `ivitation_accept`)
+INSERT INTO `invitedto` (`id`, `user_id`, `event_id`, `invitation_accept`)
 VALUES
 	(1,2,1,NULL);
 
