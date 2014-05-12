@@ -8,6 +8,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('signup', 'logout', 'login');
 	}
 
+
 	public function login() {
 		if ($this->request->is('post')) {
 		    if ($this->Auth->login()) {
