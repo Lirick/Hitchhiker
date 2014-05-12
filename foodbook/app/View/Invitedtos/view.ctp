@@ -16,9 +16,9 @@
 			<?php echo $this->Html->link($invitedto['Event']['ename'], array('controller' => 'events', 'action' => 'view', $invitedto['Event']['id'])); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Ivitation Accept'); ?></dt>
+		<dt><?php echo __('Invitation Accept'); ?></dt>
 		<dd>
-			<?php echo h($invitedto['Invitedto']['ivitation_accept']); ?>
+			<?php echo h($invitedto['Invitedto']['invitation_accept']); ?>
 			&nbsp;
 		</dd>
 	</dl>
