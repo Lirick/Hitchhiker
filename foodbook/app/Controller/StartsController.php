@@ -9,6 +9,12 @@
 class StartsController extends AppController {
     public $helpers = array('Html', 'Form');
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		// Allow users to access startpage
+		$this->Auth->allow('index');
+	}
+
     public function index() {
 
     }
