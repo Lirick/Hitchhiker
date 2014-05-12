@@ -1,4 +1,3 @@
-// app/Controller/UsersController.php
 <?php
 class UsersController extends AppController {
 
