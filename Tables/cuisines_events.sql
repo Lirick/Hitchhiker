@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 13, 2014 at 11:53 PM
+-- Generation Time: May 13, 2014 at 11:52 PM
 -- Server version: 5.5.22
 -- PHP Version: 5.3.10-1ubuntu3
 
@@ -23,22 +23,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `events`
+-- Table structure for table `cuisines_events`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ename` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `host` int(11) NOT NULL,
-  `address` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `date` datetime NOT NULL,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
-  `min_guests` int(11) NOT NULL,
-  `max_guests` int(11) NOT NULL,
-  `cuisine` int(11) NOT NULL,
-  `price_per_guest` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `cuisines_events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) unsigned NOT NULL,
+  `cuisine_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `event_id` (`event_id`),
+  KEY `cuisine_id` (`cuisine_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cuisines_events`
+--
+ALTER TABLE `cuisines_events`
+  ADD CONSTRAINT `cuisines_events_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  ADD CONSTRAINT `cuisines_events_ibfk_1` FOREIGN KEY (`cuisine_id`) REFERENCES `cuisines` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

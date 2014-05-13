@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 13, 2014 at 11:53 PM
+-- Generation Time: May 13, 2014 at 11:52 PM
 -- Server version: 5.5.22
 -- PHP Version: 5.3.10-1ubuntu3
 
@@ -23,22 +23,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `events`
+-- Table structure for table `cuisines`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ename` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `host` int(11) NOT NULL,
-  `address` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `date` datetime NOT NULL,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
-  `min_guests` int(11) NOT NULL,
-  `max_guests` int(11) NOT NULL,
-  `cuisine` int(11) NOT NULL,
-  `price_per_guest` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE IF NOT EXISTS `cuisines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `cuisines`
+--
+
+INSERT INTO `cuisines` (`id`, `name`) VALUES
+(1, 'African'),
+(2, 'Asian'),
+(3, 'European'),
+(4, 'Asian'),
+(5, 'Vegetarian'),
+(6, 'Vegan'),
+(7, 'French'),
+(8, 'Italian');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
