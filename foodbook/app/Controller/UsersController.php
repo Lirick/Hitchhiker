@@ -36,7 +36,8 @@ class UsersController extends AppController {
 		$this->set('username', $lookup->field('username'));
 		$this->set('email', $lookup->field('email'));
 		$this->set('phone', $lookup->field('phone'));  
-		$this->set('picture', "users/" .$lookup->field('picture'));  
+		$this->set('picture', "users/" .$lookup->field('picture')); 
+		$this->set('id', $id);
 	}
 
     public function view($id = null) {
