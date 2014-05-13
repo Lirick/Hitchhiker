@@ -9,6 +9,8 @@ App::uses('AppController', 'Controller');
  */
 class InvitedtosController extends AppController {
 
+
+
 /**
  * Helpers
  *

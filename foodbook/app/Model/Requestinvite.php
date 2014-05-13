@@ -1,13 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Invite Model
+ * Requestinvite Model
  *
  * @property Event $Event
  * @property User $User
- * @property User $User
  */
-class Invite extends AppModel {
+class Requestinvite extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -25,16 +24,9 @@ class Invite extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'UserFrom' => array(
+		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_from',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'UserTo' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_to',
+			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

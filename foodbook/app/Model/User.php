@@ -35,7 +35,7 @@ class User extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'phone';
+	public $displayField = 'name';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -45,16 +45,6 @@ class User extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'InviteFrom' => array(
-			'className' => 'Invite',
-			'foreignkey' => 'user_from'
-		),
-		'InviteTo' => array(
-			'className' => 'Invite',
-			'foreignkey' => 'user_to'
-		)
-	);
 
 
 /**
@@ -76,11 +66,17 @@ class User extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 		),
-		'Invite' => array(
+		'InvitedTo' => array(
           'className' => 'User',
-          'joinTable' => 'invites',
-          'foreignKey' => 'user_from',
-          'associationForeignKey' => 'user_to'
+          'joinTable' => 'invitedto',
+          'foreignKey' => 'user_id',
+          'associationForeignKey' => 'event_id'
+          ),
+		'RequestInvite' => array(
+          'className' => 'User',
+          'joinTable' => 'requestinvites',
+          'foreignKey' => 'user_id',
+          'associationForeignKey' => 'event_id'
           )
 	);
 

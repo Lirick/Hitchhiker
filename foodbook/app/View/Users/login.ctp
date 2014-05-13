@@ -11,6 +11,6 @@
     ?>
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
-Not a member yet? <a href="/users/signup" class="button">sign up</a> 
+Not a member yet? <?php echo $this->Html->link('Sign up',array('controller' => 'users', 'action' => 'signup', 'full_base' => true)); ?>
 </div>
 

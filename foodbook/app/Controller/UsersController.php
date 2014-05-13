@@ -1,4 +1,3 @@
-// app/Controller/UsersController.php
 <?php
 class UsersController extends AppController {
 
@@ -37,6 +36,8 @@ class UsersController extends AppController {
 		$this->set('username', $lookup->field('username'));
 		$this->set('email', $lookup->field('email'));
 		$this->set('phone', $lookup->field('phone'));  
+		$this->set('picture', "users/" .$lookup->field('picture')); 
+		$this->set('id', $id);
 	}
 
     public function view($id = null) {
@@ -71,20 +72,46 @@ class UsersController extends AppController {
     public function edit() {
     	$id = $this->Auth->user('id');
         $this->User->id = $id;
-        if (!$this->User->exists()) {
+        if (!$this->User->exists()) 
+        {
             throw new NotFoundException(__('Invalid user'));
         }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
+        $this->readData($id);
+        if ($this->request->is('post')) {
+        	debug($this->request->data);
+        	if (isset($this->request->data['User']['Choose file']))
+        	{
+        		$ending = pathinfo($this->request->data['User']['Choose file']['name'], PATHINFO_EXTENSION);
+        		$filename = APP . "webroot/img/users/" . $id . "." . $ending;
+        		$this->User->picture = $id . "." . $ending;
+        		if (move_uploaded_file($this->request->data['User']['Choose file']['tmp_name'],$filename))
+        		{
+        			if ($this->User->save($this->User))
+        			{	
+		    			$this->Session->setFlash(__('The picture has been uploaded'));
+		    		 	$this->redirect(array('action' => 'edit'));
+		    		}
+		    		else
+        			{
+        				$this->Session->setFlash(__('The picture failed to upload'));
+        			}
+        		}
+        		else
+        		{
+        			$this->Session->setFlash(__('The picture failed to upload'));
+        		}
+        	}
+        	
+            if ($this->User->save($this->request->data)) 
+            {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'home'));
             }
-            $this->Session->setFlash(
-                __('The user could not be saved. Please, try again.')
-            );
-        } else {
-			$this->readData($id);
-        }
+	        else
+	        {
+	        	$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+            }
+        } 
     }
     
     public function home() {
