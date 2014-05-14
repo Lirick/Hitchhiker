@@ -43,13 +43,16 @@ class FollowersController extends AppController {
 		$this->Follower->uid = $id;
 		$this->Follower->follower_id = $this->Auth->user('id');
 		if ($this->Follower->save($this->Follower)) {
-			$this->Session->setFlash(__('The follower has been saved.'));
+			$this->Session->setFlash(__('You now follow this person.'));
 			return $this->redirect(array('controller' => 'users', 'action' => 'view',$id));
 		} else {
 			$this->Session->setFlash(__('The follower could not be saved. Please, try again.'));
 		}
 	}
 
+	public function follows($id = null) {
+		return 1 <= $this->Follower->find('count', array('conditions' => array('Follower.uid' => $id, 'Follower.follower_id' => $this->Auth->user('id'))));
+	}
 
 /**
  * delete method

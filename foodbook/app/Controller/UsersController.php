@@ -1,5 +1,11 @@
 <?php
+
+ App::import('Controller', 'Followers');
+ App::import('Controller', 'Endorsers');
+
 class UsersController extends AppController {
+
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -42,9 +48,15 @@ class UsersController extends AppController {
 
     public function view($id = null) {
         $this->User->id = $id;
+    	$Followers = new FollowersController;
+		$Followers->constructClasses();
+		$Endorsers= new EndorsersController;
+		$Endorsers->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+        $this->set('follows', $Followers->follows($id));
+        $this->set('endorses', $Endorsers->follows($id));
         $this->readData($id);
     }
 
