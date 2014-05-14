@@ -26,11 +26,21 @@ class FollowersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Follower->exists($id)) {
-			throw new NotFoundException(__('Invalid follower'));
+		$options = array('conditions' => array('Follower.uid'  => $id));
+		$follower = $this->Follower->find('all', $options);
+		$lookup = ClassRegistry::init('users');
+		$followers = array();
+		foreach($follower as $i)
+		{
+			$lookup->id = $i['Follower']['follower_id'];
+			$followers[$i['Follower']['follower_id']] = $lookup->field('username');
 		}
-		$options = array('conditions' => array('Follower.' . $this->Follower->primaryKey => $id));
-		$this->set('follower', $this->Follower->find('first', $options));
+		$this->set('followers',$followers);
+	}
+
+	public function count ($id = null) {
+		$options = array('conditions' => array('Follower.uid'  => $id));
+		return $this->Follower->find('count', $options);
 	}
 
 /**
@@ -42,6 +52,8 @@ class FollowersController extends AppController {
 		$this->Follower->create();
 		$this->Follower->uid = $id;
 		$this->Follower->follower_id = $this->Auth->user('id');
+		if ($this->follows($id) || $id == $this->Auth->user('id'))
+			return null;
 		if ($this->Follower->save($this->Follower)) {
 			$this->Session->setFlash(__('You now follow this person.'));
 			return $this->redirect(array('controller' => 'users', 'action' => 'view',$id));

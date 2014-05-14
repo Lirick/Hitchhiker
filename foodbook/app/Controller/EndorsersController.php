@@ -26,11 +26,21 @@ class EndorsersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Endorser->exists($id)) {
-			throw new NotFoundException(__('Invalid Endorser'));
+		$options = array('conditions' => array('Endorser.uid'  => $id));
+		$endorser = $this->Endorser->find('all', $options);
+		$lookup = ClassRegistry::init('users');
+		$endorsers = array();
+		foreach($endorser as $i)
+		{
+			$lookup->id = $i['Endorser']['endorser_id'];
+			$endorsers[$i['Endorser']['endorser_id']] = $lookup->field('username');
 		}
-		$options = array('conditions' => array('Endorser.' . $this->Endorser->primaryKey => $id));
-		$this->set('Endorser', $this->Endorser->find('first', $options));
+		$this->set('endorsers',$endorsers);
+	}
+
+	public function count ($id = null) {
+		$options = array('conditions' => array('Endorser.uid'  => $id));
+		return $this->Endorser->find('count', $options);
 	}
 
 /**
@@ -42,6 +52,8 @@ class EndorsersController extends AppController {
 		$this->Endorser->create();
 		$this->Endorser->uid = $id;
 		$this->Endorser->endorser_id = $this->Auth->user('id');
+		if ($this->endorses($id) || $id == $this->Auth->user('id'))
+			return null;
 		if ($this->Endorser->save($this->Endorser)) {
 			$this->Session->setFlash(__('You now endorse this person.'));
 			return $this->redirect(array('controller' => 'users', 'action' => 'view',$id));
@@ -50,7 +62,7 @@ class EndorsersController extends AppController {
 		}
 	}
 
-	public function follows($id = null) {
+	public function endorses($id = null) {
 		return 1 <= $this->Endorser->find('count', array('conditions' => array('Endorser.uid' => $id, 'Endorser.endorser_id' => $this->Auth->user('id'))));
 	}
 
@@ -66,7 +78,6 @@ class EndorsersController extends AppController {
 		$this->Endorser->uid = $id;
 		$this->Endorser->endorser_id = $this->Auth->user('id');
 		$Endorser = $this->Endorser->find('first', array('conditions' => array('Endorser.uid' => $id, 'Endorser.endorser_id' => $this->Auth->user('id'))));
-		debug($Endorser);
 		//this->request->onlyAllow('post', 'delete');
 		if ($this->Endorser->delete($Endorser['Endorser']['id'])) {
 			$this->Session->setFlash(__('You no longer endorse this person'));
