@@ -14,7 +14,8 @@ class EventsController extends AppController {
      * View all events
      */
     public function index() {
-        $this->set('events', $this->Event->find('all'));
+        $events = $this->Event->find('all');
+        $this->set('events',$events);
     }
 	
     
