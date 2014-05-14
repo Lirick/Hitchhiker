@@ -1,5 +1,11 @@
 <?php
+
+ App::import('Controller', 'Followers');
+ App::import('Controller', 'Endorsers');
+
 class UsersController extends AppController {
+
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -38,13 +44,22 @@ class UsersController extends AppController {
 		$this->set('phone', $lookup->field('phone'));  
 		$this->set('picture', "users/" .$lookup->field('picture')); 
 		$this->set('id', $id);
+		$this->set('regid', $this->Auth->user('id'));
 	}
 
     public function view($id = null) {
         $this->User->id = $id;
+    	$Followers = new FollowersController;
+		$Followers->constructClasses();
+		$Endorsers= new EndorsersController;
+		$Endorsers->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+        $this->set('follows', $Followers->follows($id));
+        $this->set('nrfollows', $Followers->count($id));
+        $this->set('endorses', $Endorsers->endorses($id));
+        $this->set('nrendorses', $Endorsers->count($id));
         $this->readData($id);
     }
 
