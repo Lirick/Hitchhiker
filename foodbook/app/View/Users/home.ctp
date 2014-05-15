@@ -1,3 +1,5 @@
+
+
 <div class="users page">
 Username: <?php echo $username?> <br>
 Email: <?php echo $email?> <br>

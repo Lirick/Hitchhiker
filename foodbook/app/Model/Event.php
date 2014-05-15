@@ -86,16 +86,18 @@ class Event extends AppModel {
 			'finderQuery' => '',
 		),
 		'InvitedToEvent' => array(
-          'className' => 'Invitedto',
+          'className' => 'User',
           'joinTable' => 'invitedto',
           'foreignKey' => 'event_id',
-          'associationForeignKey' => 'user_id'
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
          ),
 		'RequestInviteToEvent' => array(
-          'className' => 'Requestinvite',
+          'className' => 'User',
           'joinTable' => 'requestinvites',
           'foreignKey' => 'event_id',
-          'associationForeignKey' => 'user_id'
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
           )
 	);
 }
