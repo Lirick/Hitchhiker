@@ -9,6 +9,29 @@ class UsersController extends AppController {
 
 
 	public function login() {
+        $this->layout = 'ajax';
+        $this->autoLayout = false;
+        $this->autoRender = false;
+
+        $response = array('success' => false);
+
+        if (!empty($this->data['User']['username']) && !empty($this->data['User']['password'])) {
+            if ($this->Auth->login()) {
+                $response['success'] = true;
+                $response['data'] = "Login successfully!";
+            } else {
+                $response['data'] = 'Username or password is incorrect.';
+                $response['code'] = 0;
+            }
+        } else {
+            $response['data'] = 'Username or password is empty.';
+            $response['code'] = -1;
+        }
+
+        $this->header('Content-Type: application/json');
+        echo json_encode($response);
+        return;
+        /*
 		if ($this->request->is('post')) {
 		    if ($this->Auth->login()) {
 		        return $this->redirect($this->Auth->redirectUrl());
@@ -18,7 +41,7 @@ class UsersController extends AppController {
 		else if ($this->Auth->user())
 		{
 			return $this->redirect($this->Auth->redirectUrl());
-		}
+		}*/
 	}
 
 	public function logout() {

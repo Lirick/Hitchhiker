@@ -6,17 +6,18 @@
 			<h4 class="modal-title" id="myModalLabel">Sign in to Foodbook</h4>
 			</div>
 			<div class="modal-body">
-				<div style="height:150px;">
-					<?php echo $this->Form->create('User', array('url' => array('controller' => 'users', 'action' => 'login'))); ?>
+				<div style="height:180px;">
+					<?php echo $this->form->create('User', array('onsubmit' => 'return false;')); ?>
+                    <div class="col-xs-12" style="margin-bottom: 10px;">
+                        <span id="logininfobox" class="label label-danger" style="display: none;"></span>
+                    </div>
 					<div class="col-xs-12" style="margin-bottom: 10px;">
-						<input name="data[User][username]" class="form-control" id="UserUsername" placeholder="Username">
+						<?php echo $this->form->input('username', array('label' => false, 'div'=> false, 'class' => 'form-control', 'placeholder' => 'Username')); ?>
 					</div>
-
-
 					<div class="col-xs-12">
-						<input name="data[User][password]"  type="password" class="form-control" id="UserPassword" placeholder="Password">
+						<?php echo $this->form->input('password', array('label' => false, 'div'=> false, 'class' => 'form-control', 'placeholder' => 'Password')); ?>
 					</div>
-
+                    <?php echo $this->form->end(); ?>
 					<div class="col-xs-12">
 						<div class="checkbox">
 							<label>
@@ -25,7 +26,7 @@
 						</div>
 					</div>
 					<div class="col-xs-4">
-						<button type="submit" class="btn btn-primary">Sign in</button>
+                        <button type="button" class="btn btn-primary" onclick="login();">Sign in</button>
 					</div>
 					<?php echo $this->Form->end(); ?>
 					<div class="col-xs-offset-2 col-xs-6" style="line-height: 34px;">
@@ -36,3 +37,5 @@
 		</div>
 	</div>
 </div>
+
+

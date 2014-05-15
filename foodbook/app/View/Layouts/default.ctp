@@ -19,45 +19,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
+    <?php echo $this->Html->charset(); ?>
+    <title>
+        <?php echo $title_for_layout; ?>
+    </title>
+    <?php
+    echo $this->Html->meta('icon');
 
-        //echo $this->Html->css('cake.generic');
-        echo $this->Html->css('bootstrap');
-        echo $this->Html->css('bootstrap-theme');
-        echo $this->Html->css('customize');
-
-
-        echo $this->Html->script('jQuery');
-        echo $this->Html->script('bootstrap');
+    //echo $this->Html->css('cake.generic');
+    echo $this->Html->css('bootstrap');
+    echo $this->Html->css('bootstrap-theme');
+    echo $this->Html->css('customize');
 
 
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
+    echo $this->Html->script('jQuery');
+    echo $this->Html->script('bootstrap');
+
+
+    echo $this->fetch('meta');
+    echo $this->fetch('css');
+    echo $this->fetch('script');
+    ?>
 </head>
 <body>
-	<div id="container">
-        <?php echo $this->element('navbar'); ?>
-		<div id="header">
+<div id="container">
+    <?php echo $this->element('navbar'); ?>
+    <div id="header">
 
-		</div>
-		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
-        <?php echo $this->element('loginmodal'); ?>
-	</div>
-    <div class="footer">
-        © 2014 Foodbook Team All Rights Reserved
     </div>
-	<?php echo $this->element('sql_dump'); ?>
+    <div id="content">
+
+        <?php echo $this->Session->flash(); ?>
+
+        <?php echo $this->fetch('content'); ?>
+    </div>
+    <?php echo $this->element('loginmodal'); ?>
+</div>
+<div class="footer">
+    © 2014 Foodbook Team All Rights Reserved
+</div>
+<?php echo $this->element('sql_dump'); ?>
+<?php echo $this->Js->writeBuffer(); ?>
 </body>
+<script>
+    function login() {
+        var data = $("#UserIndexForm").serialize();
+
+        $.ajax({
+            type: "post",		// Request method: post, get
+            url: "./users/login/",	// URL to request
+            data: data,		// Form variables
+            dataType: "json",	// Expected response type
+            success: function (response, status) {
+                handleCallback(response, status);
+            },
+            error: function (response, status) {
+                handleError(XMLHttpRequest, textStatus, errorThrown)
+            }
+        });
+
+        return false;
+    }
+
+    function handleCallback(response, status) {
+        // Response was a success
+        if (response.success) {
+            $("#loginModal").modal('hide')
+            location.reload();
+            // Response contains errors
+        } else {
+            var errors = [];
+            if (typeof(response.data) == ("object" || "array")) {
+                $.each(response.data, function (key, value) {
+                    var text = isNaN(key) ? key + ": " + value : value;
+                    errors.push(text);
+                });
+            } else {
+                errors.push(response.data);
+            }
+
+            errors = errors.join("\n");
+            $("#logininfobox").html(errors).slideDown();
+            $("#logininfobox").css("display","inherit");
+        }
+        return false;
+    }
+
+    /**
+     * Handle an AJAX failure
+     */
+    function handleError(XMLHttpRequest, textStatus, errorThrown) {
+        $("#logininfobox").html("An unexpected error has occurred.").slideDown();
+    }
+</script>
 </html>
