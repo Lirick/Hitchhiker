@@ -111,8 +111,8 @@ class Event extends AppModel {
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',
-		),
-		'InvitedToEvent' => array(
+			),
+		/*'InvitedToEvent' => array(
           	'className' => 'Invitedto',
           	'joinTable' => 'invitedto',
           	'foreignKey' => 'event_id',
@@ -123,7 +123,21 @@ class Event extends AppModel {
           	'joinTable' => 'requestinvites',
           	'foreignKey' => 'event_id',
           	'associationForeignKey' => 'user_id'
-          ),
+          ),*/
+		'InvitedToEvent' => array(
+			'className' => 'User',
+			'joinTable' => 'invitedto',
+			'foreignKey' => 'event_id',
+			'associationForeignKey' => 'user_id',
+			'unique' => 'keepExisting',
+			),
+		'RequestInviteToEvent' => array(
+			'className' => 'User',
+			'joinTable' => 'requestinvites',
+			'foreignKey' => 'event_id',
+			'associationForeignKey' => 'user_id',
+			'unique' => 'keepExisting',
+			),
 		'Cuisine' => array(
 			'className' => 'Cuisine',
 			'joinTable' => 'cuisines_events',

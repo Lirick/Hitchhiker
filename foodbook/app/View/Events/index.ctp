@@ -24,7 +24,15 @@
    			<td><?php echo h($event['Event']['min_guests'])?></td>
     		<td><?php echo h($event['Event']['max_guests'])?></td>
     		<td><?php echo h($event['Event']['cuisine'])?></td>
-   
+    		
+    		<td>
+   				<?php foreach ($event['InvitedToEvent'] as $user): ?>
+        		<?php echo $user['username']."; "; ?>
+        		<?php endforeach; ?>
+
+			</td>
+			
+			
         	<td><?php
         		echo $this->Html->link('View', array('action' => 'view', $event['Event']['id']));
         		?></td>
