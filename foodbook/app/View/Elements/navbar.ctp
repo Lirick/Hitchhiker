@@ -1,13 +1,16 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" style="background-color: #3D84C1; color: white;">Foodbook</a>
+            <?php echo $this->Html->link(
+                'Foodbook',
+                array('controller' => 'starts','action' => 'index'),
+                array('class' => 'navbar-brand', 'style' => 'background-color: #3D84C1; color: white;')
+            );?>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Nothing</a></li>
-                <li><a href="#about">To</a></li>
-                <li><a href="#contact">Add</a></li>
+                <li class="active"><?php echo $this->Html->link('User Searching', array('controller' => 'users','action' => 'search'));?></li>
+                <li><?php echo $this->Html->link('Events', array('controller' => 'events','action' => 'index'));?></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (AuthComponent::user('id')): ?>
