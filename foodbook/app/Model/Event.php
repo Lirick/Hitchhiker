@@ -54,7 +54,34 @@ class Event extends AppModel {
 							'rule' => 'datetime',
 							'message' => 'Incorrect date format'
 					)
-			)
+			),
+			'min_guests' => array(
+					'notEmpty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'Please specify a minimum number of guests'
+							),
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)
+					),
+			'max_guests' => array(
+					'notEmpty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'Please specify a maximum number of guests'
+							),
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)							
+					),
+			'price_per_guest' => array(
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)
+					)
+					
 	);
 	//If no message indicated, the name of the block will be displayed.
 
@@ -65,7 +92,7 @@ class Event extends AppModel {
             'foreignKey' => 'user_id',
         )
     );
-o
+
 	/**
 	 * hasMany associations
 	 *
@@ -91,6 +118,12 @@ o
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',
+			),
+		'Cuisine' => array(
+			'className' => 'Cuisine',
+			'joinTable' => 'cuisines_events',
+			'foreignKey' => 'event_id',
+			'associationForeignKey' => 'cuisine_id'
 		),
 		'InvitedToEvent' => array(
           'className' => 'User',
