@@ -32,6 +32,9 @@ CREATE TABLE `events` (
   `address` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `min_guests` int(11) NOT NULL,
+  `max_guests` int(11) NOT NULL,
+  `price_per_guest` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
