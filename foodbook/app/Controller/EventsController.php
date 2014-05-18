@@ -9,6 +9,42 @@ class EventsController extends AppController {
      * Add function doc
      * Change label names in the view
      */
+     
+     public function myevents() {
+	    $events = $this->Event->findAllByUserId($this->Auth->user('id'));
+	    $this->set('events',$events);
+    }
+    
+     
+     
+     public function request($id) {
+     	if(!$id){
+			throw new NotFoundException(__('Invalid event'));
+			}
+		$event = $this->Event->findById($id);
+        if(!$event){
+        	throw new NotFoundException(__("Invalid Event"));
+        	}
+        $uid = $this->Auth->user('id');
+        $eventreq = $this->Event->Requestinvite->findByEventId($id);
+        $userreq = $this->Event->Requestinvite->findByUserId($uid);
+		if($this->request->is('post')){
+			if(!$eventreq or !$userreq){
+				$this->Event->Requestinvite->create();
+				$this->Event->Requestinvite->set('user_id',$uid);
+				$this->Event->Requestinvite->set('event_id',$id);
+				$this->Event->Requestinvite->save($this->request->data);
+				$this->Session->setFlash( __("The request has been sent"));
+				$this->redirect( array('action' => 'index'));
+			}else {
+				$this->Session->setFlash( __("Already requested %s"));
+				$this->redirect( array('action' => 'index'));
+				}
+		}		
+		
+
+	     
+	}
     
     /**
      * View all events

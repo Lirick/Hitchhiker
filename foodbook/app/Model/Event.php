@@ -59,6 +59,13 @@ class Event extends AppModel {
 	//If no message indicated, the name of the block will be displayed.
 
 
+	public $belongsTo = array(
+        'EventHost' => array(
+            'className' => 'User',
+            'foreignKey' => 'user_id',
+        )
+    );
+o
 	/**
 	 * hasMany associations
 	 *

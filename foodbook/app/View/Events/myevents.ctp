@@ -1,3 +1,9 @@
+<pre>
+<?php
+	print_r($events);
+?>
+</pre>
+
 
 <div class="events">
 	<table>
@@ -6,7 +12,6 @@
     	<tr>
         	<td><?php echo $event['Event']['id']; ?></td>
         	<td><?php echo $event['Event']['ename']; ?></td>
-        	<td><?php echo $event['EventHost']['username']; ?></td>
         	<td><?php echo $event['Event']['text']; ?></td>
         	<td><?php echo $event['Event']['address']; ?></td>
         	<td><?php echo $event['Event']['date']; ?></td>

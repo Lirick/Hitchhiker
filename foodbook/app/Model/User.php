@@ -45,6 +45,13 @@ class User extends AppModel {
  *
  * @var array
  */
+ 
+  public $hasMany = array(
+        'EventHost' => array(
+            'className' => 'Event',
+            'foreignKey' => 'user_id',
+        )
+    );
 
 
 /**
