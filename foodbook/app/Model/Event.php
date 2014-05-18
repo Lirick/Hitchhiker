@@ -54,7 +54,34 @@ class Event extends AppModel {
 							'rule' => 'datetime',
 							'message' => 'Incorrect date format'
 					)
-			)
+			),
+			'min_guests' => array(
+					'notEmpty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'Please specify a minimum number of guests'
+							),
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)
+					),
+			'max_guests' => array(
+					'notEmpty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'Please specify a maximum number of guests'
+							),
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)							
+					),
+			'price_per_guest' => array(
+					'numeric' => array(
+							'rule' => array('numeric'),
+							'message' => 'Invalid number'
+							)
+					)
+					
 	);
 	//If no message indicated, the name of the block will be displayed.
 
@@ -86,16 +113,22 @@ class Event extends AppModel {
 			'finderQuery' => '',
 		),
 		'InvitedToEvent' => array(
-          'className' => 'Invitedto',
-          'joinTable' => 'invitedto',
-          'foreignKey' => 'event_id',
-          'associationForeignKey' => 'user_id'
+          	'className' => 'Invitedto',
+          	'joinTable' => 'invitedto',
+          	'foreignKey' => 'event_id',
+          	'associationForeignKey' => 'user_id'
          ),
 		'RequestInviteToEvent' => array(
-          'className' => 'Requestinvite',
-          'joinTable' => 'requestinvites',
-          'foreignKey' => 'event_id',
-          'associationForeignKey' => 'user_id'
-          )
+          	'className' => 'Requestinvite',
+          	'joinTable' => 'requestinvites',
+          	'foreignKey' => 'event_id',
+          	'associationForeignKey' => 'user_id'
+          ),
+		'Cuisine' => array(
+			'className' => 'Cuisine',
+			'joinTable' => 'cuisines_events',
+			'foreignKey' => 'event_id',
+			'associationForeignKey' => 'cuisine_id'
+		)
 	);
 }

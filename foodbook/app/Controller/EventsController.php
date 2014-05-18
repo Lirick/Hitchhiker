@@ -42,11 +42,24 @@ class EventsController extends AppController {
     public function create(){
     	if ($this->request->is('post')) {
 			$this->Event->create();
-			$this->Event->set('host', $this->Auth->user('id'));			
+			$this->Event->set('host', $this->Auth->user('id'));
 			$this->Event->save($this->request->data);
-			$this->Session->setFlash( __("The event has been created"));
+			
+			if (!$this->Event->exists()) {
+				throw new NotFoundException(__('Invalid event'));
+			}
+			
+			//Add record to cuisines_events table as well
+			$cuisine_id = $this->request->data['Event']['cuisine'] + 0;			
+ 			$this->Event->CuisinesEvent->create();
+			$this->Event->CuisinesEvent->save(array(
+								'event_id'=> $this->Event->id,
+							 	'cuisine_id' => $cuisine_id));
+							
+			$this->Session->setFlash( __("The event has been created"));			
 			$this->redirect( array('action' => 'index'));
     	}
+    	
     }
     
     
