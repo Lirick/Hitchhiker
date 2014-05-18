@@ -1,3 +1,7 @@
+<pre>
+<?php print_r($invitedtos);   ?>
+</pre>
+
 <div class="invitedtos index">
 	<h2><?php echo __('Invitedtos'); ?></h2>
 	<table cellpadding="0" cellspacing="0">

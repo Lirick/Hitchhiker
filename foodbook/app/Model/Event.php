@@ -86,6 +86,13 @@ class Event extends AppModel {
 	//If no message indicated, the name of the block will be displayed.
 
 
+	public $belongsTo = array(
+        'EventHost' => array(
+            'className' => 'User',
+            'foreignKey' => 'user_id',
+        )
+    );
+
 	/**
 	 * hasMany associations
 	 *
@@ -112,37 +119,25 @@ class Event extends AppModel {
 			'offset' => '',
 			'finderQuery' => '',
 			),
-		/*'InvitedToEvent' => array(
-          	'className' => 'Invitedto',
-          	'joinTable' => 'invitedto',
-          	'foreignKey' => 'event_id',
-          	'associationForeignKey' => 'user_id'
-         ),
-		'RequestInviteToEvent' => array(
-          	'className' => 'Requestinvite',
-          	'joinTable' => 'requestinvites',
-          	'foreignKey' => 'event_id',
-          	'associationForeignKey' => 'user_id'
-          ),*/
-		'InvitedToEvent' => array(
-			'className' => 'User',
-			'joinTable' => 'invitedto',
-			'foreignKey' => 'event_id',
-			'associationForeignKey' => 'user_id',
-			'unique' => 'keepExisting',
-			),
-		'RequestInviteToEvent' => array(
-			'className' => 'User',
-			'joinTable' => 'requestinvites',
-			'foreignKey' => 'event_id',
-			'associationForeignKey' => 'user_id',
-			'unique' => 'keepExisting',
-			),
 		'Cuisine' => array(
 			'className' => 'Cuisine',
 			'joinTable' => 'cuisines_events',
 			'foreignKey' => 'event_id',
 			'associationForeignKey' => 'cuisine_id'
-		)
+		),
+		'InvitedToEvent' => array(
+          'className' => 'User',
+          'joinTable' => 'invitedto',
+          'foreignKey' => 'event_id',
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
+         ),
+		'RequestInviteToEvent' => array(
+          'className' => 'User',
+          'joinTable' => 'requestinvites',
+          'foreignKey' => 'event_id',
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
+          )
 	);
 }

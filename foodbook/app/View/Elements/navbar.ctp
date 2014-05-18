@@ -10,7 +10,19 @@
                 <li><a href="#contact">Add</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
+                <?php if (AuthComponent::user('id')): ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= AuthComponent::user('username') ?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Host your event</a></li>
+                            <li><a href="#">Create your event request</a></li>
+                            <li class="divider"></li>
+                            <li><a href="./users/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li><a href="" data-toggle="modal" data-target="#loginModal">Sign in</a></li>
+                <?php endif; ?>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

@@ -1,5 +1,11 @@
 <?php
+
+ App::import('Controller', 'Followers');
+ App::import('Controller', 'Endorsers');
+
 class UsersController extends AppController {
+
+
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -9,6 +15,29 @@ class UsersController extends AppController {
 
 
 	public function login() {
+        $this->layout = 'ajax';
+        $this->autoLayout = false;
+        $this->autoRender = false;
+
+        $response = array('success' => false);
+
+        if (!empty($this->data['User']['username']) && !empty($this->data['User']['password'])) {
+            if ($this->Auth->login()) {
+                $response['success'] = true;
+                $response['data'] = "Login successfully!";
+            } else {
+                $response['data'] = 'Username or password is incorrect.';
+                $response['code'] = 0;
+            }
+        } else {
+            $response['data'] = 'Username or password is empty.';
+            $response['code'] = -1;
+        }
+
+        $this->header('Content-Type: application/json');
+        echo json_encode($response);
+        return;
+        /*
 		if ($this->request->is('post')) {
 		    if ($this->Auth->login()) {
 		        return $this->redirect($this->Auth->redirectUrl());
@@ -18,7 +47,7 @@ class UsersController extends AppController {
 		else if ($this->Auth->user())
 		{
 			return $this->redirect($this->Auth->redirectUrl());
-		}
+		}*/
 	}
 
 	public function logout() {
@@ -38,13 +67,22 @@ class UsersController extends AppController {
 		$this->set('phone', $lookup->field('phone'));  
 		$this->set('picture', "users/" .$lookup->field('picture')); 
 		$this->set('id', $id);
+		$this->set('regid', $this->Auth->user('id'));
 	}
 
     public function view($id = null) {
         $this->User->id = $id;
+    	$Followers = new FollowersController;
+		$Followers->constructClasses();
+		$Endorsers= new EndorsersController;
+		$Endorsers->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+        $this->set('follows', $Followers->follows($id));
+        $this->set('nrfollows', $Followers->count($id));
+        $this->set('endorses', $Endorsers->endorses($id));
+        $this->set('nrendorses', $Endorsers->count($id));
         $this->readData($id);
     }
 

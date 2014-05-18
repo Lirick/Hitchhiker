@@ -1,34 +1,20 @@
+<pre>
+<?php
+	print_r($events);
+?>
+</pre>
+
 
 <div class="events">
 	<table>
-		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>HostId</th>
-			<th>Text</th>
-			<th>Address</th>
-			<th>Date</th>
-			<th>Price per Guest</th>
-			<th>Min guests</th>
-			<th>Max guests</th>
-			<th>Cuisine Id</th>			
-		</tr>
 		<?php foreach ($events as $event): ?>
 		
     	<tr>
         	<td><?php echo $event['Event']['id']; ?></td>
         	<td><?php echo $event['Event']['ename']; ?></td>
-        	<td><?php echo $event['EventHost']['username']; ?></td>
         	<td><?php echo $event['Event']['text']; ?></td>
         	<td><?php echo $event['Event']['address']; ?></td>
-        	
-        	<td><?php echo $event['Event']['date']; ?></td>        	
-   			<td><?php echo h($event['Event']['price_per_guest'])?></td>
-   			<td><?php echo h($event['Event']['min_guests'])?></td>
-    		<td><?php echo h($event['Event']['max_guests'])?></td>
-    		<td><?php echo h($event['Event']['cuisine'])?></td>
-    		
-        	
+        	<td><?php echo $event['Event']['date']; ?></td>
         	<?php foreach ($event['InvitedToEvent'] as $user): ?>
         	<td><?php echo $user['username']; ?></td>
         	<?php endforeach; ?>
@@ -41,7 +27,6 @@
 	        	);
         	?>
         	</td>
-        	
         	<td><?php
         		echo $this->Html->link('View', array('action' => 'view', $event['Event']['id']));
         		?></td>
