@@ -13,10 +13,7 @@ Email: <?php echo $email?> <br>
 Phone Number: <?php echo $phone?> <br>
 User has <?php echo $nrfollows ?> following them (<?php echo $this->Html->link('View',array('controller' => 'followers', 'action' => 'view', $id)); ?>). <br>
 User has <?php echo $nrendorses ?> endorsing them (<?php echo $this->Html->link('View',array('controller' => 'endorsers', 'action' => 'view', $id)); ?>). <br>
-<?php foreach ($ratings as $rating):
- 
-	
-?>
+
 
 <?php
 if ($id != $regid)
