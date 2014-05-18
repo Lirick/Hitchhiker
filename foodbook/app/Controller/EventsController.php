@@ -11,7 +11,7 @@ class EventsController extends AppController {
      */
      
      public function myevents() {
-	    $events = $this->Event->findAllByUserId($this->Auth->user('id'));
+	    $events = $this->Event->findAll($this->Auth->user('id'));
 	    $this->set('events',$events);
     }
     

@@ -84,6 +84,24 @@ class UsersController extends AppController {
         $this->set('endorses', $Endorsers->endorses($id));
         $this->set('nrendorses', $Endorsers->count($id));
         $this->readData($id);
+        $ratings2 = $this->User->Userrating->findAllByUserto($id);
+        
+        $this->User->Userrating->virtualFields['Rating'] = 0;
+        $ratings = $this->User->Userrating->query(
+        "SELECT
+        	userto, AVG(rating) as Userrating__Rating
+        FROM
+        	userratings as Userrating
+        WHERE 
+        	userto =".$id,"
+        AS
+        	Userrating
+        GROUP BY
+        	userto
+        "
+        );
+        
+        $this->set('ratings',$ratings);
     }
 
     public function signup() {
