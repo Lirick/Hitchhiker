@@ -12,10 +12,14 @@ class StartsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		// Allow users to access startpage
-		$this->Auth->allow('index');
+		$this->Auth->allow('index','userprofile');
 	}
 
     public function index() {
+
+    }
+
+    public function userprofile() {
 
     }
 

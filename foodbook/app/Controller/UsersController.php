@@ -10,7 +10,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		// Allow users to register and logout.
-		$this->Auth->allow('signup', 'logout', 'login');
+		$this->Auth->allow('signup', 'logout', 'login','index','view','search');
 	}
 
 
@@ -71,6 +71,9 @@ class UsersController extends AppController {
 	}
 
     public function view($id = null) {
+        if ($id == null) {
+            $id = $this->Auth->user('id');
+        }
         $this->User->id = $id;
     	$Followers = new FollowersController;
 		$Followers->constructClasses();
@@ -84,9 +87,12 @@ class UsersController extends AppController {
         $this->set('endorses', $Endorsers->endorses($id));
         $this->set('nrendorses', $Endorsers->count($id));
         $this->readData($id);
-        $ratings2 = $this->User->Userrating->findAllByUserto($id);
+        //$ratings2 = $this->User->Userrating->findAllByUserto($id);
         
-        $this->User->Userrating->virtualFields['Rating'] = 0;
+        //$this->User->Userrating->virtualFields['Rating'] = 0;
+
+        $ratings = 8.9;
+        /*
         $ratings = $this->User->Userrating->query(
         "SELECT
         	userto, AVG(rating) as Userrating__Rating
@@ -100,6 +106,7 @@ class UsersController extends AppController {
         	userto
         "
         );
+        */
         
         $this->set('ratings',$ratings);
     }
@@ -117,7 +124,7 @@ class UsersController extends AppController {
                 if ($this->Auth->login()) {
 		        	return $this->redirect($this->Auth->redirectUrl());
 		    	}
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('controller' => 'starts', 'action' => 'index'));
             }
             $this->Session->setFlash(
                 __('Invalid user details')
@@ -161,7 +168,7 @@ class UsersController extends AppController {
             if ($this->User->save($this->request->data)) 
             {
                 $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => 'home'));
+                return $this->redirect(array('action' => 'view'));
             }
 	        else
 	        {

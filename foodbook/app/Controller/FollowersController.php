@@ -26,6 +26,10 @@ class FollowersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+        $this->layout = 'ajax';
+        $this->autoLayout = false;
+
+
 		$options = array('conditions' => array('Follower.uid'  => $id));
 		$follower = $this->Follower->find('all', $options);
 		$lookup = ClassRegistry::init('users');
