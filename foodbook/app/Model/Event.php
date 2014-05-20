@@ -93,13 +93,20 @@ class Event extends AppModel {
         )
     );
 
+	
 	/**
 	 * hasMany associations
 	 *
 	 * @var array
 	 */
+	public $hasMany = array(
+		'Comment' => array(
+			'className' => 'Comment',
+			'foreignKey' => 'event_id')
+	);
 
-
+	
+	
 	/**
 	 * hasAndBelongsToMany associations
 	 *
