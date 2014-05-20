@@ -12,13 +12,5 @@
     <p><?php $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id'])); ?></p>
 	<p><?php $this->Html->link('Delete', array('action' => 'delete', $event['Event']['id'])); ?></p>
 </div>
-<div class="comments">
-	Comments	
-	<?php foreach ($event['Comment'] as $comment): ?>
-		<div style="padding: 10px;border-bottom: 1px solid;">
-			<p>Author: <?php echo $comment['user_id']; ?></p>
-			<p>Text: <?php echo $comment['text']; ?></p>
-			<p>Time: <?php echo $comment['time']; ?></p>		
-		</div>
-	<?php endforeach; ?>
-</div>
+
+<?php echo $this->element('comments');?>

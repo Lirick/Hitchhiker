@@ -61,7 +61,7 @@ class EventsController extends AppController {
      * @throws NotFoundException
      * #!todo: use users_events to display a username instead of ID
      */
-    public function view($id = null){
+    public function view($id = null){    	
         if(!$id){
             throw new NotFoundException(__("Invalid Event"));
         }
@@ -69,7 +69,15 @@ class EventsController extends AppController {
         if(!$event){
         	throw new NotFoundException(__("Invalid Event"));
         }
-        $this->set('event', $event);
+               
+        $lookup = ClassRegistry::init('User');
+        
+        foreach($event['Comment'] as $key=>$val){        	        	
+        	$lookup->id = $val['user_id'];        	
+        	$event['Comment'][$key]['username'] = $lookup->field('username');        	
+        }
+		
+        $this->set('event', $event);        
     }
     
     
@@ -151,6 +159,15 @@ class EventsController extends AppController {
 	        return $this->redirect(array('action' => 'index'));
 	    }
 	}
-    
-    
+
+	
+	/**
+	 * Search events by Location
+	 */
+	/*public function searchByLocation() {
+		
+		
+	}*/
+	
+	
 }
