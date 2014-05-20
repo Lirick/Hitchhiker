@@ -47,12 +47,12 @@
     <div id="header">
 
     </div>
-    <div id="content">
+    <div id="content" class="container">
 
         <?php echo $this->Session->flash(); ?>
-
-        <?php echo $this->fetch('content'); ?>
     </div>
+        <?php echo $this->fetch('content'); ?>
+
     <?php echo $this->element('loginmodal'); ?>
 </div>
 <div class="footer">
@@ -63,11 +63,11 @@
 </body>
 <script>
     function login() {
-        var data = $("#UserIndexForm").serialize();
+        var data = $("#UserLoginForm").serialize();
 
         $.ajax({
             type: "post",		// Request method: post, get
-            url: "./users/login/",	// URL to request
+            url: "<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>",
             data: data,		// Form variables
             dataType: "json",	// Expected response type
             success: function (response, status) {
@@ -110,6 +110,38 @@
      */
     function handleError(XMLHttpRequest, textStatus, errorThrown) {
         $("#logininfobox").html("An unexpected error has occurred.").slideDown();
+    }
+
+    function loadfollowers(id) {
+        $.ajax({
+            type: "get",		// Request method: post, get
+            url: "<?php echo $this->Html->url(array('controller' => 'followers', 'action' => 'view')); ?>/"+id,
+            dataType: "html",	// Expected response type
+            success: function (response, status) {
+                $("#rview").html(response);
+            },
+            error: function (response, status) {
+                //handleError(XMLHttpRequest, textStatus, errorThrown)
+            }
+        });
+
+        return false;
+    }
+
+    function loadendorsers(id) {
+        $.ajax({
+            type: "get",		// Request method: post, get
+            url: "<?php echo $this->Html->url(array('controller' => 'endorsers', 'action' => 'view')); ?>/"+id,
+            dataType: "html",	// Expected response type
+            success: function (response, status) {
+                $("#rview").html(response);
+            },
+            error: function (response, status) {
+                //handleError(XMLHttpRequest, textStatus, errorThrown)
+            }
+        });
+
+        return false;
     }
 </script>
 </html>

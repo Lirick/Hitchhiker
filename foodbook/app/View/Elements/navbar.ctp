@@ -15,12 +15,21 @@
             <ul class="nav navbar-nav navbar-right">
                 <?php if (AuthComponent::user('id')): ?>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= AuthComponent::user('username') ?> <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:10px;">
+                            <?php echo $this->Html->image("users/" .AuthComponent::user('picture'), array('style' =>'height:30px;padding:0;', 'class' => 'img-responsive img-thumbnail', 'alt' => 'Profile Picture', 'fullBase' => true)); ?>
+                            <?= AuthComponent::user('username') ?> <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Host your event</a></li>
                             <li><a href="#">Create your event request</a></li>
                             <li class="divider"></li>
-                            <li><a href="./users/logout">Logout</a></li>
+                            <li>
+                                <?php echo $this->Html->link('My profile', array('controller' => 'users','action' => 'view'));?>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <?php echo $this->Html->link('Logout', array('controller' => 'users','action' => 'logout'));?>
+                            </li>
                         </ul>
                     </li>
                 <?php else: ?>

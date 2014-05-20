@@ -26,6 +26,10 @@ class EndorsersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+
+        $this->layout = 'ajax';
+        $this->autoLayout = false;
+
 		$options = array('conditions' => array('Endorser.uid'  => $id));
 		$endorser = $this->Endorser->find('all', $options);
 		$lookup = ClassRegistry::init('users');

@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<div style="height:180px;">
-					<?php echo $this->form->create('User', array('onsubmit' => 'return false;')); ?>
+					<?php echo $this->form->create('User', array('id'=>'UserLoginForm', 'onsubmit' => 'return false;')); ?>
                     <div class="col-xs-12" style="margin-bottom: 10px;">
                         <span id="logininfobox" class="label label-danger" style="display: none;"></span>
                     </div>
