@@ -1,4 +1,17 @@
-<div class="events">
+<!-- 
+<pre>
+	<?php //print_r($event); ?>
+</pre>
+ -->
+<p style="font-weight: bold;">Hoster Info</p>
+<div>
+	Hoster id: <?php echo $event['EventHost']['id']; ?><br />
+	Hoster name: <?php echo $event['EventHost']['username'] ?><br />
+	Hoster picture: <?php echo '<img src="/img/users/'.$event['EventHost']['picture'].'" alt="picture"/>' ?><br />
+</div>
+
+<p style="font-weight: bold;">Event Info</p>
+<div>
 	Id: <?php echo $event['Event']['id']?> <br/>
     Name: <?php echo h($event['Event']['ename'])?><br/>
     Host: <?php echo h($event['Event']['user_id'])?><br/>

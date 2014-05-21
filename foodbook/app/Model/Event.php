@@ -105,7 +105,8 @@ class Event extends AppModel {
 	public $hasMany = array(
 		'Comment' => array(
 			'className' => 'Comment',
-			'foreignKey' => 'event_id',
+			'foreignKey' => 'event_id',	
+			'dependent' => true,
 			'order' => 'Comment.id DESC')
 	);
 
