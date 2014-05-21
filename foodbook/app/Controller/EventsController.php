@@ -65,18 +65,18 @@ class EventsController extends AppController {
         if(!$id){
             throw new NotFoundException(__("Invalid Event"));
         }
+               
         $event = $this->Event->findById($id);
         if(!$event){
         	throw new NotFoundException(__("Invalid Event"));
         }
                
-        $lookup = ClassRegistry::init('User');
-        
+        $lookup = ClassRegistry::init('User');        
         foreach($event['Comment'] as $key=>$val){        	        	
-        	$lookup->id = $val['user_id'];        	
+        	$lookup->id = $val['user_id'];
         	$event['Comment'][$key]['username'] = $lookup->field('username');        	
         }
-		
+		        
         $this->set('event', $event);        
     }
     
@@ -147,12 +147,13 @@ class EventsController extends AppController {
      * @throws MethodNotAllowedException
      */
 	public function delete($id) {
+		if ($this->request->is('get')) {
+			throw new MethodNotAllowedException();
+		}
+		
 		if(!$id){
 			throw new NotFoundException(__('Invalid event'));
-		}
-	    if ($this->request->is('get')) {
-	        throw new MethodNotAllowedException();
-	    }
+		}	    
 	
 	    if ($this->Event->delete($id)) {
 	        $this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));

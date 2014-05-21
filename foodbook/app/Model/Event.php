@@ -83,9 +83,12 @@ class Event extends AppModel {
 					)
 					
 	);
-	//If no message indicated, the name of the block will be displayed.
 
-
+	/**
+	 * belongsTo association
+	 * 
+	 * @var array
+	 */
 	public $belongsTo = array(
         'EventHost' => array(
             'className' => 'User',
@@ -102,7 +105,8 @@ class Event extends AppModel {
 	public $hasMany = array(
 		'Comment' => array(
 			'className' => 'Comment',
-			'foreignKey' => 'event_id')
+			'foreignKey' => 'event_id',
+			'order' => 'Comment.id DESC')
 	);
 
 	

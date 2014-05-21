@@ -14,7 +14,14 @@
 		<div style="padding: 10px; border-bottom: 1px solid;">
 			<p>Author: <?php echo $comment['username']; ?></p>
 			<p>Text: <?php echo h($comment['text']); ?></p>
-			<p>Time: <?php echo $comment['time']; ?></p>		
+			<p>Time: <?php echo $comment['time']; ?></p>
+			<p><?php        			
+        		echo $this->Form->postLink(
+                    'Delete', 
+        			array('controller' => 'comments', 'action' =>'delete', $comment['id']),
+        			array('confirm' => 'Are you sure?')
+                );
+        		?></p>
 		</div>
 	<?php endforeach; ?>
 </div>
