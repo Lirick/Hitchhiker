@@ -50,10 +50,14 @@ class User extends AppModel {
         'EventHost' => array(
             'className' => 'Event',
             'foreignKey' => 'user_id',
-        )
+        ),
+  		'Comment' => array(
+  			'className' => 'Comment',
+  			'foreignKey' => 'user_id')
     );
 
-
+  
+  
 /**
  * hasAndBelongsToMany associations
  *
@@ -92,13 +96,13 @@ class User extends AppModel {
 			'associationForeignKey' => 'userto',
 			'unique' => 'keepExisting',
 			),
-			'RatingTo' => array(
+		'RatingTo' => array(
 			'className' => 'User',
 			'joinTable' => 'userratings',
 			'foreignKey' => 'userto',
 			'associationForeignKey' => 'userfrom',
 			'unique' => 'keepExisting',
-			)
+			) 
 	);
 
 }

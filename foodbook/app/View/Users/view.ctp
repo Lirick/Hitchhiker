@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="row">
         <div class="col-xs-3" style="border-right: 1px solid #e2e2e2;">
@@ -52,7 +53,11 @@
 
             <div class="panel panel-warning" style="text-align: center;">
                 <div class="panel-body">
-                    <div>Rating: <?php echo $ratings ?></div>
+                <?php foreach ($ratings as $rating):?>
+                    <div>Rating: 
+                    <?php echo $rating['Userrating']['Rating'] ?>
+                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 

@@ -26,7 +26,7 @@
    			<td><?php echo h($event['Event']['price_per_guest'])?></td>
    			<td><?php echo h($event['Event']['min_guests'])?></td>
     		<td><?php echo h($event['Event']['max_guests'])?></td>
-    		<td><?php echo h($event['Event']['cuisine'])?></td>
+    		<td><?php echo h($event['Cuisine'][0]['name'])?></td>
     		
         	
         	<?php foreach ($event['InvitedToEvent'] as $user): ?>
