@@ -88,8 +88,7 @@ class User extends AppModel {
           'joinTable' => 'requestinvites',
           'foreignKey' => 'user_id',
           'associationForeignKey' => 'event_id'
-          )
-		/*	,
+          ),
           'RatingFrom' => array(
 			'className' => 'User',
 			'joinTable' => 'userratings',
@@ -103,7 +102,7 @@ class User extends AppModel {
 			'foreignKey' => 'userto',
 			'associationForeignKey' => 'userfrom',
 			'unique' => 'keepExisting',
-			) */
+			) 
 	);
 
 }
