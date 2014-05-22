@@ -1,7 +1,6 @@
 <!-- Used in View Events -->
-<div class="comments">
-	Comments	
-			
+<p style="font-weight: bold;">Comments</p>
+<div>		
 	<?php 
 		echo $this->Form->create('Comment', array(
 			'url' => array('controller' => 'comments', 'action' => 'add', $event['Event']['id'])

@@ -85,9 +85,12 @@ class EventsController extends AppController {
      * Create a new event 
      */
     public function create(){
+    	$cuisines = $this->Event->Cuisine->find('all');
+    	$this->set('cuisines', $cuisines);
+    	
     	if ($this->request->is('post')) {
 			$this->Event->create();
-			$this->Event->set('host', $this->Auth->user('id'));
+			$this->Event->set('user_id', $this->Auth->user('id'));
 			$this->Event->save($this->request->data);
 			
 			if (!$this->Event->exists()) {
@@ -147,15 +150,15 @@ class EventsController extends AppController {
      * @throws MethodNotAllowedException
      */
 	public function delete($id) {
-		if ($this->request->is('get')) {
+		if( $this->request->is('get') ) {
 			throw new MethodNotAllowedException();
 		}
 		
-		if(!$id){
+		if( !$id ){
 			throw new NotFoundException(__('Invalid event'));
 		}	    
 	
-	    if ($this->Event->delete($id)) {
+		if( $this->Event->delete($id) ) {
 	        $this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));
 	        return $this->redirect(array('action' => 'index'));
 	    }
