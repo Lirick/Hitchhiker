@@ -1,26 +1,48 @@
 <!-- Used in View Events -->
-<p style="font-weight: bold;">Comments</p>
-<div>		
-	<?php 
-		echo $this->Form->create('Comment', array(
-			'url' => array('controller' => 'comments', 'action' => 'add', $event['Event']['id'])
-			)); 
-		echo $this->Form->input('text');
-		echo $this->Form->end(__('Submit')); 
-	?>
-	
-	<?php foreach ($event['Comment'] as $comment): ?>
-		<div style="padding: 10px; border-bottom: 1px solid;">
-			<p>Author: <?php echo $comment['username']; ?></p>
-			<p>Text: <?php echo h($comment['text']); ?></p>
-			<p>Time: <?php echo $comment['time']; ?></p>
-			<p><?php        			
-        		echo $this->Form->postLink(
-                    'Delete', 
-        			array('controller' => 'comments', 'action' =>'delete', $comment['id']),
-        			array('confirm' => 'Are you sure?')
-                );
-        		?></p>
-		</div>
-	<?php endforeach; ?>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comments</h3>
+    </div>
+    <div class="panel-body">
+        <?php
+        echo $this->Form->create('Comment', array(
+            'url' => array('controller' => 'comments', 'action' => 'add', $event['Event']['id'])
+        ));
+        echo $this->Form->input('text',
+            array(
+                'label' => 'Write your comment here',
+                'class' => 'form-control',
+                'style' => 'margin-bottom: 5px;'
+            ));
+        echo $this->Form->end(array(
+            'label' => 'Done',
+            'class' => 'btn btn-primary btn-block'));
+        ?>
+        <hr>
+        <?php foreach ($event['Comment'] as $comment): ?>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?php echo $comment['username']; ?> said:</h3>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo h($comment['text']); ?></p>
+                    <p class="text-right" style="margin: 0;color: #e2e2e2">
+                        <small>
+                            <em><?php echo $comment['time']; ?></em>
+                        </small>
+                    </p>
+                    <?php echo $this->Form->postLink(
+                        'Delete',
+                        array('controller' => 'comments', 'action' =>'delete', $comment['id']),
+                        array('confirm' => 'Are you sure?'));
+                    ?>
+                </div>
+            </div>
+
+
+
+        <?php endforeach; ?>
+
+    </div>
 </div>

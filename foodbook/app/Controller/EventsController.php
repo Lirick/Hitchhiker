@@ -2,6 +2,12 @@
 
 class EventsController extends AppController {
     public $helpers = array('Html', 'Form', 'Paginator');
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        // Allow users to register and logout.
+        $this->Auth->allow('index','view');
+    }
 	
     /**
      * #!todo: 
