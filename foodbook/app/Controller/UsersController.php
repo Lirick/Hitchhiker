@@ -70,7 +70,6 @@ class UsersController extends AppController {
 		$this->set('id', $id);
 		$this->set('regid', $this->Auth->user('id'));
 		
-		$this->User->contain('Follower');
 		$followers = $this->User->find('first');
 		$this->set('fullfollowers', $followers);	
 	}
