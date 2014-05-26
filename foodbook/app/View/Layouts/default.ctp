@@ -30,10 +30,15 @@
     echo $this->Html->css('bootstrap');
     echo $this->Html->css('bootstrap-theme');
     echo $this->Html->css('customize');
+    echo $this->Html->css('bootstrap-datetimepicker.min');
+
+
 
 
     echo $this->Html->script('jQuery');
     echo $this->Html->script('bootstrap');
+    echo $this->Html->script('moment');
+    echo $this->Html->script('bootstrap-datetimepicker.min');
 
 
     echo $this->fetch('meta');
@@ -62,6 +67,10 @@
 <?php echo $this->Js->writeBuffer(); ?>
 </body>
 <script>
+    $(function () {
+        $('#eventdp').datetimepicker();
+    });
+
     function login() {
         var data = $("#UserLoginForm").serialize();
 
