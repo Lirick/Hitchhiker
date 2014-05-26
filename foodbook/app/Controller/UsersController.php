@@ -70,8 +70,9 @@ class UsersController extends AppController {
 		$this->set('id', $id);
 		$this->set('regid', $this->Auth->user('id'));
 		
-		$followers = $this->User->find('first');
-		$this->set('fullfollowers', $followers);	
+		$allinfo = $this->User->findById($id);
+		$followedby = $allinfo['FollowedBy'];
+		$this->set('followedby', $followedby);	
 	}
 
     public function view($id = null) {
