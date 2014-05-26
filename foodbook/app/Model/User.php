@@ -102,7 +102,23 @@ class User extends AppModel {
 			'foreignKey' => 'userto',
 			'associationForeignKey' => 'userfrom',
 			'unique' => 'keepExisting',
-			) 
+			),
+		'Following' => array(
+			'className' => 'User',
+			'joinTable' => 'followers',
+			'foreignKey' => 'follower_id',
+			'associationForeignKey' => 'uid',
+			'unique' => 'keepExisting',
+			)
+		,
+		'FollowedBy' => array(
+			'className' => 'User',
+			'joinTable' => 'followers',
+			'foreignKey' => 'uid',
+			'associationForeignKey' => 'follower_id',
+			'unique' => 'keepExisting',
+			)
+			
 	);
 
 }
