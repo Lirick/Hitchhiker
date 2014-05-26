@@ -117,6 +117,11 @@ class User extends AppModel {
 			'foreignKey' => 'uid',
 			'associationForeignKey' => 'follower_id',
 			'unique' => 'keepExisting',
+			'fields' => array(
+			'username',
+			'email',
+			'phone',
+			'picture') 
 			)
 			
 	);
