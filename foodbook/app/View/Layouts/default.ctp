@@ -31,15 +31,15 @@
     echo $this->Html->css('bootstrap-theme');
     echo $this->Html->css('customize');
     echo $this->Html->css('bootstrap-datetimepicker.min');
-
-
-
+    
 
     echo $this->Html->script('jQuery');
     echo $this->Html->script('bootstrap');
     echo $this->Html->script('moment');
     echo $this->Html->script('bootstrap-datetimepicker.min');
-
+    echo $this->Html->script('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');    
+    echo $this->Html->script('map');
+    
 
     echo $this->fetch('meta');
     echo $this->fetch('css');
@@ -49,17 +49,16 @@
 <body>
 <div id="container">
     <?php echo $this->element('navbar'); ?>
-    <div id="header">
-
-    </div>
+    <div id="header"></div>
+    
     <div id="content" class="container">
-
         <?php echo $this->Session->flash(); ?>
     </div>
-        <?php echo $this->fetch('content'); ?>
-
+    
+    <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('loginmodal'); ?>
 </div>
+
 <div class="footer">
     © 2014 Foodbook Team All Rights Reserved
 </div>
@@ -68,16 +67,17 @@
 </body>
 <script>
     $(function () {
-        $('#eventdp').datetimepicker();
+    	$('#eventdp').datetimepicker();
     });
 
+    
     function login() {
         var data = $("#UserLoginForm").serialize();
 
         $.ajax({
             type: "post",		// Request method: post, get
             url: "<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>",
-            data: data,		// Form variables
+            data: data,			// Form variables
             dataType: "json",	// Expected response type
             success: function (response, status) {
                 handleCallback(response, status);
