@@ -161,6 +161,19 @@ class Event extends AppModel {
 			'email',
 			'phone',
 			'picture') 
+          ),
+          'GoingToEvent' => array(
+          'className' => 'User',
+          'joinTable' => 'goingtos',
+          'foreignKey' => 'event_id',
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
+          'fields' => array(
+          	'id',
+			'username',
+			'email',
+			'phone',
+			'picture') 
           )
 	);
 }

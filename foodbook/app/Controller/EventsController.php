@@ -24,9 +24,20 @@ class EventsController extends AppController {
     }
     
     
-    public function acceptuser($id) {
+    public function acceptuser($id,$eid) {
+    
+    	if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if(!$id){
+			throw new NotFoundException(__('Invalid event'));
+		}
     	$uid = $this->Auth->user('id');
-    	if($this->request->is('post')){
+    	if($this->request->is('post')){  	
+    		$this->Event->Goingto->create();
+    		$this->Event->Goingto->set('user_id',$id);
+    		$this->Event->Goingto->set('event_id',$eid);
+    		$this->Event->Goingto->save($this->request->data);
         	$this->redirect(array('action' => 'requestusers', $uid));
         }    
     }
@@ -34,10 +45,17 @@ class EventsController extends AppController {
     
     public function requestusers($id) {
     	$event = $this->Event->findById($id);
+    	$justevent = $event['Event'];
     	$uid = $this->Auth->user('id');
+    	$this->set('event',$justevent);
         $users = $event['RequestInviteToEvent'];
-        $this->set('users',$users);
+        foreach ($users as $user){
+	        if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'],$justevent['id'])){
+		        $notansweredusers[] = $user;
+	        }
+        }
         
+        $this->set('users',$notansweredusers);
     }
     
     

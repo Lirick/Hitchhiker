@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.5.29-log)
 # Database: foodbook
-# Generation Time: 2014-05-27 09:19:42 +0000
+# Generation Time: 2014-05-27 09:17:10 +0000
 # ************************************************************
 
 
@@ -20,12 +20,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table invitedto
+# Dump of table goingtos
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `invitedto`;
+DROP TABLE IF EXISTS `goingtos`;
 
-CREATE TABLE `invitedto` (
+CREATE TABLE `goingtos` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `event_id` int(11) unsigned NOT NULL,

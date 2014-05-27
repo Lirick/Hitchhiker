@@ -1,9 +1,3 @@
-<pre>
-<?php
-	print_r($users);
-?>
-</pre>
-
 
 <div class="events">
 	<table>
@@ -17,7 +11,7 @@
             <td> <?php        
         		echo $this->Form->postLink(
                     'Accept',
-                    array('action' => 'acceptuser', $user['id'])
+                    array('action' => 'acceptuser', $user['id'],$event['id'])
                 );
         		?> </td>
     	</tr>
