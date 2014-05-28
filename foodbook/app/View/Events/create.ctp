@@ -28,8 +28,8 @@
                         'div' => 'form-group',
                         'class' => 'form-control',
                         'placeholder' => "Address"));
-                echo $this->Form->input('date');
-                /*
+                //echo $this->Form->input('date');
+
                 echo $this->Form->input(
                     'date',
                     array('label' => 'Schedule of your event',
@@ -39,7 +39,7 @@
                         'between' => "<div class='input-group date' id='eventdp'>",
                         'after' => "<span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div>"));
 
-*/
+
 
 
                 ?>

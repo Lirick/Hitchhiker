@@ -1,6 +1,6 @@
 <!-- Used in View Events -->
 
-<div class="panel panel-info">
+<div class="panel panel-success">
     <div class="panel-heading">
         <h3 class="panel-title">Comments</h3>
     </div>
@@ -17,11 +17,11 @@
             ));
         echo $this->Form->end(array(
             'label' => 'Done',
-            'class' => 'btn btn-primary btn-block'));
+            'class' => 'btn btn-success btn-block'));
         ?>
         <hr>
         <?php foreach ($event['Comment'] as $comment): ?>
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title"><?php echo $comment['username']; ?> said:</h3>
                 </div>
