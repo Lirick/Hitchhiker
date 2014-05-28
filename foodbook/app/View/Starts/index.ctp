@@ -41,13 +41,23 @@
 <div class="row">
 <div class="col-xs-3">
 <div class="row" style="#margin-bottom: 20px;">
+    <!-- Weather -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+        $('#test').weatherfeed(['SWXX0040']);
+        });
+    </script>
+    <div class="row">
+        <div id="test" class="col-xs-12" style=""></div>
+    </div> 
+    <!-- End Weather -->
     <div class="col-xs-4" style="height:97px;padding: 0;">
         <?php echo $this->Html->image('user1.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
     </div>
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -137,7 +147,7 @@
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -167,7 +177,7 @@
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -197,7 +207,7 @@
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -227,7 +237,7 @@
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -257,7 +267,7 @@
     <div class="col-xs-8">
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+            <div class="col-xs-10"><p><strong>Aida M. Nordstr枚m</strong></p></div>
         </div>
         <div class="row">
             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
@@ -301,7 +311,7 @@
             </div>
             <div class="col-xs-10">
                 <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
+                    <strong>By</strong><a href="#"> Aida M. Nordstr枚m</a><br>
                     <em>Uppsala, Sweden</em>
                 </p>
             </div>
@@ -373,7 +383,7 @@
             </div>
             <div class="col-xs-10">
                 <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
+                    <strong>By</strong><a href="#"> Aida M. Nordstr枚m</a><br>
                     <em>Uppsala, Sweden</em>
                 </p>
             </div>
@@ -445,7 +455,7 @@
             </div>
             <div class="col-xs-10">
                 <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
+                    <strong>By</strong><a href="#"> Aida M. Nordstr枚m</a><br>
                     <em>Uppsala, Sweden</em>
                 </p>
             </div>
