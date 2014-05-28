@@ -93,6 +93,11 @@ class Event extends AppModel {
         'EventHost' => array(
             'className' => 'User',
             'foreignKey' => 'user_id',
+            'fields' => array(
+			'username',
+			'email',
+			'phone',
+			'picture') 
         )
     );
 
@@ -150,6 +155,25 @@ class Event extends AppModel {
           'foreignKey' => 'event_id',
           'associationForeignKey' => 'user_id',
           'unique' => 'keepExisting',
+          'fields' => array(
+          	'id',
+			'username',
+			'email',
+			'phone',
+			'picture') 
+          ),
+          'GoingToEvent' => array(
+          'className' => 'User',
+          'joinTable' => 'goingtos',
+          'foreignKey' => 'event_id',
+          'associationForeignKey' => 'user_id',
+          'unique' => 'keepExisting',
+          'fields' => array(
+          	'id',
+			'username',
+			'email',
+			'phone',
+			'picture') 
           )
 	);
 }

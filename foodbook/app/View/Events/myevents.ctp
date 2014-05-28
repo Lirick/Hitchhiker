@@ -1,10 +1,3 @@
-<pre>
-<?php
-	print_r($events);
-?>
-</pre>
-
-
 <div class="events">
 	<table>
 		<?php foreach ($events as $event): ?>
@@ -18,28 +11,20 @@
         	<?php foreach ($event['InvitedToEvent'] as $user): ?>
         	<td><?php echo $user['username']; ?></td>
         	<?php endforeach; ?>
-        	
-        	<td>
-        	<?php
-	        	echo $this->Form->postLink(
-	        	'Request invite',
-	        	array('action' => 'request', $event['Event']['id'])
-	        	);
-        	?>
-        	</td>
-        	<td><?php
+        	<td> Number of requests <?php echo $this->Form->postLink(count($event['RequestInviteToEvent']),array('action' => 'requested', $event['Event']['id'])); ?> </td>
+        	<td> <?php
         		echo $this->Html->link('View', array('action' => 'view', $event['Event']['id']));
-        		?></td>
-        	<td><?php
+        		?> </td>
+        	<td> <?php
         		echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']));
-        		?></td>
-        	<td><?php        
+        		?> </td>
+        	<td> <?php        
         		echo $this->Form->postLink(
                     'Delete',
                     array('action' => 'delete', $event['Event']['id']),
                     array('confirm' => 'Are you sure?')
                 );
-        		?></td>
+        		?> </td>
     	</tr>
     	
 		<?php endforeach; ?>

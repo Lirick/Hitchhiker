@@ -58,5 +58,36 @@
     	
 		<?php endforeach; ?>
 	</table>
+	<p style="font-weight: bold;">Page Navigator:</p>
+	<?php
+	
+	// Shows the next and previous links
+	echo $this->Paginator->prev(
+			'« Previous',
+			null,
+			null,
+			array('class' => 'disabled')
+	);
+	
+	echo '&nbsp;';
+	// Shows the page numbers
+	echo $this->Paginator->numbers(array('modulus' => 3));
+	
+	echo '&nbsp;';
+	echo $this->Paginator->next(
+			'Next »',
+			null,
+			null,
+			array('class' => 'disabled')
+	);
+	
+	echo '<br/>';
+	// prints X of Y, where X is current page and Y is number of pages
+	echo $this->Paginator->counter();
+// 	echo $this->Paginator->counter(array(
+// 			'format' => 'Page {:page} of {:pages}, showing {:current} records out of
+// 			{:count} total, starting on record {:start}, ending on {:end}'
+// 	));
+	?>
 	<p><?php echo $this->Html->link('Create', array('action' => 'create'));?></p>
 </div>

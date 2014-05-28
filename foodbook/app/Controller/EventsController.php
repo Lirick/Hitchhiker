@@ -1,8 +1,11 @@
 <?php
 
 class EventsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Paginator');
+    public $helpers = array('Html', 'Form');
+    
+    public $components = array('Paginator');
 
+    
     public function beforeFilter() {
         parent::beforeFilter();
         // Allow users to register and logout.
@@ -11,16 +14,64 @@ class EventsController extends AppController {
 	
     /**
      * #!todo: 
-     * Add paginator to index
      * Add function doc
-     * Change label names in the view
      */
      
-     public function myevents() {
+     
+	public function myevents() {
 	    $events = $this->Event->findAllByUserId($this->Auth->user('id'));
 	    $this->set('events',$events);
     }
     
+    
+    public function acceptuser($id,$eid) {
+    
+    	if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if(!$id){
+			throw new NotFoundException(__('Invalid event'));
+		}
+    	$uid = $this->Auth->user('id');
+    	if($this->request->is('post')){  	
+    		$this->Event->Goingto->create();
+    		$this->Event->Goingto->set('user_id',$id);
+    		$this->Event->Goingto->set('event_id',$eid);
+    		$this->Event->Goingto->save($this->request->data);
+        	$this->redirect(array('action' => 'requestusers', $uid));
+        }    
+    }
+    
+    
+    public function requestusers($id) {
+    	$event = $this->Event->findById($id);
+    	$justevent = $event['Event'];
+    	$uid = $this->Auth->user('id');
+    	$this->set('event',$justevent);
+        $users = $event['RequestInviteToEvent'];
+        foreach ($users as $user){
+	        if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'],$justevent['id'])){
+		        $notansweredusers[] = $user;
+	        }
+        }
+        
+        $this->set('users',$notansweredusers);
+    }
+    
+    
+    public function requested($id) {
+	    if(!$id){
+			throw new NotFoundException(__('Invalid event'));
+		}
+		$event = $this->Event->findById($id);
+		
+    	if(!$event){
+        	throw new NotFoundException(__("Invalid Event"));
+        }
+        if($this->request->is('post')){
+        	$this->redirect(array('action' => 'requestusers', $id));
+		}
+    }
      
      
      public function request($id) {
@@ -46,18 +97,18 @@ class EventsController extends AppController {
 				$this->Session->setFlash( __("Already requested %s"));
 				$this->redirect( array('action' => 'index'));
 				}
-		}		
-		
-
-	     
+		}		     
 	}
     
+
     /**
      * View all events
      */
     public function index() {
-        $events = $this->Event->find('all');      
-        $this->set('events',$events);
+//      $events = $this->Event->find('first');
+//      $this->set('events',$events);
+        $data = $this->Paginator->paginate();        
+        $this->set('events', $data);        
     }
 	
     
@@ -65,7 +116,6 @@ class EventsController extends AppController {
      * View event details
      * @param int $id
      * @throws NotFoundException
-     * #!todo: use users_events to display a username instead of ID
      */
     public function view($id = null){    	
         if(!$id){
@@ -112,8 +162,7 @@ class EventsController extends AppController {
 							
 			$this->Session->setFlash( __("The event has been created"));			
 			$this->redirect( array('action' => 'index'));
-    	}
-    	
+    	}    	
     }
     
     
@@ -169,15 +218,4 @@ class EventsController extends AppController {
 	        return $this->redirect(array('action' => 'index'));
 	    }
 	}
-
-	
-	/**
-	 * Search events by Location
-	 */
-	/*public function searchByLocation() {
-		
-		
-	}*/
-	
-	
 }

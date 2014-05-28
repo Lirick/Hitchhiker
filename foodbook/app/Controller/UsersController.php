@@ -62,12 +62,17 @@ class UsersController extends AppController {
 	private function readData($id = null){
 		$lookup = ClassRegistry::init('users');
 		$lookup->id = $id;
+		
 		$this->set('username', $lookup->field('username'));
 		$this->set('email', $lookup->field('email'));
 		$this->set('phone', $lookup->field('phone'));  
 		$this->set('picture', "users/" .$lookup->field('picture')); 
 		$this->set('id', $id);
 		$this->set('regid', $this->Auth->user('id'));
+		
+		$allinfo = $this->User->findById($id);
+		$followedby = $allinfo['FollowedBy'];
+		$this->set('followedby', $followedby);	
 	}
 
     public function view($id = null) {
@@ -102,11 +107,13 @@ class UsersController extends AppController {
         GROUP BY
         	userto
         "
-        );
-        
-        
+        ); 
         $this->set('ratings',$ratings);
+        
+                
     }
+    
+    
 
     public function signup() {
     	// Don't allow sign ups when user is logged in
