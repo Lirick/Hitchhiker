@@ -38,16 +38,34 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
+                <?php if(!empty($name)): ?>
+                    <div><p><span class="glyphicon glyphicon-user">  <?php echo $name ?></span></p></div>
+                <?php endif ?>
+                <?php if(!empty($location)): ?>
+                    <div><p><span class="glyphicon glyphicon-map-marker">  <?php echo $location ?></span></p></div>
+                <?php endif ?>                
+                <?php if(!empty($email)): ?>
                     <div><p><span class="glyphicon glyphicon-envelope">  <?php echo $email ?></span></p></div>
+                <?php endif ?>
+               	<?php if(!empty($phone)): ?>
                     <div><span class="glyphicon glyphicon-earphone">  <?php echo $phone ?></span></div>
+                <?php endif ?>
+                </div>
+            </div> 
+            <?php if(!empty($description)): ?>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                   <?php echo nl2br($description); ?>
                 </div>
             </div>
+			<?php endif ?>
+			 <?php if($nrrecipes > 0): ?>
             <div class="panel panel-default">
                 <div class="panel-body">
                    <?php echo $this->Html->link('View users ' . $nrrecipes . ' recipes', array('controller' => 'recipes', 'action' => 'lists/' . $regid)); ?>
                 </div>
             </div>
-
+            <?php endif ?>
             <div class="panel panel-primary" style="text-align: center;">
                 <div class="panel-body">
 
