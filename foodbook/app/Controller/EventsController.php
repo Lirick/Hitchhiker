@@ -101,7 +101,7 @@ class EventsController extends AppController {
     		}, 
     		$users);    	    	
     }
-    
+
     
     /**
      * @param int $event_id event id
@@ -154,6 +154,7 @@ class EventsController extends AppController {
     	$this->set('event', $event['Event']);
     	$this->set('invitesusers', $notansweredusers);
     }
+
         
     
 	/**
@@ -188,7 +189,7 @@ class EventsController extends AppController {
 		}
 	}
      
-     
+   
     
 
     /**

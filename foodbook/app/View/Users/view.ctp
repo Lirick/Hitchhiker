@@ -1,3 +1,6 @@
+<pre>
+<?php print_r($followedby)?>
+</pre>
 <div class="container">
     <div class="row">
         <div class="col-xs-3" style="border-right: 1px solid #e2e2e2;">
@@ -63,6 +66,10 @@
                     <?php echo $rating['Userrating']['Rating'] ?>
                     </div>
                     <?php endforeach; ?>
+                    <br>
+                    <div>1 2 3 4 5 6 7 8 9 10
+                    </div>
+                    
                 </div>
             </div>
 
