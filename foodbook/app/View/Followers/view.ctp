@@ -1,3 +1,8 @@
+<pre>
+    <?php print_r($followers);
+    ?>
+</pre>
+
 <h2>Followers</h2>
 <hr>
 <?php
