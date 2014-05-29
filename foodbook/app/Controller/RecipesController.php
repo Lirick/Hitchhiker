@@ -26,6 +26,46 @@ class RecipesController extends AppController {
 		$this->set('recipes', $this->Paginator->paginate());
 		$this->set('myId', $this->Auth->user('id'));
 	}
+	
+	private function getAuthor($id = null)
+	{
+		$ulookup = ClassRegistry::init('users');
+		$ulookup->id = $id;
+		return $ulookup->field('username');
+	}
+
+    public function search() {
+		if ($this->request->is('post')) {
+			$this->set('searched', true);
+			$search = $this->request->data['Recipe']['Search'];
+			$this->set('recipe', $search);
+			$lookup = ClassRegistry::init('recipes');
+			$cond=array('OR'=>array("recipes.name LIKE '%$search%' OR recipes.tags LIKE '%$search%'") );
+			$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('name','author', 'id')));
+			foreach($found as $id => $name)
+			{
+				foreach($name as $n => $aid)
+				{
+					$found[$id][$n] = $this->getAuthor($aid);
+				}
+			}
+			
+			$this->set('found',$found);
+		
+		}
+		else {
+			$this->set('searched', False);
+		}
+	}
+
+
+    public function lists($id = null) {
+		$lookup = ClassRegistry::init('recipes');
+		$cond=array('OR'=>array("recipes.author LIKE '$id'") );
+		$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('name', 'id')));	
+		$this->set('found',$found);
+		$this->set('user', $this->getAuthor($id));
+	}
 
 
 	private function readData($id = null){

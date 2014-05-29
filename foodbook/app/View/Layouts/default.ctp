@@ -31,6 +31,7 @@
     echo $this->Html->css('bootstrap-theme');
     echo $this->Html->css('customize');
     echo $this->Html->css('bootstrap-datetimepicker.min');
+     echo $this->Html->css('weather');
     
 
     echo $this->Html->script('jQuery');
@@ -39,6 +40,7 @@
     echo $this->Html->script('bootstrap-datetimepicker.min');
     echo $this->Html->script('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');    
     echo $this->Html->script('map');
+    echo $this->Html->script('jquery.zweatherfeed.min');
     
 
     echo $this->fetch('meta');
