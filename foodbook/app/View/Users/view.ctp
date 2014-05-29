@@ -3,7 +3,13 @@
         <div class="col-xs-3" style="border-right: 1px solid #e2e2e2;">
 
             <div>
-                <?php echo $this->Html->image($picture, array('class' => 'img-responsive img-thumbnail', 'alt' => 'Profile Picture', 'fullBase' => true)); ?>
+                <?php echo $this->Html->image($picture,
+                    array(
+                        'class' => 'img-responsive img-thumbnail',
+                        'style' => 'width:260px;height:260px;',
+                        'alt' => 'Profile Picture',
+                        'fullBase' => true));
+                ?>
             </div>
             <div>
                 <blockquote style="margin: 10px 0;"><p class="lead"><?php echo $username ?></p></blockquote>

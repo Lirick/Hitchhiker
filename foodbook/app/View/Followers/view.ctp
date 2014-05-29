@@ -1,6 +1,7 @@
 <h2>Followers</h2>
 <hr>
 <?php
+
 if (empty($followers)) {
     echo 'No Users found.';
 } else {

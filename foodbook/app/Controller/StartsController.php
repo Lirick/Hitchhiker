@@ -8,6 +8,7 @@
 
 class StartsController extends AppController {
     public $helpers = array('Html', 'Form');
+    var $uses = array('User','Event');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -16,6 +17,9 @@ class StartsController extends AppController {
 	}
 
     public function index() {
+
+        $this->set('users',$this->User->find('all', array('limit' => 8)));
+        $this->set('events',$this->Event->find('all', array('limit' => 9)));
 
     }
 

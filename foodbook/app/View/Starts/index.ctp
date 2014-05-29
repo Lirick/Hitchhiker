@@ -37,470 +37,118 @@
 
 <!-- Users and Events Area-->
 <div class="container" style="margin-top: 30px;">
-<!-- Users -->
-<div class="row">
-<div class="col-xs-3">
-<div class="row" style="#margin-bottom: 20px;">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user1.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+    <!-- Users -->
+    <div class="row">
+        <div class="col-xs-3">
+            <?php foreach ($users as $u) { ?>
+                <div class="row" style="#margin-bottom: 20px;">
+                    <div class="col-xs-4" style="height:97px;padding: 0;">
+                        <?php echo $this->Html->image("users/" . $u['User']['picture'], array('class' => 'img-responsive img-thumbnail', 'alt' => 'Profile Picture')); ?>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="row">
+                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
+                            <div class="col-xs-10">
+                                <p>
+                                    <strong><?php echo $this->Html->link($u['User']['username'], array(
+                                                'controller' => 'users',
+                                                'action' => 'view',
+                                                $u['User']['id'])
+                                        ); ?>
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
+                            <div class="col-xs-10">
+                                <p>
+                                    <small><em>From Sweden</em></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
+                            <div class="col-xs-2"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
+                            <div class="col-xs-10"><h4>Rating: 9.1</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            <?php } ?>
         </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small><em>From Sweden</em></small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 9.1</h4></div>
-        </div>
-    </div>
-</div>
+        <!-- /Users -->
 
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user2.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Elena A. Lindholm</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 9.1</h4></div>
-        </div>
-    </div>
-</div>
+        <!-- Events -->
+        <div class="col-xs-9" style="border-left: 1px solid #e2e2e2;height: 900px;">
+            <?php   $i = 1;
+            foreach ($events as $e) {
+                if (fmod($i, 3) == 1 && $i == 1) {
+                    echo '<div class="row">';
+                } elseif (fmod($i, 3) == 1) {
+                    echo '<div class="row" style="margin-top:20px;">';
+                }
 
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user3.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Leonida Palermo</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Italy</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 9.0</h4></div>
-        </div>
-    </div>
-</div>
+                ?>
+                <div class="col-xs-4">
+                    <div style="position: relative;">
+                        <div class="event-namebar">
+                            <h5>
+                                <?php echo $this->Html->link($e['Event']['ename'], array(
+                                        'controller' => 'events',
+                                        'action' => 'view',
+                                        $e['Event']['id'])
+                                ); ?>
+                            </h5>
+                        </div>
+                        <?php echo $this->Html->image(
+                            'eventdefault.png',
+                            array(
+                                "alt" => "dinner picture",
+                                "class" => "img-responsive",
+                                "url" => array(
+                                    'controller' => 'events',
+                                    'action' => 'view',
+                                    $e['Event']['id'])
+                            )
+                        ); ?>
+                    </div>
+                    <div>
+                        <h4>
+                            <small><?php echo $e['Event']['date'] ?></small>
+                        </h4>
+                    </div>
+                    <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
+                    <div class="row">
+                        <div class="col-xs-2" style="padding-right: 0;">
+                            <?php echo $this->Html->image("users/" . $e['EventHost']['picture'], array("alt" => "user avatar", "class" => "img-responsive")); ?>
+                        </div>
+                        <div class="col-xs-10">
+                            <p>
+                                <strong>By</strong>
+                                <?php echo $this->Html->link($e['EventHost']['username'], array(
+                                        'controller' => 'users',
+                                        'action' => 'view',
+                                        $e['Event']['user_id'])
+                                ); ?><br>
 
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user4.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
+                                <em><?php echo $e['Event']['address']; ?></em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <?php if (fmod($i, 3) == 0) {
+                    echo '</div>';
+                }
+                $i = $i + 1;
+            }
+            ?>
+            <!-- /Events -->
         </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 8.9</h4></div>
-        </div>
-    </div>
-</div>
 
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user5.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
     </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 8.7</h4></div>
-        </div>
-    </div>
-</div>
-
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user6.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 8.6</h4></div>
-        </div>
-    </div>
-</div>
-
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user7.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 8.3</h4></div>
-        </div>
-    </div>
-</div>
-
-<hr>
-<div class="row">
-    <div class="col-xs-4" style="height:97px;padding: 0;">
-        <?php echo $this->Html->image('user8.png', array("alt" => "user avatar", "class" => "img-thumbnail img-responsive")); ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
-            <div class="col-xs-10"><p><strong>Aida M. Nordström</strong></p></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
-            <div class="col-xs-10">
-                <p>
-                    <small>From Sweden</small>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-9" style="border-top: 1px solid #e2e2e2"></div>
-            <div class="col-xs-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-            <div class="col-xs-10"><h4>Rating: 8.3</h4></div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- /Users -->
-
-<!-- Events -->
-<div class="col-xs-9" style="border-left: 1px solid #e2e2e2;height: 900px;">
-<div class="row">
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Hello Event</h5></div>
-            <?php echo $this->Html->image('dinner1.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>17 May 2014 | 8:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user1.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
-                    <em>Uppsala, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Traditional home-made italian food</h5></div>
-            <?php echo $this->Html->image('dinner2.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>22 May 2014 | 7:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user3.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Leonida Palermo</a><br>
-                    <em>Roma, Italy</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Svenska mat!</h5></div>
-            <?php echo $this->Html->image('dinner3.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>18 May 2014 | 9:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user2.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Elena A. Lindholm</a><br>
-                    <em>Stockholm, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" style="margin-top: 30px;">
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Hello Event</h5></div>
-            <?php echo $this->Html->image('dinner4.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>17 May 2014 | 8:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user1.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
-                    <em>Uppsala, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Traditional home-made italian food</h5></div>
-            <?php echo $this->Html->image('dinner5.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>22 May 2014 | 7:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user5.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Leonida Palermo</a><br>
-                    <em>Roma, Italy</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Svenska mat!</h5></div>
-            <?php echo $this->Html->image('dinner6.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>18 May 2014 | 9:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user2.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Elena A. Lindholm</a><br>
-                    <em>Stockholm, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" style="margin-top: 30px;">
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Hello Event</h5></div>
-            <?php echo $this->Html->image('dinner7.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>17 May 2014 | 8:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user1.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Aida M. Nordström</a><br>
-                    <em>Uppsala, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Traditional home-made italian food</h5></div>
-            <?php echo $this->Html->image('dinner8.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>22 May 2014 | 7:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user3.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Leonida Palermo</a><br>
-                    <em>Roma, Italy</em>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-4">
-        <div style="position: relative;">
-            <div class="event-namebar"><h5>Svenska mat!</h5></div>
-            <?php echo $this->Html->image('dinner9.png', array("alt" => "dinner picture", "class" => "img-responsive")); ?>
-        </div>
-        <div>
-            <h4>
-                <small>18 May 2014 | 9:00 PM</small>
-            </h4>
-        </div>
-        <div class="col-xs-12" style="border-top: 1px solid #e2e2e2;padding-bottom: 5px;"></div>
-        <div class="row">
-            <div class="col-xs-2" style="padding-right: 0;">
-                <?php echo $this->Html->image('user2.png', array("alt" => "user avatar", "class" => "img-responsive")); ?>
-            </div>
-            <div class="col-xs-10">
-                <p>
-                    <strong>By</strong><a href="#"> Elena A. Lindholm</a><br>
-                    <em>Stockholm, Sweden</em>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- /Events -->
-</div>
-
-</div>
-<!-- / Users and Events Area-->
+    <!-- / Users and Events Area-->

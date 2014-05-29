@@ -1,4 +1,4 @@
-<div class="users form">
+<div class="container">
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
         <legend>

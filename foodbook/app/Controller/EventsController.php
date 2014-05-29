@@ -121,8 +121,15 @@ class EventsController extends AppController {
         if(!$id){
             throw new NotFoundException(__("Invalid Event"));
         }
-               
+
         $event = $this->Event->findById($id);
+
+        $isowner = false;
+        if ($this->Auth->user('id') == $event['Event']['user_id']) {
+            $isowner = true;
+        }
+
+
         if(!$event){
         	throw new NotFoundException(__("Invalid Event"));
         }
@@ -133,7 +140,8 @@ class EventsController extends AppController {
         	$event['Comment'][$key]['username'] = $lookup->field('username');        	
         }
 		        
-        $this->set('event', $event);        
+        $this->set('event', $event);
+        $this->set('isowner',$isowner);
     }
     
     
@@ -176,8 +184,12 @@ class EventsController extends AppController {
     	if (!$id) {
     		throw new NotFoundException(__('Invalid event'));
     	}
-    	
+
+        $cuisines = $this->Event->Cuisine->find('all');
+        $this->set('cuisines', $cuisines);
+
     	$event = $this->Event->findById($id);
+
     	if (!$event) {
     		throw new NotFoundException(__('Invalid event'));
     	}
@@ -218,4 +230,12 @@ class EventsController extends AppController {
 	        return $this->redirect(array('action' => 'index'));
 	    }
 	}
+
+    public function search() {
+        $this->Paginator->settings = array(
+            'limit' => 8
+        );
+        $data = $this->Paginator->paginate();
+        $this->set('events', $data);
+    }
 }
