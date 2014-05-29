@@ -1,4 +1,6 @@
-
+<pre>
+<?php print_r($followedby)?>
+</pre>
 <div class="container">
     <div class="row">
         <div class="col-xs-3" style="border-right: 1px solid #e2e2e2;">
