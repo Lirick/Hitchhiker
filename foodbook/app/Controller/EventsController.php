@@ -5,27 +5,68 @@ class EventsController extends AppController {
     
     public $components = array('Paginator');
 
-    
+    /**
+     * Non-logged in user can't access all the actions 
+     * @see Controller::beforeFilter()
+     */
     public function beforeFilter() {
         parent::beforeFilter();
-        // Allow users to register and logout.
-        $this->Auth->allow('index','view');
+        $this->Auth->allow('index','view');       
     }
-	
-    /**
-     * #!todo: 
-     * Add function doc
-     */
-     
-     
+        
+    
+	/**
+	 * Show all events of the logged in user
+	 */
 	public function myevents() {
 	    $events = $this->Event->findAllByUserId($this->Auth->user('id'));
 	    $this->set('events',$events);
     }
     
+
+    /**
+     * Send request to get an invite
+     *
+     * @param int $id
+     * @throws NotFoundException
+     */
+    public function request($id) {
+    	if(!$id){
+    		throw new NotFoundException(__('Invalid event'));
+    	}
+    	$event = $this->Event->findById($id);
+    	if(!$event){
+    		throw new NotFoundException(__("Invalid Event"));
+    	}
+    	$uid = $this->Auth->user('id');
+    	$eventreq = $this->Event->Requestinvite->findByEventId($id);
+    	$userreq = $this->Event->Requestinvite->findByUserId($uid);
+    	if($this->request->is('post')){
+    		if(!$eventreq or !$userreq){
+    			$this->Event->Requestinvite->create();
+    			$this->Event->Requestinvite->set('user_id',$uid);
+    			$this->Event->Requestinvite->set('event_id',$id);
+    			$this->Event->Requestinvite->save($this->request->data);
+    			$this->Session->setFlash( __("The request has been sent"));
+    			$this->redirect($this->referer());
+    			//$this->redirect( array('action' => 'index'));
+    		}else {
+    			$this->Session->setFlash( __("Already requested %s"));
+    			//$this->redirect( array('action' => 'index'));
+    			$this->redirect($this->referer());
+    		}
+    	}
+    }
     
-    public function acceptuser($id,$eid) {
     
+    /**
+     * Accept the user's request
+     * 
+     * @param int $id
+     * @param int $eid
+     * @throws NotFoundException
+     */
+    public function acceptuser($id, $eid) {
     	if(!$id){
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -41,21 +82,93 @@ class EventsController extends AppController {
         	$this->redirect(array('action' => 'requestusers', $uid));
         }    
     }
-    
-    
-    public function requestusers($id) {
-    	$event = $this->Event->findById($id);
-    	$justevent = $event['Event'];
-    	$uid = $this->Auth->user('id');
-    	$this->set('event',$justevent);
-        $users = $event['RequestInviteToEvent'];
-        foreach ($users as $user){
-	        if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'],$justevent['id'])){
-		        $notansweredusers[] = $user;
-	        }
-        }
         
-        $this->set('users',$notansweredusers);
+
+    /**
+     * Helper function
+     * Returns a list of user ids of those users 
+     * who are waiting for their requests to be accepted
+     * @param int $event_id
+     * @return array
+     */
+    private function get_pending_requests($event_id){
+    	$event = $this->Event->findById($event_id);
+    	$users = $event['RequestInviteToEvent'];
+    	return array_map(
+    		function($user){
+    			return $user['id'];
+    		}, 
+    		$users);    	    	
+    }
+    
+    
+    /**
+     * @param int $event_id event id
+     */
+    public function requestusers($event_id) { 
+    	$event = $this->Event->findById($event_id);    	
+    	$users = $event['RequestInviteToEvent'];
+    	$notansweredusers = array();
+    	foreach ($users as $user){
+    		if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
+    			$notansweredusers[] = $user;
+    		}
+    	}
+    	$this->set('event', $event['Event']);
+    	$this->set('requestusers', $notansweredusers);
+    }
+    
+    
+    /**
+     * Helper function
+     * Returns a list of user ids of those users 
+     * who are waiting for their invites to be accepted
+     * @param int $event_id
+     * @return array
+     */
+    private function get_pending_invites($event_id){
+		$event = $this->Event->findById($event_id);
+    	$users = $event['InvitedToEvent'];
+    	return array_map(
+    		function($user){
+    			return $user['id'];
+    		}, 
+    		$users); 
+    }
+
+    
+    /**
+     * @param int $event_id event id
+     */
+    public function inviteusers($event_id) {
+    	$event = $this->Event->findById($event_id);
+    	$users = $event['InvitedToEvent'];
+    	$notansweredusers = array();    	
+    	foreach ($users as $user){
+    		if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
+    			$notansweredusers[] = $user;
+    		}
+    	}
+    	$this->set('event', $event['Event']);
+    	$this->set('invitesusers', $notansweredusers);    	    	
+    }
+        
+    
+	/**
+	 * Helper function
+	 * Returns a list of user ids who are going to the event
+	 * 
+	 * @param int $event_id event id
+	 */
+	private function get_going_users($event_id){
+    	$event = $this->Event->findById($event_id);
+    	$users = $event['GoingToEvent'];
+    	
+    	return array_map(
+    			function($user){
+    		return $user['id'];
+    	},
+    	$users);
     }
     
     
@@ -71,34 +184,9 @@ class EventsController extends AppController {
         if($this->request->is('post')){
         	$this->redirect(array('action' => 'requestusers', $id));
 		}
-    }
-     
-     
-     public function request($id) {
-     	if(!$id){
-			throw new NotFoundException(__('Invalid event'));
-			}
-		$event = $this->Event->findById($id);
-        if(!$event){
-        	throw new NotFoundException(__("Invalid Event"));
-        	}
-        $uid = $this->Auth->user('id');
-        $eventreq = $this->Event->Requestinvite->findByEventId($id);
-        $userreq = $this->Event->Requestinvite->findByUserId($uid);
-		if($this->request->is('post')){
-			if(!$eventreq or !$userreq){
-				$this->Event->Requestinvite->create();
-				$this->Event->Requestinvite->set('user_id',$uid);
-				$this->Event->Requestinvite->set('event_id',$id);
-				$this->Event->Requestinvite->save($this->request->data);
-				$this->Session->setFlash( __("The request has been sent"));
-				$this->redirect( array('action' => 'index'));
-			}else {
-				$this->Session->setFlash( __("Already requested %s"));
-				$this->redirect( array('action' => 'index'));
-				}
-		}		     
 	}
+     
+     
     
 
     /**
@@ -108,7 +196,8 @@ class EventsController extends AppController {
 //      $events = $this->Event->find('first');
 //      $this->set('events',$events);
         $data = $this->Paginator->paginate();        
-        $this->set('events', $data);        
+        $this->set('events', $data);
+        //$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
     }
 	
     
@@ -121,6 +210,8 @@ class EventsController extends AppController {
         if(!$id){
             throw new NotFoundException(__("Invalid Event"));
         }
+
+        $id = $id + 0; //cast to int
 
         $event = $this->Event->findById($id);
 
@@ -137,11 +228,18 @@ class EventsController extends AppController {
         $lookup = ClassRegistry::init('User');        
         foreach($event['Comment'] as $key=>$val){        	        	
         	$lookup->id = $val['user_id'];
-        	$event['Comment'][$key]['username'] = $lookup->field('username');        	
+        	$event['Comment'][$key]['username'] = $lookup->field('username');  
+        	$event['Comment'][$key]['picture'] = $lookup->field('picture');
         }
-		        
+
+
         $this->set('event', $event);
         $this->set('isowner',$isowner);
+        
+        $this->set('pending_requests',$this->get_pending_requests($id));
+        $this->set('pending_invites',$this->get_pending_invites($id));
+		$this->set('going_users', $this->get_going_users($id));
+
     }
     
     
@@ -194,6 +292,11 @@ class EventsController extends AppController {
     		throw new NotFoundException(__('Invalid event'));
     	}
     	
+    	//only the host/author of the event can modify it    	
+    	if( $event['Event']['user_id'] != $this->Auth->user('id') ){
+    		throw new UnauthorizedException(__('You are not allowed to modify the event'));
+    	}
+    	
     	if ($this->request->is(array('post', 'put'))) {
     		$this->Event->id = $id;
     		if ($this->Event->save($this->request->data)) {
@@ -225,6 +328,15 @@ class EventsController extends AppController {
 			throw new NotFoundException(__('Invalid event'));
 		}	    
 	
+		$event = $this->Event->findById($id);
+		if (!$event) {
+			throw new NotFoundException(__('Invalid event'));
+		}
+		
+		if( $event['Event']['user_id'] != $this->Auth->user('id') ){
+			throw new UnauthorizedException(__('You are not allowed to delete the event'));
+		}
+		
 		if( $this->Event->delete($id) ) {
 	        $this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));
 	        return $this->redirect(array('action' => 'index'));

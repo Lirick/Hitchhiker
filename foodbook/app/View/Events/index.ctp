@@ -45,14 +45,18 @@
         		echo $this->Html->link('View', array('action' => 'view', $event['Event']['id']));
         		?></td>
         	<td><?php
-        		echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']));
+        		if( AuthComponent::user('id') == $event['Event']['user_id'] ){
+	        		echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']));
+	        	}
         		?></td>
         	<td><?php        
-        		echo $this->Form->postLink(
-                    'Delete',
-                    array('action' => 'delete', $event['Event']['id']),
-                    array('confirm' => 'Are you sure?')
-                );
+        		if( AuthComponent::user('id') == $event['Event']['user_id'] ){
+	        		echo $this->Form->postLink(
+	                    'Delete',
+	                    array('action' => 'delete', $event['Event']['id']),
+	                    array('confirm' => 'Are you sure?')
+	                );
+	        	}
         		?></td>
     	</tr>
     	
@@ -89,5 +93,11 @@
 // 			{:count} total, starting on record {:start}, ending on {:end}'
 // 	));
 	?>
-	<p><?php echo $this->Html->link('Create', array('action' => 'create'));?></p>
+		
+	<p><?php 
+		//only logged in users can create new events
+		if( AuthComponent::user() ){
+			echo $this->Html->link('Create', array('action' => 'create'));
+		}
+	?></p>
 </div>

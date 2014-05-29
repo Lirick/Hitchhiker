@@ -29,10 +29,8 @@
             <?php echo $this->Html->image('food2.jpg', array('alt' => 'Third slide', 'style' => 'margin-right: auto; margin-left: auto;')); ?>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span
-            class="glyphicon glyphicon-chevron-left"></span></a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span
-            class="glyphicon glyphicon-chevron-right"></span></a>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div><!-- /.carousel -->
 
 <!-- Users and Events Area-->
@@ -40,6 +38,16 @@
     <!-- Users -->
     <div class="row">
         <div class="col-xs-3">
+            <!-- Weather
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#test').weatherfeed(['SWXX0040']);
+                });
+            </script>
+            <div class="row">
+                <div id="test" class="col-xs-12" style=""></div>
+            </div>
+            End Weather -->
             <?php foreach ($users as $u) { ?>
                 <div class="row" style="#margin-bottom: 20px;">
                     <div class="col-xs-4" style="height:97px;padding: 0;">
@@ -135,7 +143,6 @@
                                         'action' => 'view',
                                         $e['Event']['user_id'])
                                 ); ?><br>
-
                                 <em><?php echo $e['Event']['address']; ?></em>
                             </p>
                         </div>
@@ -149,6 +156,4 @@
             ?>
             <!-- /Events -->
         </div>
-
     </div>
-    <!-- / Users and Events Area-->

@@ -33,6 +33,7 @@
                 <h4 style="display: inline-block;">
                     <small>Host by</small> <?php echo h($event['EventHost']['username']) ?></h4>
 
+
             </div>
             <hr>
             <div class="panel panel-info">
@@ -51,6 +52,7 @@
                         </dd>
                         <dt>Cuisine</dt>
                         <dd><?php echo h($event['Cuisine'][0]['name']) ?></dd>
+
                     </dl>
                 </div>
 
@@ -78,8 +80,35 @@
                     </h2>
                 </div>
             </div>
+
             <?php if (!$isowner) { ?>
-            <button class="btn btn-primary btn-block btn-lg">I want to join!</button>
+
+            <?php            	
+            	//the hoster automatically goes to the event
+            	$me = AuthComponent::user('id');
+            	
+            	if( $event['Event']['user_id'] != $me){
+            		if( in_array($me, $pending_requests) ){ 		//request already sent, not accepted yet
+            			echo 'Waiting for accept';
+            		}else if( in_array($me, $pending_invites) ){ 	//invite send, accept now!
+            			echo 'Show Accept Button!';
+//             			echo $this->Form->postButton(
+//             					'Accept',
+//             					array('action' => 'accept', $event['Event']['id']),
+//             					array('class' => 'btn btn-primary btn-block btn-lg'));            			
+            		}else if( in_array($me, $going_users)){ 		//already going
+            			echo 'Going!';
+            		}else{            		 
+            			echo $this->Form->postButton(
+            				'I want to join!',
+            				array('action' => 'request', $event['Event']['id']),
+            				array('class' => 'btn btn-primary btn-block btn-lg'));
+            		}            		
+            	}
+            	//echo '<button class="btn btn-primary btn-block btn-lg">I want to join!</button>';
+            ?>
+            
+            <hr>
             <?php } else {?>
             <?php echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']), array('class' => 'btn btn-default btn-block ')); ?>
             <?php
