@@ -24,6 +24,7 @@ class EventsController extends AppController {
     }
     
 
+
     /**
      * Send request to get an invite
      *
@@ -106,19 +107,20 @@ class EventsController extends AppController {
      * @param int $event_id event id
      */
     public function requestusers($event_id) { 
-    	$event = $this->Event->findById($event_id);    	
+    	$event = $this->Event->findById($event_id);
     	$users = $event['RequestInviteToEvent'];
     	$notansweredusers = array();
     	foreach ($users as $user){
     		if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
     			$notansweredusers[] = $user;
     		}
+
     	}
     	$this->set('event', $event['Event']);
     	$this->set('requestusers', $notansweredusers);
     }
     
-    
+
     /**
      * Helper function
      * Returns a list of user ids of those users 
@@ -136,7 +138,7 @@ class EventsController extends AppController {
     		$users); 
     }
 
-    
+
     /**
      * @param int $event_id event id
      */
@@ -150,7 +152,7 @@ class EventsController extends AppController {
     		}
     	}
     	$this->set('event', $event['Event']);
-    	$this->set('invitesusers', $notansweredusers);    	    	
+    	$this->set('invitesusers', $notansweredusers);
     }
         
     
@@ -193,8 +195,6 @@ class EventsController extends AppController {
      * View all events
      */
     public function index() {
-//      $events = $this->Event->find('first');
-//      $this->set('events',$events);
         $data = $this->Paginator->paginate();        
         $this->set('events', $data);
         //$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
@@ -210,9 +210,7 @@ class EventsController extends AppController {
         if(!$id){
             throw new NotFoundException(__("Invalid Event"));
         }
-
         $id = $id + 0; //cast to int
-
         $event = $this->Event->findById($id);
 
         $isowner = false;
@@ -239,7 +237,6 @@ class EventsController extends AppController {
         $this->set('pending_requests',$this->get_pending_requests($id));
         $this->set('pending_invites',$this->get_pending_invites($id));
 		$this->set('going_users', $this->get_going_users($id));
-
     }
     
     
@@ -327,7 +324,7 @@ class EventsController extends AppController {
 		if( !$id ){
 			throw new NotFoundException(__('Invalid event'));
 		}	    
-	
+
 		$event = $this->Event->findById($id);
 		if (!$event) {
 			throw new NotFoundException(__('Invalid event'));

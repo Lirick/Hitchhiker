@@ -28,12 +28,9 @@
         </div>
         <div class="col-xs-6">
             <div>
-
                 <h2><?php echo h($event['Event']['ename']) ?></h2>
                 <h4 style="display: inline-block;">
                     <small>Host by</small> <?php echo h($event['EventHost']['username']) ?></h4>
-
-
             </div>
             <hr>
             <div class="panel panel-info">
@@ -80,6 +77,7 @@
                     </h2>
                 </div>
             </div>
+
 
             <?php if (!$isowner) { ?>
 
