@@ -32,6 +32,7 @@
                         echo $this->Html->link('Stop Endorsing', array('controller' => 'endorsers', 'action' => 'delete', $id), array('class' => 'btn btn-default btn-block'));
                     }
                 } else {
+                	echo $this->Html->link('Edit my recipes', array('controller' => 'recipes', 'action' => 'index'), array('class' => 'btn btn-default btn-block'));
                     echo $this->Html->link('Edit my profile', array('controller' => 'users', 'action' => 'edit'), array('class' => 'btn btn-default btn-block'));
                 }?>
             </div>
@@ -39,6 +40,11 @@
                 <div class="panel-body">
                     <div><p><span class="glyphicon glyphicon-envelope">  <?php echo $email ?></span></p></div>
                     <div><span class="glyphicon glyphicon-earphone">  <?php echo $phone ?></span></div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                   <?php echo $this->Html->link('View users ' . $nrrecipes . ' recipes', array('controller' => 'recipes', 'action' => 'lists/' . $regid)); ?>
                 </div>
             </div>
 

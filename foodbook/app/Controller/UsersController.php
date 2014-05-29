@@ -2,7 +2,8 @@
 
  App::import('Controller', 'Followers');
  App::import('Controller', 'Endorsers');
-
+ App::import('Controller', 'Recipes');
+ 
 class UsersController extends AppController {
 
 	public $helpers = array('Html', 'Form');
@@ -84,6 +85,8 @@ class UsersController extends AppController {
 		$Followers->constructClasses();
 		$Endorsers= new EndorsersController;
 		$Endorsers->constructClasses();
+		$Recipes = new RecipesController;
+		$Recipes->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
@@ -91,6 +94,7 @@ class UsersController extends AppController {
         $this->set('nrfollows', $Followers->count($id));
         $this->set('endorses', $Endorsers->endorses($id));
         $this->set('nrendorses', $Endorsers->count($id));
+        $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
         
         $this->User->Userrating->virtualFields['Rating'] = 0;
