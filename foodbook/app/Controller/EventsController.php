@@ -42,7 +42,6 @@ class EventsController extends AppController {
         }    
     }
     
-    
     public function requestusers($id) {
     	$event = $this->Event->findById($id);
     	$justevent = $event['Event'];
@@ -94,7 +93,7 @@ class EventsController extends AppController {
 				$this->Session->setFlash( __("The request has been sent"));
 				$this->redirect( array('action' => 'index'));
 			}else {
-				$this->Session->setFlash( __("Already requested %s"));
+				$this->Session->setFlash( __("Already requested"));
 				$this->redirect( array('action' => 'index'));
 				}
 		}		     

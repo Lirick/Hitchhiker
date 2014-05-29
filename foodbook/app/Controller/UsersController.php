@@ -113,7 +113,34 @@ class UsersController extends AppController {
                 
     }
     
-    
+    public function rate($id,$rating) {
+    	if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if(!$rating){
+			throw new NotFoundException(__('Invalid rating'));
+		}elseif($rating > 10 || $rating < 1 ){
+			throw new NotFoundException(__('Invalid rating!'));
+		}
+		$user = $this->User->findById($id);
+		if(!$user){
+			throw new NotFoundException(__('User does not exist'));
+		}
+		$uid = $this->Auth->user('id');
+		if($this->request->is('post')){
+			if(!$this->User->Userrating->findByUserfromAndUserto($uid,$id)){
+		        $this->User->Userrating->create();
+		        $this->User->Userrating->set('userfrom',$uid);
+		        $this->User->Userrating->set('userto',$id);
+		        $this->User->Userrating->set('rating',$rating);
+		        $this->User->Userrating->save($this->request->data);
+		    }else {
+			    $this->Session->setFlash( __("Already rated"));
+				$this->redirect( array('action' => 'view'));
+		    }
+		}
+
+    }
 
     public function signup() {
     	// Don't allow sign ups when user is logged in
