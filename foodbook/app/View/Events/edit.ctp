@@ -140,6 +140,7 @@
                         'placeholder' => '0'
                     ));
                 ?>
+                
             </div>
         </div>
         <hr>
@@ -149,6 +150,16 @@
                 'label' => 'Create my event',
                 'class' => 'btn btn-primary btn-lg btn-block'));
             ?>
+            <hr>
+            <div class="col-xs-12">
+				<?php echo $this->Html->image("events/" . $picture[0], array('class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true)); ?>
+				<?php echo $this->Form->create('Eventpics', array('type' => 'file', 'url'=>'/eventpics/addpic/' . $eid)); ?>
+				<?php
+				echo $this->Form->input('Choose file',array('label' => false, 'type' => 'file', 'style' => "margin: 10px 0;"));
+				echo $this->Form->end(
+				    array('label' => 'Upload',
+				        'class' => 'btn btn-primary')); ?>
+            </div>
             <?php
             //          //Attempt to fix preventing submission when press Enter because we also press Enter when we confirm
             //          //autocomplete in location search

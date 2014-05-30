@@ -179,7 +179,6 @@ class UsersController extends AppController {
         }
         $this->readData($id);
         if ($this->request->is('post')) {
-        	debug($this->request->data);
         	if (isset($this->request->data['User']['Choose file']))
         	{
         		$ending = pathinfo($this->request->data['User']['Choose file']['name'], PATHINFO_EXTENSION);
@@ -203,7 +202,7 @@ class UsersController extends AppController {
         		}
         	}
         	
-            if ($this->User->save($this->request->data)) 
+            else if ($this->User->save($this->request->data)) 
             {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'view'));
