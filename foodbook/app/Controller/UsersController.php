@@ -5,7 +5,7 @@
 
 class UsersController extends AppController {
 
-	public $helpers = array('Html', 'Form');
+	public $helpers = array('Html', 'Form','js');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -115,10 +115,11 @@ class UsersController extends AppController {
     
     public function rate($id,$rating) {
     	if(!$id){
-			throw new NotFoundException(__('Invalid user'));
+			$id = @$this->request->data('id');
+			print_r($id);
 		}
 		if(!$rating){
-			throw new NotFoundException(__('Invalid rating'));
+			$rating = @$this->request->data('rating');
 		}elseif($rating > 10 || $rating < 1 ){
 			throw new NotFoundException(__('Invalid rating!'));
 		}
@@ -128,15 +129,28 @@ class UsersController extends AppController {
 		}
 		$uid = $this->Auth->user('id');
 		if($this->request->is('post')){
-			if(!$this->User->Userrating->findByUserfromAndUserto($uid,$id)){
-		        $this->User->Userrating->create();
-		        $this->User->Userrating->set('userfrom',$uid);
-		        $this->User->Userrating->set('userto',$id);
-		        $this->User->Userrating->set('rating',$rating);
-		        $this->User->Userrating->save($this->request->data);
-		    }else {
-			    $this->Session->setFlash( __("Already rated"));
-				$this->redirect( array('action' => 'view'));
+			if($id == $uid){
+				$this->Session->setFlash( __("Can't rate yourself"));
+					$this->redirect( array('action' => 'view'));
+			}else {
+
+				if(!$this->User->Userrating->findByUserfromAndUserto($uid,$id)){
+			        $this->User->Userrating->create();
+			        $this->User->Userrating->set('userfrom',$uid);
+			        $this->User->Userrating->set('userto',$id);
+			        $this->User->Userrating->set('rating',$rating);
+			        if($this->User->Userrating->save($this->request->data)){
+				        $this->Session->setFlash( __("Success!"));
+				        return $this->redirect($this->request->here);
+			        }else {
+			        	$this->Session->setFlash( __("Something went wrong"));
+				        $this->redirect( array('action' => 'view'));
+			        }
+			        
+			    }else {
+				    $this->Session->setFlash( __("Already rated"));
+					$this->redirect( array('action' => 'view'));
+			    }
 		    }
 		}
 
