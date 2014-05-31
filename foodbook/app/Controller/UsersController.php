@@ -2,7 +2,8 @@
 
  App::import('Controller', 'Followers');
  App::import('Controller', 'Endorsers');
-
+ App::import('Controller', 'Recipes');
+ 
 class UsersController extends AppController {
 
 	public $helpers = array('Html', 'Form','js');
@@ -64,6 +65,9 @@ class UsersController extends AppController {
 		$lookup->id = $id;
 		
 		$this->set('username', $lookup->field('username'));
+		$this->set('name', $lookup->field('name'));
+		$this->set('description', $lookup->field('description'));
+		$this->set('location', $lookup->field('location'));
 		$this->set('email', $lookup->field('email'));
 		$this->set('phone', $lookup->field('phone'));  
 		$this->set('picture', "users/" .$lookup->field('picture')); 
@@ -84,6 +88,8 @@ class UsersController extends AppController {
 		$Followers->constructClasses();
 		$Endorsers= new EndorsersController;
 		$Endorsers->constructClasses();
+		$Recipes = new RecipesController;
+		$Recipes->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
@@ -91,6 +97,7 @@ class UsersController extends AppController {
         $this->set('nrfollows', $Followers->count($id));
         $this->set('endorses', $Endorsers->endorses($id));
         $this->set('nrendorses', $Endorsers->count($id));
+        $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
         
         $this->User->Userrating->virtualFields['Rating'] = 0;
@@ -186,7 +193,6 @@ class UsersController extends AppController {
         }
         $this->readData($id);
         if ($this->request->is('post')) {
-        	debug($this->request->data);
         	if (isset($this->request->data['User']['Choose file']))
         	{
         		$ending = pathinfo($this->request->data['User']['Choose file']['name'], PATHINFO_EXTENSION);
@@ -210,7 +216,7 @@ class UsersController extends AppController {
         		}
         	}
         	
-            if ($this->User->save($this->request->data)) 
+            else if ($this->User->save($this->request->data)) 
             {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'view'));

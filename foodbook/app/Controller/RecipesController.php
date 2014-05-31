@@ -27,6 +27,11 @@ class RecipesController extends AppController {
 		$this->set('myId', $this->Auth->user('id'));
 	}
 	
+	public function count ($id = null) {
+		$options = array('conditions' => array('Recipe.author'  => $id));
+		return $this->Recipe->find('count', $options);
+	}
+	
 	private function getAuthor($id = null)
 	{
 		$ulookup = ClassRegistry::init('users');

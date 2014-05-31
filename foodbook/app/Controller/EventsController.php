@@ -1,5 +1,7 @@
 <?php
 
+ App::import('Controller', 'Eventpics');
+
 class EventsController extends AppController {
     public $helpers = array('Html', 'Form');
     
@@ -283,7 +285,10 @@ class EventsController extends AppController {
 
         $cuisines = $this->Event->Cuisine->find('all');
         $this->set('cuisines', $cuisines);
-
+        $this->set('eid', $id);
+    	$Eventpics = new EventpicsController;
+		$Eventpics->constructClasses();
+		$this->set('picture', $Eventpics->findall($id)); 
     	$event = $this->Event->findById($id);
 
     	if (!$event) {

@@ -10,4 +10,5 @@
 		<h4> Instructions </h4>
 		<?php echo nl2br($text) ?>
 	</div>
+</div>
 
