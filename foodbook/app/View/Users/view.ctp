@@ -1,6 +1,4 @@
-<pre>
-<?php print_r($followedby)?>
-</pre>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-3" style="border-right: 1px solid #e2e2e2;">
@@ -86,21 +84,41 @@
             <div class="panel panel-warning" style="text-align: center;">
                 <div class="panel-body">
                 <?php foreach ($ratings as $rating):?>
-                    <div>Rating: 
-                    <?php echo $rating['Userrating']['Rating'] ?>
+                    <div>Rating:<br> 
+          
+                    <?php $i = $rating['Userrating']['Rating'] ?>
+                    <?php for($x=1; $x <= 10; $x++ ):?>
+	                    <i class= "glyphicon glyphicon-star<?php if ($x > $i):?><?php echo '-empty'?><?php endif;?>" ></i>
+                    <?php endfor;?>
                     </div>
                     <?php endforeach; ?>
                     <br>
-                    <div>1 2 3 4 5 6 7 8 9 10
+                    
+                    <div>
+                    <?php echo $this->Html->script('rate.js') ?>
+                    <script>
+				      $(function(){
+				        $('input').on('change', function(){
+				          $.ajax({
+					          type: "POST",
+					          url: '<?php echo Router::url(array('controller' => 'users', 'action' => 'rate')); ?>',
+					          data: {id:<?php echo $id?>,
+					          		rating:$(this).val()},
+					          });
+
+				        });
+				      });
+				    </script>My rating: <input type="number" data-max="10" data-min="1" name="your_awesome_parameter" id="some_id" class="rating" /></
+             	    
                     </div>
                     
                 </div>
             </div>
 
         </div>
-        <div class="col-xs-9" id="rview">
-
-        </div>
+	        <div class="col-xs-9" id="rview">
+	
+	        </div>
     </div>
 </div>
 
