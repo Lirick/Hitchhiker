@@ -247,28 +247,45 @@ class EventsController extends AppController {
      * Create a new event 
      */
     public function create(){
-    	$cuisines = $this->Event->Cuisine->find('all');
-    	$this->set('cuisines', $cuisines);
-    	
-    	if ($this->request->is('post')) {
+    	if ($this->request->is('post')) {    	
 			$this->Event->create();
-			$this->Event->set('user_id', $this->Auth->user('id'));
-			$this->Event->save($this->request->data);
+			$req = $this->request->data;
+			//print_r($req);
 			
+			
+			//mysql injections!!!!!
+			$this->Event->set('user_id', $this->Auth->user('id'));
+			$this->Event->set('ename', $req['event-topic']);
+			//$this->Event->set('date', $req['event-schedule']);
+			$this->Event->set('date', date("Y-m-d H:i:s"));
+			$this->Event->set('text', $req['event-description']);
+			$this->Event->set('min_guests', 0+$req['event-min-guests']);
+			$this->Event->set('max_guests', 0+$req['event-max-guests']);
+			$this->Event->set('price_per_guest', 0+$req['event-price']);
+			$this->Event->set('address', 'bla-bla');
+			
+			$this->Event->save();
+			
+			//insert into Locations!!!!!! 
+			//remove address from events;
 			if (!$this->Event->exists()) {
 				throw new NotFoundException(__('Invalid event'));
 			}
+
 			
 			//Add record to cuisines_events table as well
-			$cuisine_id = $this->request->data['Event']['cuisine'] + 0;			
+			$cuisine_id = $req['event-cuisine'] + 0;			
  			$this->Event->CuisinesEvent->create();
 			$this->Event->CuisinesEvent->save(array(
 								'event_id'=> $this->Event->id,
 							 	'cuisine_id' => $cuisine_id));
 							
 			$this->Session->setFlash( __("The event has been created"));			
-			$this->redirect( array('action' => 'index'));
-    	}    	
+			$this->redirect( array('action' => 'search'));
+    	} else{
+    		$cuisines = $this->Event->Cuisine->find('all');
+    		$this->set('cuisines', $cuisines);   		
+    	}
     }
     
     
