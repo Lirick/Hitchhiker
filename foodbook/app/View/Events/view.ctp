@@ -40,7 +40,7 @@
                 <div class="panel-body">
                     <dl class="dl-horizontal" style="margin-bottom: 5px;">
                         <dt>Address</dt>
-                        <dd><?php echo h($event['Event']['address']) ?></dd>
+                        <dd><?php echo h($event['Location']['display_address']) ?></dd>
                         <dt>Date</dt>
                         <dd><?php echo $event['Event']['date'] ?></dd>
                         <dt>Guest Number</dt>
@@ -48,7 +48,11 @@
                             - <?php echo h($event['Event']['max_guests']) ?>  persons
                         </dd>
                         <dt>Cuisine</dt>
-                        <dd><?php echo h($event['Cuisine'][0]['name']) ?></dd>
+                        <dd><?php 
+                        	if($event['Cuisine'] && $event['Cuisine'][0]){
+                        		echo h($event['Cuisine'][0]['name']);
+                        	}
+                        	?></dd>
 
                     </dl>
                 </div>
@@ -82,9 +86,8 @@
             <?php if (!$isowner) { ?>
 
             <?php            	
-            	//the hoster automatically goes to the event
             	$me = AuthComponent::user('id');
-            	
+            	//the hoster automatically goes to the event
             	if( $event['Event']['user_id'] != $me){
             		if( in_array($me, $pending_requests) ){ 		//request already sent, not accepted yet
             			echo 'Waiting for accept';

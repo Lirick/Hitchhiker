@@ -251,29 +251,46 @@ class EventsController extends AppController {
     	if ($this->request->is('post')) {    	
 			$this->Event->create();
 			$req = $this->request->data;
-			//print_r($req);
 			
+			//Create the location
+			$this->Event->Location->create();
+			$addr = $req['event-address'];
+			$this->Event->Location->save(array(
+					'display_address' => $addr['display_address'],
+					'lat' => $addr['lat'],
+					'lng' => $addr['lng'],
+					'city' => $addr['city'],
+					'country' => $addr['country']
+			));
+			$location_id = $this->Event->Location->id;	
 			
+
+			//#!todo: should we check: if event wasn't added - remove a record from locations as well?
 			
+			// Create Event
+
 			//mysql injections!!!!!
 			$this->Event->set('user_id', $this->Auth->user('id'));
 			$this->Event->set('ename', $req['event-topic']);
-			//$this->Event->set('date', $req['event-schedule']);
-			$this->Event->set('date', date("Y-m-d H:i:s"));
+			$this->Event->set('location_id', $location_id);
+			
+			// write scheduled time in datetime sql format
+			$d = DateTime::createFromFormat("m/d/Y g:i A", $req['event-schedule']);
+			$event_schedule = $d->format('Y-m-d H:i:s');
+			
+			$this->Event->set('date', $event_schedule);			
 			$this->Event->set('text', $req['event-description']);
 			$this->Event->set('min_guests', 0+$req['event-min-guests']);
 			$this->Event->set('max_guests', 0+$req['event-max-guests']);
 			$this->Event->set('price_per_guest', 0+$req['event-price']);
-			$this->Event->set('address', 'bla-bla');
 			
 			$this->Event->save();
 			
-			//insert into Locations!!!!!! 
-			//remove address from events;
+			 			
 			if (!$this->Event->exists()) {
 				throw new NotFoundException(__('Invalid event'));
 			}
-
+		
 			
 			//Add record to cuisines_events table as well
 			$cuisine_id = $req['event-cuisine'] + 0;			
@@ -282,8 +299,8 @@ class EventsController extends AppController {
 								'event_id'=> $this->Event->id,
 							 	'cuisine_id' => $cuisine_id));
 							
-			$this->Session->setFlash( __("The event has been created"));			
-			$this->redirect( array('action' => 'search'));
+			//$this->Session->setFlash( __("The event has been created"));			
+			//$this->redirect( array('action' => 'search'));
     	} else{
     		$cuisines = $this->Event->Cuisine->find('all');
     		$this->set('cuisines', $cuisines);   		
@@ -369,7 +386,8 @@ class EventsController extends AppController {
 
     public function search() {
         $this->Paginator->settings = array(
-            'limit' => 8
+            'limit' => 8,
+        	'order' => array('Event.id' => 'desc')
         );
         $data = $this->Paginator->paginate();
         $this->set('events', $data);
