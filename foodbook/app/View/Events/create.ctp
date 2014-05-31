@@ -139,8 +139,21 @@
                         'placeholder' => '0',
                         'value' => 0
                     ));
-                ?>
+                ?>  
             </div>
+            <div class="col-xs-4">
+            </div>
+            <div class="col-xs-4" style="margin-top: 30px;">
+            <?php echo $this->Form->button(
+                'Invite people',
+                array(
+                	'data-toggle' => 'modal',
+                	'data-target' => '#inviteModal',
+                	'type' => 'button',
+                	'class' => 'btn btn-default btn-lg btn-block'
+                    ));?>
+            </div>
+            
         </div>
         <hr>
         <div>
@@ -160,6 +173,61 @@
             //         		));
             //
             ?>
-        </div>
+        </div> 
+        <!-- Modal -->
+
+			<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="myModalLabel">Invite people</h4>
+			      </div>
+			      <div class="modal-body">
+			        <div class="container">
+					<?php //echo $this->Form->create('Event');
+						 ?>
+					<?php echo $this->Form->input('Search', array('id' => 'search-i')); ?>
+					<?php echo $this->Form->button('Search',
+					array(
+						'type' => 'button',
+						'id' => 'search-button')); ?>
+						
+						
+					</div>
+					<div class="container" id="search-container">
+					
+						
+					
+					</div>
+					<script>
+						$('#search-button').click(function() {
+							$.ajax({
+					          type: "POST",
+					          url: "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'searchUsers')); ?>",
+					          data: { 
+					           'data' : $('#search-i').val()
+					           },
+					          dataType:"json",
+					          success: function(data){
+						          console.log(data);
+						          //var parsedJSON = $.parseJSON(data);
+						          $('#search-container').html(data);
+					          },
+					          error: function (response, status){
+						          alert('ERROR!');
+					          }
+					          });
+					          
+						});
+					</script>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
     </div>
 </div>

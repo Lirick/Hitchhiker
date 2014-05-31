@@ -247,10 +247,12 @@ class EventsController extends AppController {
      * Create a new event 
      */
     public function create(){
+    	$this->set('searched', false);
     	if ($this->request->is('post')) {    	
 			$this->Event->create();
 			$req = $this->request->data;
 			//print_r($req);
+			
 			
 			
 			//mysql injections!!!!!
@@ -286,6 +288,8 @@ class EventsController extends AppController {
     		$cuisines = $this->Event->Cuisine->find('all');
     		$this->set('cuisines', $cuisines);   		
     	}
+    	
+    	
     }
     
     
@@ -370,4 +374,28 @@ class EventsController extends AppController {
         $data = $this->Paginator->paginate();
         $this->set('events', $data);
     }
+    
+    public function searchUsers() {
+    	$this->layout = 'ajax';
+    	//$this->autoLayout = false;
+    	$this->autoRender = false;
+    	 
+		if ($this->request->is('post')) {
+			//print_r($this->request->data);
+			//$this->set('searched', true);
+			$search = $this->request->data;
+			//$this->set('username', $search);
+			$lookup = ClassRegistry::init('users');
+			$cond=array('OR'=>array("users.username LIKE '%$search%'") );
+			$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('username', 'id')));
+			//$found = array('data' => 'result');
+			$this->header('Content-Type: application/json');
+			echo json_encode($found);
+			return;		
+		}
+		else {
+			//$this->set('searched', False);
+		}
+	}
+    
 }

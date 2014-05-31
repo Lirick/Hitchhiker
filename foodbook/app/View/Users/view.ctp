@@ -88,7 +88,7 @@
           
                     <?php $i = $rating['Userrating']['Rating'] ?>
                     <?php for($x=1; $x <= 10; $x++ ):?>
-	                    <i class= "glyphicon glyphicon-star<?php if ($x > $i):?><?php echo '-empty'?><?php endif;?>" ></i>
+	                    <i class= "glyphicon glyphicon-star<?php if ($x > $i):?><?php echo '-empty'?><?php endif;?>"></i>
                     <?php endfor;?>
                     </div>
                     <?php endforeach; ?>
