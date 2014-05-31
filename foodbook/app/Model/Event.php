@@ -19,7 +19,9 @@ class Event extends AppModel {
 	
 	/**
 	 * Validation rules
-	 *
+	 * Note: custom messages won't pop up if the rule coincides with the default browser's one,
+	 * e.g.: notEmpty => required attribute
+	 * 
 	 * @var array
 	 */
 	public $validate = array(
@@ -38,23 +40,13 @@ class Event extends AppModel {
 							'rule' => array('notEmpty'),
 							'message' => 'Text cannot be empty'
 					)
-			),
-			'address' => array(
-					'notEmpty' => array(
-							'rule' => array('notEmpty'),
-							'message' => 'Address cannot be empty'
-					),
-					'maxLength' => array(
-							'rule' => array('maxLength', 256),
-							'message' => 'Message is too long'
-					)
-			),
-			'date' => array(
-					'date' => array(
-							'rule' => 'datetime',
-							'message' => 'Incorrect date format'
-					)
-			),
+			),			
+// 			'date' => array(
+// 					'date' => array(
+// 							'rule' => 'datetime',
+//							'message' => 'Incorrect date format'
+// 					)
+// 			),
 			'min_guests' => array(
 					'notEmpty' => array(
 							'rule' => array('notEmpty'),
@@ -116,6 +108,20 @@ class Event extends AppModel {
 	);
 
 	
+	/**
+	 * hasOne associations
+	 * @var array
+	 */
+	public $hasOne = array(
+		'Location' => array(
+			'className' => 'Location',
+			'joinTable' => 'locations',
+			'dependent' => true,
+			'foreignKey' => 'id'			
+		)
+	);
+	
+	
 	
 	/**
 	 * hasAndBelongsToMany associations
@@ -141,7 +147,7 @@ class Event extends AppModel {
 			'joinTable' => 'cuisines_events',
 			'foreignKey' => 'event_id',
 			'associationForeignKey' => 'cuisine_id'
-		),
+		),		
 		'InvitedToEvent' => array(
           'className' => 'User',
           'joinTable' => 'invitedto',
@@ -162,7 +168,7 @@ class Event extends AppModel {
 			'phone',
 			'picture') 
           ),
-          'GoingToEvent' => array(
+		'GoingToEvent' => array(
           'className' => 'User',
           'joinTable' => 'goingtos',
           'foreignKey' => 'event_id',
