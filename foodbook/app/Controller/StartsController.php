@@ -5,6 +5,7 @@
  * Date: 14-5-10
  * Time: 0:17
  */
+App::import('Controller', 'Eventpics');
 
 class StartsController extends AppController {
     public $helpers = array('Html', 'Form');
@@ -17,7 +18,7 @@ class StartsController extends AppController {
 	}
 
     public function index() {
-
+		$Eventpics = new EventpicsController;
         $this->set('users',$this->User->find('all', array('limit' => 8)));
         $this->set('events',$this->Event->find('all', array('limit' => 9)));
 

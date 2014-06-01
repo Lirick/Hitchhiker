@@ -33,7 +33,6 @@ class EventpicsController extends AppController {
 			$this->Session->setFlash(__('Maximum 10 pictures'));
 			return $this->redirect($this->referer());
 		}
-		debug($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))));
 		if (isset($this->request->data['Eventpics']['Choose file']))
     	{
     		$lookup->create();
@@ -117,6 +116,8 @@ class EventpicsController extends AppController {
         }
         if ($lookup->delete()) {
             $this->Session->setFlash(__('Image deleted'));
+            $filename = APP . "webroot/img/events/". $path;
+            unlink($filename);
         	if($showed == 1)
         	{
         		$id2 = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid ), 'fields' => array('eventpics.id')));
