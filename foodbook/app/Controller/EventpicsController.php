@@ -28,11 +28,12 @@ class EventpicsController extends AppController {
 	public function addpic($eid = null)
 	{
 		$lookup = ClassRegistry::init('eventpics');
-		debug($this->request->data);
 		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))) > 9)
 		{	
 			$this->Session->setFlash(__('Maximum 10 pictures'));
+			return $this->redirect($this->referer());
 		}
+		debug($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))));
 		if (isset($this->request->data['Eventpics']['Choose file']))
     	{
     		$lookup->create();
@@ -68,10 +69,10 @@ class EventpicsController extends AppController {
 	{
 		$lookup = ClassRegistry::init('eventpics');
 		$list = array();
-		$list[0] = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.path')))['eventpics']['path'];
-		debug($list);
-		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid), 'fields' => 'eventpics.path')) > 0)
+		$list[0] = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.path')));
+		if (!empty($list[0]))
 		{
+			$list[0] = $list[0]['eventpics']['path'];
 			$tlist = $lookup->find('all', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 0 ), 'fields' => array('eventpics.path')));
 			$a = 1;
 			foreach($tlist as $v){
@@ -83,8 +84,75 @@ class EventpicsController extends AppController {
 		{
 			$list[0] = "default.png";
 		}
-		debug($list);
+		
 		return $list;
+	}
+	
+	public function getdef($eid = null)
+	{
+		$lookup = ClassRegistry::init('eventpics');
+		$list = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.path')));
+		if (!empty($list))
+		{
+			$list = $list['eventpics']['path'];
+		}
+		else
+		{
+			$list = "default.png";
+		}
+		
+		return $list;
+	}
+	
+	public function delete($path = null)
+	{
+		$lookup = ClassRegistry::init('eventpics');
+		$data = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.id', 'eventpics.eid', 'eventpics.showed')));
+		$id = $data['eventpics']['id'];
+		$eid = $data['eventpics']['eid'];
+		$showed = $data['eventpics']['showed'];
+		$lookup->id = $id;
+		if (!$lookup->exists()) {
+            throw new NotFoundException(__('Invalid Image'));
+        }
+        if ($lookup->delete()) {
+            $this->Session->setFlash(__('Image deleted'));
+        	if($showed == 1)
+        	{
+        		$id2 = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid ), 'fields' => array('eventpics.id')));
+        		if(!empty($id2)){
+        			$id2 = $id2['eventpics']['id'];
+					$this->Eventpic->id = $id2;
+					$this->Eventpic->saveField('showed', 1);
+				}
+        	}
+            return $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Image was not deleted'));
+        return $this->redirect($this->referer());
+	}
+
+	public function makedef($path = null)
+	{
+		$lookup = ClassRegistry::init('eventpics');
+		$lookup2 = ClassRegistry::init('eventpics');
+		$id = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.id')))['eventpics']['id'];
+		$eid = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.eid')))['eventpics']['eid'];
+		$id2 = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.id')))['eventpics']['id'];
+		$lookup->id = $id;
+		$lookup2->id = $id2;
+		if (!$lookup->exists() || !$lookup2->exists()) {
+            throw new NotFoundException(__('Invalid Image'));
+        }
+        debug($id);
+        debug($id2);
+        $this->Eventpic->id = $id2;
+        
+        $this->Eventpic->saveField('showed', 0);
+        $this->Eventpic->id = $id;
+		$this->Eventpic->saveField('showed', 1);
+		
+		return $this->redirect($this->referer());
 	}
 
 }
