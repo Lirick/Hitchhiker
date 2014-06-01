@@ -200,9 +200,6 @@
 									array('title' =>"Delete picture", 'escape' => false)); 
 								echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		        			} 
-		        			echo '<br>';
-		        			echo '<br>';
-		        	
 		        	 ?>
 		        </div>
             </div>

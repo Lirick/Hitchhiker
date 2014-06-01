@@ -120,7 +120,7 @@
                             </h5>
                         </div>
                         <?php echo $this->Html->image(
-                            'eventdefault.png',
+                            'events/' . $e['Event']['picture'],
                             array(
                                 "alt" => "dinner picture",
                             		"class" => "img-responsive",

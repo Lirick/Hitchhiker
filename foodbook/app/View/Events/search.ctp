@@ -39,7 +39,7 @@
                     <div class="col-xs-3">
                         <?php
                         echo $this->Html->image(
-                            'eventdefault.png',
+                            'events/' . $event['Event']['picture'],
                             array(
                                 "alt" => "dinner picture",
                                 "class" => "img-responsive",
