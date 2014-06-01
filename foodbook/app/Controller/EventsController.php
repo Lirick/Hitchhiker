@@ -13,7 +13,7 @@ class EventsController extends AppController {
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index','view');       
+        $this->Auth->allow('index','view', 'search', 'get_locations', 'search_by_location');       
     }
         
     
@@ -243,7 +243,7 @@ class EventsController extends AppController {
     }
     
     
-    /**
+    /**		
      * Create a new event 
      */
     public function create(){
@@ -384,18 +384,19 @@ class EventsController extends AppController {
 	    }
 	}
 
-    public function search() {
+	
+    public function search() {    	
         $this->Paginator->settings = array(
             'limit' => 8,
         	'order' => array('Event.id' => 'desc')
         );
         $data = $this->Paginator->paginate();
         $this->set('events', $data);
-    }
+    }		
+    
     
     public function searchUsers() {
     	$this->layout = 'ajax';
-    	//$this->autoLayout = false;
     	$this->autoRender = false;
     	 
 		if ($this->request->is('post')) {
@@ -413,6 +414,65 @@ class EventsController extends AppController {
 		}
 		else {
 			//$this->set('searched', False);
+		}
+	}
+	
+	
+	/**
+	 * Returns a json containing city and country
+	 * Used for typeahead search from the start page
+	 */
+	public function get_locations(){
+		$this->autoRender = false;
+		$this->header('Content-Type: application/json');
+		
+		$result = $this->Event->Location->query('SELECT DISTINCT country, city FROM locations');
+		$found = array();
+		foreach($result as $val){
+			$found[] = $val['locations']['city'].', '.$val['locations']['country'];
+		}	
+		echo json_encode($found);
+		return;
+	}
+	
+	
+	/**
+	 * Search events by Location
+	 * Used in the start page
+	 */
+	public function search_by_location(){
+		if ($this->request->is('post')) {
+			$cc = explode(',', $this->request->data['location-input']);
+			
+			//display all events if no location specified			
+			if(!$cc || !$cc[0] || !$cc[1]){	
+				$this->redirect(array('action' => 'search'));
+				return;
+			}			
+			
+			$conditions = array("Location.city LIKE" => trim($cc[0]), "Location.country LIKE" => trim($cc[1]));
+			$rows = $this->Event->Location->find('all', array(
+					'conditions' => $conditions,
+					'fields' => array('Location.id')
+					));
+			
+			$location_ids = array();
+			foreach($rows as $row){
+				$location_ids[] = $row['Location']['id'];
+			}			
+			
+			$events = $this->Event->find('all', array(
+					'conditions' => array('location_id' => $location_ids ) //e.g. IN (1,2) 
+					));
+
+			$this->Paginator->settings = array('limit' => 8);
+			$data = $this->Paginator->paginate();
+					
+			$this->set('events', $events);
+			$this->render('search');
+		}else{
+			//if it's a 'get'-request
+			$this->redirect(array('action' => 'search'));
 		}
 	}
     

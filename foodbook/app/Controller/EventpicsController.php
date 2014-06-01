@@ -17,60 +17,54 @@ class EventpicsController extends AppController {
 	public $components = array('Paginator', 'Session');
 	
 	private function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[mt_rand(0, strlen($characters) - 1)];
-    }
-    return $randomString;
-}
+    	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    	$randomString = '';
+    	for ($i = 0; $i < $length; $i++) {
+        	$randomString .= $characters[mt_rand(0, strlen($characters) - 1)];
+    	}
+    	return $randomString;
+	}
 	
-	public function addpic($eid = null)
-	{
+	
+	public function addpic($eid = null){
 		$lookup = ClassRegistry::init('eventpics');
-		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))) > 9)
-		{	
+		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))) > 9){	
 			$this->Session->setFlash(__('Maximum 10 pictures'));
 			return $this->redirect($this->referer());
 		}
-		if (isset($this->request->data['Eventpics']['Choose file']))
-    	{
+
+		if (isset($this->request->data['Eventpics']['Choose file'])){
     		$lookup->create();
     		$lookup->eid = $eid;
     		$ending = pathinfo($this->request->data['Eventpics']['Choose file']['name'], PATHINFO_EXTENSION);
     		$name = $this->generateRandomString(10);
     		$filename = APP . "webroot/img/events/". $eid . $name . "." . $ending;
     		$lookup->path = $eid . $name . "." . $ending;
-    		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))) > 0)
+    		if ($lookup->find('count', array('conditions' => array('eventpics.eid' => $eid))) > 0){
     			$lookup->showed = 0;
-    		else
+    		}else{
     			$lookup->showed = 1;
-    		if (move_uploaded_file($this->request->data['Eventpics']['Choose file']['tmp_name'],$filename))
-    		{
-    			if ($lookup->save($lookup))
-    			{	
+    		}
+    		
+    		if (move_uploaded_file($this->request->data['Eventpics']['Choose file']['tmp_name'],$filename)){
+    			if ($lookup->save($lookup)){	
 	    			$this->Session->setFlash(__('The picture has been uploaded'));
-	    		}
-	    		else
-    			{
+	    		}else{
     				$this->Session->setFlash(__('The picture failed to upload'));
     			}
-    		}
-    		else
-    		{
+    		}else{
     			$this->Session->setFlash(__('The picture failed to upload'));
     		}
     	}
     	return $this->redirect($this->referer());
 	}
 	
-	public function findall($eid = null)
-	{
+	
+	public function findall($eid = null){
 		$lookup = ClassRegistry::init('eventpics');
 		$list = array();
 		$list[0] = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.path')));
-		if (!empty($list[0]))
-		{
+		if (!empty($list[0])){
 			$list[0] = $list[0]['eventpics']['path'];
 			$tlist = $lookup->find('all', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 0 ), 'fields' => array('eventpics.path')));
 			$a = 1;
@@ -78,33 +72,28 @@ class EventpicsController extends AppController {
 				$list[$a] = $v['eventpics']['path'];
 				$a += 1;
 			}
-		}
-		else
-		{
+		}else{
 			$list[0] = "default.png";
 		}
 		
 		return $list;
 	}
 	
-	public function getdef($eid = null)
-	{
+	
+	public function getdef($eid = null){
 		$lookup = ClassRegistry::init('eventpics');
 		$list = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.path')));
-		if (!empty($list))
-		{
+		if (!empty($list)){
 			$list = $list['eventpics']['path'];
-		}
-		else
-		{
+		}else{
 			$list = "default.png";
 		}
 		
 		return $list;
 	}
 	
-	public function delete($path = null)
-	{
+	
+	public function delete($path = null){
 		$lookup = ClassRegistry::init('eventpics');
 		$data = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.id', 'eventpics.eid', 'eventpics.showed')));
 		$id = $data['eventpics']['id'];
@@ -118,8 +107,7 @@ class EventpicsController extends AppController {
             $this->Session->setFlash(__('Image deleted'));
             $filename = APP . "webroot/img/events/". $path;
             unlink($filename);
-        	if($showed == 1)
-        	{
+        	if($showed == 1){
         		$id2 = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid ), 'fields' => array('eventpics.id')));
         		if(!empty($id2)){
         			$id2 = $id2['eventpics']['id'];
@@ -133,20 +121,23 @@ class EventpicsController extends AppController {
         return $this->redirect($this->referer());
 	}
 
-	public function makedef($path = null)
-	{
+	
+	public function makedef($path = null){
 		$lookup = ClassRegistry::init('eventpics');
 		$lookup2 = ClassRegistry::init('eventpics');
-		$id = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.id')))['eventpics']['id'];
-		$eid = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.eid')))['eventpics']['eid'];
-		$id2 = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.id')))['eventpics']['id'];
+		$tmp = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.id')));
+		$id = $tmp['eventpics']['id'];
+		
+		$tmp = $lookup->find('first', array('conditions' => array('eventpics.path' => $path ), 'fields' => array('eventpics.eid')));
+		$eid = $tmp['eventpics']['eid'];
+		
+		$tmp = $lookup->find('first', array('conditions' => array('eventpics.eid' => $eid, 'eventpics.showed' => 1 ), 'fields' => array('eventpics.id')));
+		$id2 = $tmp['eventpics']['id'];
 		$lookup->id = $id;
 		$lookup2->id = $id2;
 		if (!$lookup->exists() || !$lookup2->exists()) {
             throw new NotFoundException(__('Invalid Image'));
         }
-        debug($id);
-        debug($id2);
         $this->Eventpic->id = $id2;
         
         $this->Eventpic->saveField('showed', 0);
@@ -155,5 +146,4 @@ class EventpicsController extends AppController {
 		
 		return $this->redirect($this->referer());
 	}
-
 }
