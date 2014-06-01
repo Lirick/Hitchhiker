@@ -11,6 +11,8 @@ class Eventpic extends AppModel {
  *
  * @var array
  */
+ 	public $primaryKey = 'id';
+ 
 	public $validate = array(
 		'path' => array(
 			'notEmpty' => array(
