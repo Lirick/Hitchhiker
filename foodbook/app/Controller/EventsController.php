@@ -406,9 +406,10 @@ class EventsController extends AppController {
 			//$this->set('username', $search);
 			$lookup = ClassRegistry::init('users');
 			$cond=array('OR'=>array("users.username LIKE '%$search%'") );
-			$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('username', 'id')));
+			$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('username','picture', 'id')));
 			//$found = array('data' => 'result');
 			$this->header('Content-Type: application/json');
+			
 			echo json_encode($found);
 			return;		
 		}

@@ -218,9 +218,40 @@
 					           },
 					          dataType:"json",
 					          success: function(data){
-						          console.log(data);
-						          //var parsedJSON = $.parseJSON(data);
-						          $('#search-container').html(data);
+					          		var searchdiv = document.getElementById("search-container");
+					          		var f = document.createElement("form");
+					          		f.setAttribute('method',"post");
+					          		//f.setAttribute('action',"submit.php");
+						          $.each(data, function(id,object){
+						          console.log(object);
+							          $.each(object, function(username,image){
+							          var div = document.createElement("div");
+							          div.setAttribute('style', 'margin-right: 10px; float:left;')
+							          
+							          var c = document.createElement("input"); //input element, checkbox
+							          c.setAttribute('type',"checkbox");
+							          c.setAttribute('value',username);
+							          c.setAttribute('style', 'padding:5px');
+							          f.appendChild(c);
+							          
+							          var img = document.createElement("img");
+							          img.setAttribute('src', '../img/users/' + image);
+							          img.setAttribute('style', 'height:50px');
+							          img.setAttribute('class','img-responsive img-thumbnail');
+							          f.appendChild(img);
+							          
+							          var h3 = document.createElement("h3");
+							          h3.setAttribute('class', 'panel-title');
+							          h3.innerHTML = username;
+							          f.appendChild(h3);
+							          
+							          f.appendChild(div);
+
+							          });
+  
+						          });
+						          searchdiv.appendChild(f);
+						          //$('#search-container').
 					          },
 					          error: function (response, status){
 						          alert('ERROR!');
