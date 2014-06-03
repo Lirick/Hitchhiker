@@ -1,4 +1,3 @@
-</div>
 <!-- app/View/Users/signup.ctp -->
 <div class="container">
     <div class="col-xs-6 col-xs-offset-3" style="border: 1px solid #e2e2e2; padding-bottom: 15px;">
