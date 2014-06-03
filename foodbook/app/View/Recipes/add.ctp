@@ -1,5 +1,5 @@
 <div class="container">
-<div class="col-xs-6" style="border: 1px solid #e2e2e2; padding-bottom: 15px;">
+<div class="col-xs-6 col-xs-offset-3" style="border: 1px solid #e2e2e2; padding-bottom: 15px;">
 <?php echo $this->Form->create('Recipe'); ?>
 <h2>Create a new recipe</h2>
  <div class="form-group">
