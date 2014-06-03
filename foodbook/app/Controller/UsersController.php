@@ -2,10 +2,11 @@
 
  App::import('Controller', 'Followers');
  App::import('Controller', 'Endorsers');
-
+ App::import('Controller', 'Recipes');
+ 
 class UsersController extends AppController {
 
-	public $helpers = array('Html', 'Form');
+	public $helpers = array('Html', 'Form','Js');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -64,6 +65,9 @@ class UsersController extends AppController {
 		$lookup->id = $id;
 		
 		$this->set('username', $lookup->field('username'));
+		$this->set('name', $lookup->field('name'));
+		$this->set('description', $lookup->field('description'));
+		$this->set('location', $lookup->field('location'));
 		$this->set('email', $lookup->field('email'));
 		$this->set('phone', $lookup->field('phone'));  
 		$this->set('picture', "users/" .$lookup->field('picture')); 
@@ -84,6 +88,8 @@ class UsersController extends AppController {
 		$Followers->constructClasses();
 		$Endorsers= new EndorsersController;
 		$Endorsers->constructClasses();
+		$Recipes = new RecipesController;
+		$Recipes->constructClasses();
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
@@ -91,6 +97,7 @@ class UsersController extends AppController {
         $this->set('nrfollows', $Followers->count($id));
         $this->set('endorses', $Endorsers->endorses($id));
         $this->set('nrendorses', $Endorsers->count($id));
+        $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
         
         $this->User->Userrating->virtualFields['Rating'] = 0;
@@ -115,10 +122,11 @@ class UsersController extends AppController {
     
     public function rate($id,$rating) {
     	if(!$id){
-			throw new NotFoundException(__('Invalid user'));
+			$id = @$this->request->data('id');
+			print_r($id);
 		}
 		if(!$rating){
-			throw new NotFoundException(__('Invalid rating'));
+			$rating = @$this->request->data('rating');
 		}elseif($rating > 10 || $rating < 1 ){
 			throw new NotFoundException(__('Invalid rating!'));
 		}
@@ -128,15 +136,28 @@ class UsersController extends AppController {
 		}
 		$uid = $this->Auth->user('id');
 		if($this->request->is('post')){
-			if(!$this->User->Userrating->findByUserfromAndUserto($uid,$id)){
-		        $this->User->Userrating->create();
-		        $this->User->Userrating->set('userfrom',$uid);
-		        $this->User->Userrating->set('userto',$id);
-		        $this->User->Userrating->set('rating',$rating);
-		        $this->User->Userrating->save($this->request->data);
-		    }else {
-			    $this->Session->setFlash( __("Already rated"));
-				$this->redirect( array('action' => 'view'));
+			if($id == $uid){
+				$this->Session->setFlash( __("Can't rate yourself"));
+					$this->redirect( array('action' => 'view'));
+			}else {
+
+				if(!$this->User->Userrating->findByUserfromAndUserto($uid,$id)){
+			        $this->User->Userrating->create();
+			        $this->User->Userrating->set('userfrom',$uid);
+			        $this->User->Userrating->set('userto',$id);
+			        $this->User->Userrating->set('rating',$rating);
+			        if($this->User->Userrating->save($this->request->data)){
+				        $this->Session->setFlash( __("Success!"));
+				        return $this->redirect($this->request->here);
+			        }else {
+			        	$this->Session->setFlash( __("Something went wrong"));
+				        $this->redirect( array('action' => 'view'));
+			        }
+			        
+			    }else {
+				    $this->Session->setFlash( __("Already rated"));
+					$this->redirect( array('action' => 'view'));
+			    }
 		    }
 		}
 
@@ -172,7 +193,6 @@ class UsersController extends AppController {
         }
         $this->readData($id);
         if ($this->request->is('post')) {
-        	debug($this->request->data);
         	if (isset($this->request->data['User']['Choose file']))
         	{
         		$ending = pathinfo($this->request->data['User']['Choose file']['name'], PATHINFO_EXTENSION);
@@ -196,7 +216,7 @@ class UsersController extends AppController {
         		}
         	}
         	
-            if ($this->User->save($this->request->data)) 
+            else if ($this->User->save($this->request->data)) 
             {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('action' => 'view'));

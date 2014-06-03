@@ -29,7 +29,6 @@ CREATE TABLE `events` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ename` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
-  `address` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `min_guests` int(11) NOT NULL,

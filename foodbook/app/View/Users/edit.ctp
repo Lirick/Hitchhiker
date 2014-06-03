@@ -20,6 +20,24 @@
             <?php echo $this->Form->create('User'); ?>
             <div class="form-group">
                 <?php echo $this->form->input(
+                    'name',
+                    array('div'=> false,
+                        'class' => 'form-control',
+                        'placeholder' => 'Real name',
+                        'default' => $name));
+                ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->form->input(
+                    'location',
+                    array('div'=> false,
+                        'class' => 'form-control',
+                        'placeholder' => 'City, Country',
+                        'default' => $location));
+                ?>
+            </div>            
+            <div class="form-group">
+                <?php echo $this->form->input(
                     'email',
                     array('div'=> false,
                         'class' => 'form-control',
@@ -35,6 +53,17 @@
                         'class' => 'form-control',
                         'placeholder' => 'Phone Number',
                         'default' => $phone));
+                ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->form->input(
+                    'description',
+                    array('label' => 'Presentation',
+                        'div'=> false,
+                        'class' => 'form-control',
+                        'type' => 'textarea',
+                        'placeholder' => 'Short presentation about yourself',
+                        'default' => $description));
                 ?>
             </div>
             <?php echo $this->Form->end(

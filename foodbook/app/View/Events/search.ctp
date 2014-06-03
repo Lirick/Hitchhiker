@@ -34,12 +34,12 @@
                 </div>
             </div>
             <hr>
-            <?php foreach ($events as $event): ?>
+            <?php foreach ($events as $event): ?>            
                 <div class="row">
                     <div class="col-xs-3">
                         <?php
                         echo $this->Html->image(
-                            'eventdefault.png',
+                            'events/' . $event['Event']['picture'],
                             array(
                                 "alt" => "dinner picture",
                                 "class" => "img-responsive",
@@ -86,7 +86,7 @@
                             <div class="col-xs-12">
                                 <p>
                                     <span class="glyphicon glyphicon-home"></span>
-                                    <?php echo $event['Event']['address'] ?>
+                                    <?php echo $event['Location']['display_address'] ?>
                                 </p>
 
                                 <p>

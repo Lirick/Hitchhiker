@@ -1,5 +1,7 @@
 <?php
 
+ App::import('Controller', 'Eventpics');
+
 class EventsController extends AppController {
     public $helpers = array('Html', 'Form');
     
@@ -11,7 +13,7 @@ class EventsController extends AppController {
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index','view');       
+        $this->Auth->allow('index','view', 'search', 'get_locations', 'search_by_location');       
     }
         
     
@@ -241,32 +243,70 @@ class EventsController extends AppController {
     }
     
     
-    /**
+    /**		
      * Create a new event 
      */
     public function create(){
-    	$cuisines = $this->Event->Cuisine->find('all');
-    	$this->set('cuisines', $cuisines);
-    	
-    	if ($this->request->is('post')) {
+    	$this->set('searched', false);
+    	if ($this->request->is('post')) {    	
 			$this->Event->create();
-			$this->Event->set('user_id', $this->Auth->user('id'));
-			$this->Event->save($this->request->data);
+			$req = $this->request->data;
 			
+			//Create the location
+			$this->Event->Location->create();
+			$addr = $req['event-address'];
+			$this->Event->Location->save(array(
+					'display_address' => $addr['display_address'],
+					'lat' => $addr['lat'],
+					'lng' => $addr['lng'],
+					'city' => $addr['city'],
+					'country' => $addr['country']
+			));
+			$location_id = $this->Event->Location->id;	
+			
+
+			//#!todo: should we check: if event wasn't added - remove a record from locations as well?
+			
+			// Create Event
+
+			//mysql injections!!!!!
+			$this->Event->set('user_id', $this->Auth->user('id'));
+			$this->Event->set('ename', $req['event-topic']);
+			$this->Event->set('location_id', $location_id);
+			
+			// write scheduled time in datetime sql format
+			$d = DateTime::createFromFormat("m/d/Y g:i A", $req['event-schedule']);
+			$event_schedule = $d->format('Y-m-d H:i:s');
+			
+			$this->Event->set('date', $event_schedule);			
+			$this->Event->set('text', $req['event-description']);
+			$this->Event->set('min_guests', 0+$req['event-min-guests']);
+			$this->Event->set('max_guests', 0+$req['event-max-guests']);
+			$this->Event->set('price_per_guest', 0+$req['event-price']);
+			
+			$this->Event->save();
+			
+			 			
 			if (!$this->Event->exists()) {
 				throw new NotFoundException(__('Invalid event'));
 			}
+		
 			
 			//Add record to cuisines_events table as well
-			$cuisine_id = $this->request->data['Event']['cuisine'] + 0;			
+			$cuisine_id = $req['event-cuisine'] + 0;			
  			$this->Event->CuisinesEvent->create();
 			$this->Event->CuisinesEvent->save(array(
 								'event_id'=> $this->Event->id,
 							 	'cuisine_id' => $cuisine_id));
 							
-			$this->Session->setFlash( __("The event has been created"));			
-			$this->redirect( array('action' => 'index'));
-    	}    	
+			//$this->Session->setFlash( __("The event has been created"));			
+			//$this->redirect( array('action' => 'search'));
+    	} else{
+    		$cuisines = $this->Event->Cuisine->find('all');
+    		$this->set('cuisines', $cuisines);   		
+    	}
+    	
+    	
     }
     
     
@@ -283,7 +323,10 @@ class EventsController extends AppController {
 
         $cuisines = $this->Event->Cuisine->find('all');
         $this->set('cuisines', $cuisines);
-
+        $this->set('eid', $id);
+    	$Eventpics = new EventpicsController;
+		$Eventpics->constructClasses();
+		$this->set('picture', $Eventpics->findall($id)); 
     	$event = $this->Event->findById($id);
 
     	if (!$event) {
@@ -341,11 +384,101 @@ class EventsController extends AppController {
 	    }
 	}
 
-    public function search() {
+	
+    public function search() {    	
         $this->Paginator->settings = array(
-            'limit' => 8
+            'limit' => 8,
+        	'order' => array('Event.id' => 'desc')
         );
+        $Eventpics = new EventpicsController;
         $data = $this->Paginator->paginate();
+        for($i = 0; $i < count($data); $i++){
+        	$data[$i]['Event']['picture'] = $Eventpics->getdef($data[$i]['Event']['id']);
+        	
+        }
         $this->set('events', $data);
-    }
+    }		
+    
+    
+    public function searchUsers() {
+    	$this->layout = 'ajax';
+    	$this->autoRender = false;
+    	 
+		if ($this->request->is('post')) {
+			//print_r($this->request->data);
+			//$this->set('searched', true);
+			$search = $this->request->data;
+			//$this->set('username', $search);
+			$lookup = ClassRegistry::init('users');
+			$cond=array('OR'=>array("users.username LIKE '%$search%'") );
+			$found = $lookup->find('list', array('conditions' => $cond, 'fields' => array('username', 'id')));
+			//$found = array('data' => 'result');
+			$this->header('Content-Type: application/json');
+			echo json_encode($found);
+			return;		
+		}
+		else {
+			//$this->set('searched', False);
+		}
+	}
+	
+	
+	/**
+	 * Returns a json containing city and country
+	 * Used for typeahead search from the start page
+	 */
+	public function get_locations(){
+		$this->autoRender = false;
+		$this->header('Content-Type: application/json');
+		
+		$result = $this->Event->Location->query('SELECT DISTINCT country, city FROM locations');
+		$found = array();
+		foreach($result as $val){
+			$found[] = $val['locations']['city'].', '.$val['locations']['country'];
+		}	
+		echo json_encode($found);
+		return;
+	}
+	
+	
+	/**
+	 * Search events by Location
+	 * Used in the start page
+	 */
+	public function search_by_location(){
+		if ($this->request->is('post')) {
+			$cc = explode(',', $this->request->data['location-input']);
+			
+			//display all events if no location specified			
+			if(!$cc || !$cc[0] || !$cc[1]){	
+				$this->redirect(array('action' => 'search'));
+				return;
+			}			
+			
+			$conditions = array("Location.city LIKE" => trim($cc[0]), "Location.country LIKE" => trim($cc[1]));
+			$rows = $this->Event->Location->find('all', array(
+					'conditions' => $conditions,
+					'fields' => array('Location.id')
+					));
+			
+			$location_ids = array();
+			foreach($rows as $row){
+				$location_ids[] = $row['Location']['id'];
+			}			
+			
+			$events = $this->Event->find('all', array(
+					'conditions' => array('location_id' => $location_ids ) //e.g. IN (1,2) 
+					));
+
+			$this->Paginator->settings = array('limit' => 8);
+			$data = $this->Paginator->paginate();
+					
+			$this->set('events', $events);
+			$this->render('search');
+		}else{
+			//if it's a 'get'-request
+			$this->redirect(array('action' => 'search'));
+		}
+	}
+    
 }

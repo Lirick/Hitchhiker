@@ -140,6 +140,7 @@
                         'placeholder' => '0'
                     ));
                 ?>
+                
             </div>
         </div>
         <hr>
@@ -149,6 +150,59 @@
                 'label' => 'Create my event',
                 'class' => 'btn btn-primary btn-lg btn-block'));
             ?>
+            <hr>
+            <div class="row">
+            	<div class="col-xs-6">
+					<?php echo $this->Html->image("events/" . $picture[0], array('class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true, 'width' => 500)); ?>
+					<?php echo $this->Form->create('Eventpics', array('type' => 'file', 'url'=>'/eventpics/addpic/' . $eid)); ?>
+					<?php
+					echo $this->Form->input('Choose file',array('label' => false, 'type' => 'file', 'style' => "margin: 10px 0;"));
+					echo $this->Form->end(
+						array('label' => 'Upload',
+						    'class' => 'btn btn-primary')); ?>
+            	</div>
+		        <div class="col-xs-6">
+		        	<?php $counter = 0; 
+		        	foreach($picture as $v)
+		        	{
+		        		echo $this->Html->image("events/" . $v, array('class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true, 'width' => 120 )); 
+		        		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		        		
+
+		        		$counter += 1;
+		        		if ($counter%3 == 0)
+		        		{
+		        			echo '<br>';
+		        			for ($i = $counter-3; $i < $counter; $i++)
+		        			{
+		        				echo $this->Html->link('<span class="glyphicon glyphicon-picture"></span>', 
+									array('controller' => 'eventpics', 'action' => 'makedef', $picture[$i]),
+									array('title' =>"Make default picture", 'escape' => false)); 
+								echo '&nbsp;&nbsp;&nbsp;';
+		        				echo $this->Html->link('<span class="glyphicon glyphicon-remove"></span>', 
+									array('controller' => 'eventpics', 'action' => 'delete', $picture[$i]), 
+									array('title' =>"Delete picture", 'escape' => false)); 
+								echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		        			} 
+		        			echo '<br>';
+		        			echo '<br>';
+		        		}
+		        	}
+		        			echo '<br>';
+		        			for ($i = $counter-($counter%3); $i < $counter && $picture[0] != 'default.png'; $i++)
+		        			{
+		        				echo $this->Html->link('<span class="glyphicon glyphicon-picture"></span>', 
+									array('controller' => 'eventpics', 'action' => 'makedef', $picture[$i]),
+									array('title' =>"Make default picture", 'escape' => false)); 
+								echo '&nbsp;&nbsp;&nbsp;';
+		        				echo $this->Html->link('<span class="glyphicon glyphicon-remove"></span>', 
+									array('controller' => 'eventpics', 'action' => 'delete', $picture[$i]), 
+									array('title' =>"Delete picture", 'escape' => false)); 
+								echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		        			} 
+		        	 ?>
+		        </div>
+            </div>
             <?php
             //          //Attempt to fix preventing submission when press Enter because we also press Enter when we confirm
             //          //autocomplete in location search

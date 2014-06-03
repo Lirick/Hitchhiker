@@ -9,7 +9,8 @@
                 'username',
                 array('div'=> false,
                     'class' => 'form-control',
-                    'placeholder' => 'Username'));
+                    'placeholder' => 'Username',
+                    'label' => 'Username*'));
             ?>
         </div>
         <div class="form-group">
@@ -17,7 +18,8 @@
                 'password',
                 array('div'=> false,
                     'class' => 'form-control',
-                    'placeholder' => 'Password'));
+                    'placeholder' => 'Password',
+                    'label' => 'Password*'));
             ?>
         </div>
         <div class="form-group">

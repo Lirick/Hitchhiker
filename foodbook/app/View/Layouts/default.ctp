@@ -38,8 +38,6 @@
     echo $this->Html->script('bootstrap');
     echo $this->Html->script('moment');
     echo $this->Html->script('bootstrap-datetimepicker.min');
-    echo $this->Html->script('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');    
-    echo $this->Html->script('map');
     echo $this->Html->script('jquery.zweatherfeed.min');
     
 
@@ -69,7 +67,7 @@
 </body>
 <script>
     $(function () {
-    	$('#eventdp').datetimepicker();
+        //DOM is ready..    	
     });
 
     
