@@ -48,11 +48,11 @@
                             - <?php echo h($event['Event']['max_guests']) ?>  persons
                         </dd>
                         <dt>Cuisine</dt>
-                        <dd><?php 
-                        	if($event['Cuisine'] && $event['Cuisine'][0]){
-                        		echo h($event['Cuisine'][0]['name']);
-                        	}
-                        	?></dd>
+                        <dd><?php
+                            if ($event['Cuisine'] && $event['Cuisine'][0]) {
+                                echo h($event['Cuisine'][0]['name']);
+                            }
+                            ?></dd>
 
                     </dl>
                 </div>
@@ -67,8 +67,38 @@
                 </div>
 
             </div>
+            <div>
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <?php
+                        $count=0;
+                        foreach ($picture as $v) {
+                            if ($count == 0) {
+                                echo '<div class="item active">';
+                            } else {
+                                echo '<div class="item">';
+                            }
+
+                            echo $this->Html->image("events/" . $v, array('class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true));
+                            echo '</div>';
+                            $count++;
+                        }
+                        ?>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>echo '<div class="item">';
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
 
             <?php echo $this->element('comments'); ?>
+
         </div>
         <div class="col-xs-3">
             <div class="panel panel-warning">
@@ -85,43 +115,43 @@
 
             <?php if (!$isowner) { ?>
 
-            <?php            	
-            	$me = AuthComponent::user('id');
-            	//the hoster automatically goes to the event
-            	if( $event['Event']['user_id'] != $me){
-            		if( in_array($me, $pending_requests) ){ 		//request already sent, not accepted yet
-            			echo 'Waiting for accept';
-            		}else if( in_array($me, $pending_invites) ){ 	//invite send, accept now!
-            			echo 'Show Accept Button!';
+                <?php
+                $me = AuthComponent::user('id');
+                //the hoster automatically goes to the event
+                if ($event['Event']['user_id'] != $me) {
+                    if (in_array($me, $pending_requests)) { //request already sent, not accepted yet
+                        echo 'Waiting for accept';
+                    } else if (in_array($me, $pending_invites)) { //invite send, accept now!
+                        echo 'Show Accept Button!';
 //             			echo $this->Form->postButton(
 //             					'Accept',
 //             					array('action' => 'accept', $event['Event']['id']),
 //             					array('class' => 'btn btn-primary btn-block btn-lg'));            			
-            		}else if( in_array($me, $going_users)){ 		//already going
-            			echo 'Going!';
-            		}else{            		 
-            			echo $this->Form->postButton(
-            				'I want to join!',
-            				array('action' => 'request', $event['Event']['id']),
-            				array('class' => 'btn btn-primary btn-block btn-lg'));
-            		}            		
-            	}
-            	//echo '<button class="btn btn-primary btn-block btn-lg">I want to join!</button>';
-            ?>
-            
-            <hr>
-            <?php } else {?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']), array('class' => 'btn btn-default btn-block ')); ?>
-            <?php
-            echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $event['Event']['id']),
-                array(
-                    'confirm' => 'Are you sure?',
-                    'class' => 'btn btn-danger btn-block',
-                    'style' => 'margin-top: 10px;')
-            );
-            ?>
+                    } else if (in_array($me, $going_users)) { //already going
+                        echo 'Going!';
+                    } else {
+                        echo $this->Form->postButton(
+                            'I want to join!',
+                            array('action' => 'request', $event['Event']['id']),
+                            array('class' => 'btn btn-primary btn-block btn-lg'));
+                    }
+                }
+                //echo '<button class="btn btn-primary btn-block btn-lg">I want to join!</button>';
+                ?>
+
+                <hr>
+            <?php } else { ?>
+                <?php echo $this->Html->link('Edit', array('action' => 'edit', $event['Event']['id']), array('class' => 'btn btn-default btn-block ')); ?>
+                <?php
+                echo $this->Form->postLink(
+                    'Delete',
+                    array('action' => 'delete', $event['Event']['id']),
+                    array(
+                        'confirm' => 'Are you sure?',
+                        'class' => 'btn btn-danger btn-block',
+                        'style' => 'margin-top: 10px;')
+                );
+                ?>
             <?php } ?>
         </div>
     </div>

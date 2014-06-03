@@ -240,6 +240,10 @@ class EventsController extends AppController {
         $this->set('pending_requests',$this->get_pending_requests($id));
         $this->set('pending_invites',$this->get_pending_invites($id));
 		$this->set('going_users', $this->get_going_users($id));
+
+        $Eventpics = new EventpicsController;
+        $Eventpics->constructClasses();
+        $this->set('picture', $Eventpics->findall($id));
     }
     
     
@@ -333,7 +337,6 @@ class EventsController extends AppController {
 
         $loc = $this->Event->Location->find('first', array(
             'conditions' => array( 'Location.id' => $location_id)));
-        print_r($loc);
 
         $this->set('location', $loc);
     	if (!$event) {

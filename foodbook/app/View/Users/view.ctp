@@ -112,7 +112,6 @@
                         </script>
                         My rating: <input type="number" data-max="10" data-min="1" name="your_awesome_parameter"
                                           id="some_id" class="rating"/>
-
                     </div>
 
                 </div>

@@ -151,12 +151,6 @@ echo $this->Html->script('map');
         </div>
         <hr>
         <div>
-            <?php
-            echo $this->Form->end(array(
-                'label' => 'Update my event',
-                'class' => 'btn btn-primary btn-lg btn-block'));
-            ?>
-            <hr>
             <div class="row">
             	<div class="col-xs-6">
 					<?php echo $this->Html->image("events/" . $picture[0], array('class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true, 'width' => 500)); ?>
@@ -165,7 +159,7 @@ echo $this->Html->script('map');
 					echo $this->Form->input('Choose file',array('label' => false, 'type' => 'file', 'style' => "margin: 10px 0;"));
 					echo $this->Form->end(
 						array('label' => 'Upload',
-						    'class' => 'btn btn-primary')); ?>
+						    'class' => 'btn btn-success')); ?>
             	</div>
 		        <div class="col-xs-6">
 		        	<?php $counter = 0; 
@@ -209,16 +203,11 @@ echo $this->Html->script('map');
 		        	 ?>
 		        </div>
             </div>
+            <hr>
             <?php
-            //          //Attempt to fix preventing submission when press Enter because we also press Enter when we confirm
-            //          //autocomplete in location search
-            //         echo $this->Form->submit('Create my event',
-            //         		array(
-            //         				'onmousedown' => 'itsclicked = true; return true;',
-            //         				'onkeydown' => 'itsclicked = true; return true;',
-            //         				'class' => 'btn btn-primary btn-lg btn-block'
-            //         		));
-            //
+            echo $this->Form->end(array(
+                'label' => 'Update my event',
+                'class' => 'btn btn-primary btn-lg btn-block'));
             ?>
         </div>
     </div>

@@ -99,7 +99,9 @@ class UsersController extends AppController {
         $this->set('nrendorses', $Endorsers->count($id));
         $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
-        
+
+
+
         $this->User->Userrating->virtualFields['Rating'] = 0;
         
         
@@ -117,8 +119,7 @@ class UsersController extends AppController {
         	userto
         "
         ); 
-        
-        print_r($ratings);
+
         $this->set('ratings',$ratings);
         
                 
@@ -127,7 +128,6 @@ class UsersController extends AppController {
     public function rate($id,$rating) {
     	if(!$id){
 			$id = @$this->request->data('id');
-			print_r($id);
 		}
 		if(!$rating){
 			$rating = @$this->request->data('rating');
