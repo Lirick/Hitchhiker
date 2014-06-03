@@ -326,9 +326,16 @@ class EventsController extends AppController {
         $this->set('eid', $id);
     	$Eventpics = new EventpicsController;
 		$Eventpics->constructClasses();
-		$this->set('picture', $Eventpics->findall($id)); 
+		$this->set('picture', $Eventpics->findall($id));
     	$event = $this->Event->findById($id);
 
+        $location_id = $event['Event']['location_id'];
+
+        $loc = $this->Event->Location->find('first', array(
+            'conditions' => array( 'Location.id' => $location_id)));
+        print_r($loc);
+
+        $this->set('location', $loc);
     	if (!$event) {
     		throw new NotFoundException(__('Invalid event'));
     	}

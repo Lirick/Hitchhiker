@@ -1,3 +1,8 @@
+<?php
+echo $this->Html->script('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
+echo $this->Html->script('map');
+?>
+
 <div class="container">
     <div class="col-xs-10 col-xs-offset-1">
         <?php echo $this->Form->create('Event'); ?>
@@ -34,7 +39,8 @@
                         'div' => 'form-group',
                         'id' => 'address-search',
                         'class' => 'form-control',
-                        'placeholder' => "Start typying address of the event"));
+                        'placeholder' => "Start typying address of the event",
+                        'default' => $location['Location']['display_address']));
                 ?>
                 <div id="map-canvas" style="width: 100%; height: 200px;"></div>
             </div>
@@ -147,7 +153,7 @@
         <div>
             <?php
             echo $this->Form->end(array(
-                'label' => 'Create my event',
+                'label' => 'Update my event',
                 'class' => 'btn btn-primary btn-lg btn-block'));
             ?>
             <hr>
