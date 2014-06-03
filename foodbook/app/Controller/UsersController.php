@@ -207,7 +207,7 @@ class UsersController extends AppController {
         		$this->User->picture = $id . "." . $ending;
         		if (move_uploaded_file($this->request->data['User']['Choose file']['tmp_name'],$filename))
         		{
-        			if ($this->User->saveField('Picture', $id . "." . $ending))
+        			if ($this->User->saveField('picture', $id . "." . $ending))
         			{	
 		    			$this->Session->setFlash(__('The picture has been uploaded'));
 		    		 	$this->redirect(array('action' => 'edit'));
