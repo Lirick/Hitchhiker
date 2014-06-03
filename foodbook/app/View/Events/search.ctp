@@ -2,7 +2,9 @@
     <h3><?php echo count($events) . " events have been found:" ?></h3>
     <hr>
     <div class="row">
-        <div class="col-xs-3"></div>
+        <div class="col-xs-3" style="background: #ddd;">
+        	<?php echo $this->element('search_adv');?>
+        </div>
         <div class="col-xs-9" style="border-left: 1px solid #e2e2e2;">
             <div class="row">
                 <div class="col-xs-2">
