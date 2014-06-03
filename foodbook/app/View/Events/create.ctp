@@ -320,10 +320,10 @@
 
 			$.ajax({
 				type: 'POST',
-				url: '/events/create',
+                url: "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'create')); ?>",
 				data: values,
 				success: function(){
-					window.location.href = '/events/search';				
+					window.location.href = "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'search')); ?>";
 				}
 			});
 	            	        

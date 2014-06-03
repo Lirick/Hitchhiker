@@ -30,12 +30,15 @@ CREATE TABLE `events` (
   `ename` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
   `date` datetime NOT NULL,
+  `location_id` int(11) NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL,
   `min_guests` int(11) NOT NULL,
   `max_guests` int(11) NOT NULL,
   `price_per_guest` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `location_id` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
