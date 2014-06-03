@@ -354,7 +354,7 @@ class EventsController extends AppController {
     		$this->Event->id = $id;
     		if ($this->Event->save($this->request->data)) {
     			$this->Session->setFlash(__('The event has been updated'));
-    			return $this->redirect(array('action' => 'index'));
+    			return $this->redirect(array('action' => 'view',$id));
     		}
     		$this->Session->setFlash(__('Unable to update the event'));
     	}
@@ -392,7 +392,7 @@ class EventsController extends AppController {
 		
 		if( $this->Event->delete($id) ) {
 	        $this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));
-	        return $this->redirect(array('action' => 'index'));
+	        return $this->redirect(array('controller' => 'starts', 'action' => 'index'));
 	    }
 	}
 
