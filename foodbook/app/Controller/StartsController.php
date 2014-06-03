@@ -44,7 +44,6 @@ class StartsController extends AppController {
         $userswithrating[] = $user;
         
 		}
-		print_r($userswithrating);
 		
         $this->set('users',$userswithrating);
 
