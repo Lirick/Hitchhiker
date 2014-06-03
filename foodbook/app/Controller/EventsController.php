@@ -390,7 +390,12 @@ class EventsController extends AppController {
             'limit' => 8,
         	'order' => array('Event.id' => 'desc')
         );
+        $Eventpics = new EventpicsController;
         $data = $this->Paginator->paginate();
+        for($i = 0; $i < count($data); $i++){
+        	$data[$i]['Event']['picture'] = $Eventpics->getdef($data[$i]['Event']['id']);
+        	
+        }
         $this->set('events', $data);
     }		
     
