@@ -191,7 +191,6 @@ class EventsController extends AppController {
 		}
 	}
 	 
-	 
 
 
 	/**
@@ -243,15 +242,70 @@ class EventsController extends AppController {
 		$this->set('pending_requests',$this->get_pending_requests($id));
 		$this->set('pending_invites',$this->get_pending_invites($id));
 		$this->set('going_users', $this->get_going_users($id));
-	}
+	} 
+    
+
+    /**
+     * View all events
+     */
+    public function index() {
+        $data = $this->Paginator->paginate();        
+        $this->set('events', $data);
+        //$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
+    }
+	
+    
+    /**
+     * View event details
+     * @param int $id
+     * @throws NotFoundException
+     */
+    public function view($id = null){    	
+        if(!$id){
+            throw new NotFoundException(__("Invalid Event"));
+        }
+        $id = $id + 0; //cast to int
+        $event = $this->Event->findById($id);
+   		$Eventpics = new EventpicsController;
+		$Eventpics->constructClasses();
+		$this->set('picture', $Eventpics->findall($id));
+        $isowner = false;
+        if ($this->Auth->user('id') == $event['Event']['user_id']) {
+            $isowner = true;
+        }
 
 
-	/**
-	 * Create a new event
-	 */
-	public function create(){
-		$this->set('searched', false);
-		if ($this->request->is('post')) {
+        if(!$event){
+        	throw new NotFoundException(__("Invalid Event"));
+        }
+               
+        $lookup = ClassRegistry::init('User');        
+        foreach($event['Comment'] as $key=>$val){        	        	
+        	$lookup->id = $val['user_id'];
+        	$event['Comment'][$key]['username'] = $lookup->field('username');  
+        	$event['Comment'][$key]['picture'] = $lookup->field('picture');
+        }
+
+
+        $this->set('event', $event);
+        $this->set('isowner',$isowner);
+        
+        $this->set('pending_requests',$this->get_pending_requests($id));
+        $this->set('pending_invites',$this->get_pending_invites($id));
+		$this->set('going_users', $this->get_going_users($id));
+
+        $Eventpics = new EventpicsController;
+        $Eventpics->constructClasses();
+        $this->set('picture', $Eventpics->findall($id));
+    }
+    
+    
+    /**		
+     * Create a new event 
+     */
+    public function create(){
+    	$this->set('searched', false);
+    	if ($this->request->is('post')) {    	
 			$this->Event->create();
 			$req = $this->request->data;
 				
@@ -330,7 +384,16 @@ class EventsController extends AppController {
 		$Eventpics = new EventpicsController;
 		$Eventpics->constructClasses();
 		$this->set('picture', $Eventpics->findall($id));
-		$event = $this->Event->findById($id);
+
+    	$event = $this->Event->findById($id);
+
+        $location_id = $event['Event']['location_id'];
+
+        $loc = $this->Event->Location->find('first', array(
+            'conditions' => array( 'Location.id' => $location_id)));
+
+        $this->set('location', $loc);
+
 
 		if (!$event) {
 			throw new NotFoundException(__('Invalid event'));
@@ -355,14 +418,13 @@ class EventsController extends AppController {
 		}
 	}
 
-
-	/**
-	 * Delete event
-	 *
-	 * @param int $id
-	 * @throws NotFoundException
-	 * @throws MethodNotAllowedException
-	 */
+    /**
+     * Delete event
+     * 
+     * @param int $id
+     * @throws NotFoundException
+     * @throws MethodNotAllowedException
+     */
 	public function delete($id) {
 		if( $this->request->is('get') ) {
 			throw new MethodNotAllowedException();

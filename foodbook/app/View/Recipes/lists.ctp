@@ -1,5 +1,3 @@
-
-
 <div class="container">
     <div class="col-xs-6 col-xs-offset-3" style="border: 1px solid #e2e2e2; padding-bottom: 15px;">
         <div class="recipes index">
@@ -11,6 +9,8 @@
                 echo $this->Html->link($name,array('controller' => 'recipes', 'action' => 'view/' . $id , 'full_base' => true)) . ' <br>';
             }
             ?>
+        	<?php echo $this->Form->create('Recipe'); ?>
+			<?php echo $this->Form->end(); ?>
         </div>
     </div>
 </div>

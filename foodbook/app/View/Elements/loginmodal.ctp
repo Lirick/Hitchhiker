@@ -17,13 +17,9 @@
 					<div class="col-xs-12">
 						<?php echo $this->form->input('password', array('label' => false, 'div'=> false, 'class' => 'form-control', 'placeholder' => 'Password')); ?>
 					</div>
-                    <?php echo $this->form->end(); ?>
-					<div class="col-xs-12">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox"> Remember me
-							</label>
-						</div>
+
+					<div class="col-xs-12" style="height:20px;">
+
 					</div>
 					<div class="col-xs-4">
                         <button type="button" class="btn btn-primary" onclick="login();">Sign in</button>

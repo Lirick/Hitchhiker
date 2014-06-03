@@ -11,11 +11,25 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		// Allow users to register and logout.
-		$this->Auth->allow('signup', 'logout', 'login','index','view','search');
+		$this->Auth->allow('signup', 'logout', 'loginajax', 'login','index','view','search');
 	}
 
 
 	public function login() {
+
+		if ($this->request->is('post')) {
+		    if ($this->Auth->login()) {
+		        return $this->redirect($this->Auth->redirectUrl());
+		    }
+		    $this->Session->setFlash(__('Invalid username or password, try again'));
+		}
+		else if ($this->Auth->user())
+		{
+			return $this->redirect($this->Auth->redirectUrl());
+		}
+	}
+	
+		public function loginajax() {
         $this->layout = 'ajax';
         $this->autoLayout = false;
         $this->autoRender = false;
@@ -38,17 +52,6 @@ class UsersController extends AppController {
         $this->header('Content-Type: application/json');
         echo json_encode($response);
         return;
-        /*
-		if ($this->request->is('post')) {
-		    if ($this->Auth->login()) {
-		        return $this->redirect($this->Auth->redirectUrl());
-		    }
-		    $this->Session->setFlash(__('Invalid username or password, try again'));
-		}
-		else if ($this->Auth->user())
-		{
-			return $this->redirect($this->Auth->redirectUrl());
-		}*/
 	}
 
 	public function logout() {
@@ -99,8 +102,12 @@ class UsersController extends AppController {
         $this->set('nrendorses', $Endorsers->count($id));
         $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
-        
+
+
+
         $this->User->Userrating->virtualFields['Rating'] = 0;
+        
+        
         
         $ratings = $this->User->Userrating->query(
         "SELECT
@@ -115,6 +122,7 @@ class UsersController extends AppController {
         	userto
         "
         ); 
+
         $this->set('ratings',$ratings);
         
                 
@@ -123,7 +131,6 @@ class UsersController extends AppController {
     public function rate($id,$rating) {
     	if(!$id){
 			$id = @$this->request->data('id');
-			print_r($id);
 		}
 		if(!$rating){
 			$rating = @$this->request->data('rating');
@@ -200,7 +207,7 @@ class UsersController extends AppController {
         		$this->User->picture = $id . "." . $ending;
         		if (move_uploaded_file($this->request->data['User']['Choose file']['tmp_name'],$filename))
         		{
-        			if ($this->User->save($this->User))
+        			if ($this->User->saveField('picture', $id . "." . $ending))
         			{	
 		    			$this->Session->setFlash(__('The picture has been uploaded'));
 		    		 	$this->redirect(array('action' => 'edit'));

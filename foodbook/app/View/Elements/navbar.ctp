@@ -9,7 +9,6 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><?php echo $this->Html->link('User Searching', array('controller' => 'users','action' => 'search'));?></li>
                 <li><?php echo $this->Html->link('Events', array('controller' => 'events','action' => 'search'));?></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -21,7 +20,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><?php echo $this->Html->link('Host your event', array('controller' => 'events', 'action' => 'create'));?></li>
-                            <li><a href="#">Create your event request</a></li>
                             <li class="divider"></li>
                             <li>
                                 <?php echo $this->Html->link('My profile', array('controller' => 'users','action' => 'view'));?>

@@ -1,7 +1,7 @@
-<?php 	    
-    echo $this->Html->script('typeahead.bundle.min');
-
+<?php
+echo $this->Html->script('typeahead.bundle.min');
 ?>
+
 <div class="search-logo-homepage">
     <h1>Find your food in foodbook!</h1>
 
@@ -9,15 +9,16 @@
 
     <div class="row" style="margin-top: 40px;">
         <div class="col-xs-9">
-        <?php echo $this->Form->create('Event', array('controller' => 'events', 'action' => 'search_by_location')); ?>
-            <div class="typeahead-holder">                
-                <input id="location-input" name="location-input" type="text" class="typeahead" placeholder="Type in the location where you want to eat"/>
-              	<?php 
-                	echo $this->Form->end( array(
-                		'label' => 'Search',
-                		'div' => false,
-                		'class' => 'btn btn-primary'));
-	            ?>                
+            <?php echo $this->Form->create('Event', array('controller' => 'events', 'action' => 'search_by_location')); ?>
+            <div class="typeahead-holder">
+                <input id="location-input" name="location-input" type="text" class="typeahead"
+                       placeholder="Type in the location where you want to eat"/>
+                <?php
+                echo $this->Form->end(array(
+                    'label' => 'Search',
+                    'div' => false,
+                    'class' => 'btn btn-primary'));
+                ?>
             </div>
         </div>
         <!-- /.col-lg-6 -->
@@ -36,8 +37,10 @@
             <?php echo $this->Html->image('food2.jpg', array('alt' => 'Third slide', 'style' => 'margin-right: auto; margin-left: auto;')); ?>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span
+            class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span
+            class="glyphicon glyphicon-chevron-right"></span></a>
 </div><!-- /.carousel -->
 
 <!-- Users and Events Area-->
@@ -62,7 +65,7 @@
                     </div>
                     <div class="col-xs-8">
                         <div class="row">
-                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
+                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-user"></span></p></div>
                             <div class="col-xs-10">
                                 <p>
                                     <strong><?php echo $this->Html->link($u['User']['username'], array(
@@ -78,7 +81,7 @@
                             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
                             <div class="col-xs-10">
                                 <p>
-                                    <small><em>From <?php echo $u['User']['location']?></em></small>
+                                    <small><em>From <?php echo $u['User']['location'] ?></em></small>
                                 </p>
                             </div>
                         </div>
@@ -89,7 +92,11 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-                            <div class="col-xs-10"><h4>Rating: 9.1</h4></div>
+                            <div class="col-xs-10"><h4>Rating:
+                                    <?php
+                                    print_r($u['Rating']['Userrating']['Rating']);
+                                    ?>
+                                </h4></div>
                         </div>
                     </div>
                 </div>
@@ -124,9 +131,9 @@
                             'events/' . $e['Event']['picture'],
                             array(
                                 "alt" => "dinner picture",
-                            		"class" => "img-responsive",
-                            		"url" => array(
-                            				'controller' => 'events',
+                                "class" => "img-responsive",
+                                "url" => array(
+                                    'controller' => 'events',
                                     'action' => 'view',
                                     $e['Event']['id'])
                             )
@@ -166,102 +173,104 @@
     </div>
 </div>
 <script>
-$(function() {		
-	/**************************************
-	* Suggest Location
-	***************************************/
-	// constructs the suggestion engine
-	var locations = new Bloodhound({
-		datumTokenizer: function (d) {					
-        		return Bloodhound.tokenizers.whitespace(d.value);
-    		},
-		queryTokenizer: Bloodhound.tokenizers.whitespace,		  	
-		limit: 5, //max number of results	  			  			  
-		remote: {
-			url: '/events/get_locations',
-			filter: function(list){				  			  	
-			 	return $.map(list, function(obj) { return { value: obj }; });
-			}
-		},		 	
-		prefetch: {
-		 	url: '/events/get_locations',
-		 	filter: function(list){				  			  	
-			  	return $.map(list, function(obj){ return { value: obj }; });
-			}
-		},
-		//to remove duplicated entries from prefetch and remote dataset
-		dupDetector: function(remoteMatch, localMatch) {
-			return remoteMatch.value === localMatch.value;
-		}
-	});
+    $(function () {
+        /**************************************
+         * Suggest Location
+         ***************************************/
+        // constructs the suggestion engine
+        var locations = new Bloodhound({
+            datumTokenizer: function (d) {
+                return Bloodhound.tokenizers.whitespace(d.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 5, //max number of results
+            remote: {
+                url: '/events/get_locations',
+                filter: function (list) {
+                    return $.map(list, function (obj) {
+                        return { value: obj };
+                    });
+                }
+            },
+            prefetch: {
+                url: '/events/get_locations',
+                filter: function (list) {
+                    return $.map(list, function (obj) {
+                        return { value: obj };
+                    });
+                }
+            },
+            //to remove duplicated entries from prefetch and remote dataset
+            dupDetector: function (remoteMatch, localMatch) {
+                return remoteMatch.value === localMatch.value;
+            }
+        });
 
-	// kicks off the loading/processing of `local` and `prefetch`
-	locations.initialize();
-	
-	$('#location-input').typeahead({
-		hint: true,
-		highlight: true,
-		minLength: 1
-	},{
-		displayKey: 'value',
-	  	// `ttAdapter` wraps the suggestion engine in an adapter that
-	  	// is compatible with the typeahead jQuery plugin
-	  	source: locations.ttAdapter()
-	});
-});
+        // kicks off the loading/processing of `local` and `prefetch`
+        locations.initialize();
+
+        $('#location-input').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            displayKey: 'value',
+            // `ttAdapter` wraps the suggestion engine in an adapter that
+            // is compatible with the typeahead jQuery plugin
+            source: locations.ttAdapter()
+        });
+    });
 </script>
 
-<style>            
-	.typeahead-holder{ 
-		color: #b5b5b5; 
-	}
-	
-	.typeahead-holder > span > input{
-		font-size: 16px;
-		padding: 8px 10px;
-		height: 46px;
-	}
-	
-	.typeahead-holder .btn{
-		display: inline-block;
-		height: 46px; 	
-	 	vertical-align:top;
-	}
-	
-	.typeahead, .tt-query, .tt-hint {
-		border: 2px solid #CCCCCC;
-		border-radius: 4px;
-	    outline: medium none;
-	    width: 100%;
-	}
-	
-	.typeahead {
-	     background-color: #FFFFFF;
-	}
-	
-	
-	.tt-dropdown-menu {
-	     background-color: #FFFFFF;
-	     border: 1px solid rgba(0, 0, 0, 0.2);
-	     border-radius: 8px;
-	     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	     margin-top: 12px;
-	     padding: 8px 0;
-	     width: 100%;
-	 }
-	
-	.tt-suggestion {
-		font-size: 16px;
-		padding: 3px 20px;
-	}
-	
-	.tt-suggestion.tt-cursor {
-	    background-color: #0097CF;
-	    color: #FFFFFF;
-	}
-	            
-	            
-	.twitter-typeahead {
-		width: 80%; /* 100% */
-	}
+<style>
+    .typeahead-holder {
+        color: #b5b5b5;
+    }
+
+    .typeahead-holder > span > input {
+        font-size: 16px;
+        padding: 8px 10px;
+        height: 46px;
+    }
+
+    .typeahead-holder .btn {
+        display: inline-block;
+        height: 46px;
+        vertical-align: top;
+    }
+
+    .typeahead, .tt-query, .tt-hint {
+        border: 2px solid #CCCCCC;
+        border-radius: 4px;
+        outline: medium none;
+        width: 100%;
+    }
+
+    .typeahead {
+        background-color: #FFFFFF;
+    }
+
+    .tt-dropdown-menu {
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        margin-top: 12px;
+        padding: 8px 0;
+        width: 100%;
+    }
+
+    .tt-suggestion {
+        font-size: 16px;
+        padding: 3px 20px;
+    }
+
+    .tt-suggestion.tt-cursor {
+        background-color: #0097CF;
+        color: #FFFFFF;
+    }
+
+    .twitter-typeahead {
+        width: 80%; /* 100% */
+    }
 </style>
