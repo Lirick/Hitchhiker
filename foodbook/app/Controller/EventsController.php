@@ -204,56 +204,7 @@ class EventsController extends AppController {
 		$this->render('search');
 		//$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
 	}
-
-
-	/**
-	 * View event details
-	 * @param int $id
-	 * @throws NotFoundException
-	 */
-	public function view($id = null){
-		if(!$id){
-			throw new NotFoundException(__("Invalid Event"));
-		}
-		$id = $id + 0; //cast to int
-		$event = $this->Event->findById($id);
-
-		$isowner = false;
-		if ($this->Auth->user('id') == $event['Event']['user_id']) {
-			$isowner = true;
-		}
-
-
-		if(!$event){
-			throw new NotFoundException(__("Invalid Event"));
-		}
-		 
-		$lookup = ClassRegistry::init('User');
-		foreach($event['Comment'] as $key=>$val){
-			$lookup->id = $val['user_id'];
-			$event['Comment'][$key]['username'] = $lookup->field('username');
-			$event['Comment'][$key]['picture'] = $lookup->field('picture');
-		}
-
-
-		$this->set('event', $event);
-		$this->set('isowner',$isowner);
-
-		$this->set('pending_requests',$this->get_pending_requests($id));
-		$this->set('pending_invites',$this->get_pending_invites($id));
-		$this->set('going_users', $this->get_going_users($id));
-	} 
     
-
-    /**
-     * View all events
-     */
-    public function index() {
-        $data = $this->Paginator->paginate();        
-        $this->set('events', $data);
-        //$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
-    }
-	
     
     /**
      * View event details
