@@ -160,7 +160,7 @@
             </div>
             <div class="col-xs-4" style="margin-top: 30px;">
             <?php echo $this->Form->button(
-                'Invite people',
+                'Invite users',
                 array(
                 	'data-toggle' => 'modal',
                 	'data-target' => '#inviteModal',
@@ -189,7 +189,7 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title" id="myModalLabel">Invite people</h4>
+			        <h4 class="modal-title" id="myModalLabel">Invite users</h4>
 			      </div>
 			      <div class="modal-body">
 			        <div class="container">
@@ -203,7 +203,7 @@
 						
 						
 					</div>
-					<div class="container" id="search-container">
+					<div class="container" id="search-container" style="width:400px; height:200px;overflow-y:scroll;">
 					
 						
 					
@@ -218,9 +218,63 @@
 					           },
 					          dataType:"json",
 					          success: function(data){
-						          console.log(data);
-						          //var parsedJSON = $.parseJSON(data);
-						          $('#search-container').html(data);
+					          		var searchdiv = document.getElementById("search-container");
+					          		searchdiv.removeChild(searchdiv.firstChild);
+					          		var f = document.createElement("form");
+					          		f.setAttribute('method',"post");
+					          		f.setAttribute('style','width');
+					          		//f.setAttribute('action',"submit.php");
+					          		var limit = 3;
+					          		var count = 0;
+						          $.each(data, function(id,object){
+						          
+							          console.log(object);
+						          	  var hdiv = document.createElement("div");
+							          hdiv.setAttribute('class', 'col-xs-4');
+							          hdiv.setAttribute('style', 'width:150px');
+							          
+							          $.each(object, function(username,image){
+							          var div = document.createElement("div");
+							          div.setAttribute('style', 'margin-right: 10px; float:left;')
+							          div.setAttribute('class', 'col-xs-4');
+							          
+							          var idiv = document.createElement("div");
+							          idiv.setAttribute('class', 'col-xs-4');
+							          
+							          var h3div = document.createElement("div");
+							          idiv.setAttribute('class', 'col-xs-4');
+							          
+							          var c = document.createElement("input"); //input element, checkbox
+							          c.setAttribute('type',"checkbox");
+							          c.setAttribute('value',username);
+							          //c.setAttribute('style', 'padding:5px');
+							          
+							          var img = document.createElement("img");
+							          img.setAttribute('src', '../img/users/' + image);
+							          img.setAttribute('style', 'height:50px;width:50px');
+							          img.setAttribute('class','img-responsive img-thumbnail');
+							          
+							          var h3 = document.createElement("h3");
+							          h3.innerHTML = username;
+							          h3.setAttribute('class', 'panel-title');
+							          h3.setAttribute('style', 'margin-right: 10px; float:left;')
+							          
+							          
+							          div.appendChild(c);
+							          idiv.appendChild(img);
+							          h3div.appendChild(h3);
+							          
+							          hdiv.appendChild(div);
+							          hdiv.appendChild(img);
+							          hdiv.appendChild(h3div);
+							         
+							          
+							          });
+							          f.appendChild(hdiv);
+  
+						          });
+						          searchdiv.appendChild(f);
+						          //$('#search-container').
 					          },
 					          error: function (response, status){
 						          alert('ERROR!');
