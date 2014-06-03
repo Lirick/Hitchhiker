@@ -20,7 +20,9 @@ class StartsController extends AppController {
     public function index() {
 		$Eventpics = new EventpicsController;
 		$events = $this->Event->find('all', array('limit' => 9));
+
         $this->set('users',$this->User->find('all', array('limit' => 8)));
+
         for($i = 0; $i < count($events); $i++){
         	$events[$i]['Event']['picture'] = $Eventpics->getdef($events[$i]['Event']['id']);
         	
