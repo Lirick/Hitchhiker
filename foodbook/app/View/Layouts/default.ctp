@@ -76,7 +76,7 @@
 
         $.ajax({
             type: "post",		// Request method: post, get
-            url: "<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>",
+            url: "<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'loginajax')); ?>",
             data: data,			// Form variables
             dataType: "json",	// Expected response type
             success: function (response, status) {

@@ -215,7 +215,9 @@ class EventsController extends AppController {
         }
         $id = $id + 0; //cast to int
         $event = $this->Event->findById($id);
-
+   		$Eventpics = new EventpicsController;
+		$Eventpics->constructClasses();
+		$this->set('picture', $Eventpics->findall($id));
         $isowner = false;
         if ($this->Auth->user('id') == $event['Event']['user_id']) {
             $isowner = true;

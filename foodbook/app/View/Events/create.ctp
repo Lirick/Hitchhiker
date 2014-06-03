@@ -222,27 +222,39 @@
 					          		searchdiv.removeChild(searchdiv.firstChild);
 					          		var f = document.createElement("form");
 					          		f.setAttribute('method',"post");
-					          		f.setAttribute('style','width');
 					          		//f.setAttribute('action',"submit.php");
+					          		var divrow = document.createElement("div");
+					          		divrow.setAttribute('class', 'row');
+					          		divrow.setAttribute('style', 'width:550px');
 					          		var limit = 3;
 					          		var count = 0;
 						          $.each(data, function(id,object){
 						          
 							          console.log(object);
 						          	  var hdiv = document.createElement("div");
-							          hdiv.setAttribute('class', 'col-xs-4');
-							          hdiv.setAttribute('style', 'width:150px');
-							          
+						          	  hdiv.setAttribute('class', 'col-xs-4');
+						          	  
+						          	  var divrow2 = document.createElement("div");
+						          	  divrow2.setAttribute('class', 'row');
+						          	  divrow2.setAttribute('style', 'width:150px');
+
 							          $.each(object, function(username,image){
+							          
+							          var divrow3 = document.createElement("div");
+						          	  divrow3.setAttribute('class', 'row');
+						          	  divrow3.setAttribute('style', 'width:150px');	          	  
+							          
 							          var div = document.createElement("div");
-							          div.setAttribute('style', 'margin-right: 10px; float:left;')
-							          div.setAttribute('class', 'col-xs-4');
+							          div.setAttribute('class', 'col-xs-2');
+							          
 							          
 							          var idiv = document.createElement("div");
-							          idiv.setAttribute('class', 'col-xs-4');
+							          //idiv.setAttribute('style', 'width:50px');
+							          idiv.setAttribute('class', 'col-xs-6');
 							          
 							          var h3div = document.createElement("div");
-							          idiv.setAttribute('class', 'col-xs-4');
+							          h3div.setAttribute('class', 'col-xs-2');
+							          
 							          
 							          var c = document.createElement("input"); //input element, checkbox
 							          c.setAttribute('type',"checkbox");
@@ -257,20 +269,25 @@
 							          var h3 = document.createElement("h3");
 							          h3.innerHTML = username;
 							          h3.setAttribute('class', 'panel-title');
-							          h3.setAttribute('style', 'margin-right: 10px; float:left;')
-							          
+							         
 							          
 							          div.appendChild(c);
 							          idiv.appendChild(img);
 							          h3div.appendChild(h3);
 							          
-							          hdiv.appendChild(div);
-							          hdiv.appendChild(img);
-							          hdiv.appendChild(h3div);
+							          divrow3.appendChild(div);
+							          divrow3.appendChild(idiv);
+							          divrow3.appendChild(h3div);
+ 
+							          divrow2.appendChild(divrow3);
+
+							          hdiv.appendChild(divrow2);
+							          
+							          divrow.appendChild(hdiv);
 							         
 							          
 							          });
-							          f.appendChild(hdiv);
+							          f.appendChild(divrow);
   
 						          });
 						          searchdiv.appendChild(f);

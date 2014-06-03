@@ -11,11 +11,25 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		// Allow users to register and logout.
-		$this->Auth->allow('signup', 'logout', 'login','index','view','search');
+		$this->Auth->allow('signup', 'logout', 'loginajax', 'login','index','view','search');
 	}
 
 
 	public function login() {
+
+		if ($this->request->is('post')) {
+		    if ($this->Auth->login()) {
+		        return $this->redirect($this->Auth->redirectUrl());
+		    }
+		    $this->Session->setFlash(__('Invalid username or password, try again'));
+		}
+		else if ($this->Auth->user())
+		{
+			return $this->redirect($this->Auth->redirectUrl());
+		}
+	}
+	
+		public function loginajax() {
         $this->layout = 'ajax';
         $this->autoLayout = false;
         $this->autoRender = false;
@@ -38,17 +52,6 @@ class UsersController extends AppController {
         $this->header('Content-Type: application/json');
         echo json_encode($response);
         return;
-        /*
-		if ($this->request->is('post')) {
-		    if ($this->Auth->login()) {
-		        return $this->redirect($this->Auth->redirectUrl());
-		    }
-		    $this->Session->setFlash(__('Invalid username or password, try again'));
-		}
-		else if ($this->Auth->user())
-		{
-			return $this->redirect($this->Auth->redirectUrl());
-		}*/
 	}
 
 	public function logout() {
