@@ -1,11 +1,7 @@
 <?php
 echo $this->Html->script('typeahead.bundle.min');
 ?>
-<pre>
-    <?php
-    print_r($users);
-    ?>
-</pre>
+
 <div class="search-logo-homepage">
     <h1>Find your food in foodbook!</h1>
 
