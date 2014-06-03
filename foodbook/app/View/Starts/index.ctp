@@ -89,7 +89,11 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-2"><h4><span class="glyphicon glyphicon-star"></span></h4></div>
-                            <div class="col-xs-10"><h4>Rating: 9.1</h4></div>
+                            <div class="col-xs-10"><h4>Rating:
+	                            <?php 
+		                            	print_r($u['Rating']['Userrating']['Rating']);
+	                            ?>
+                            </h4></div>
                         </div>
                     </div>
                 </div>

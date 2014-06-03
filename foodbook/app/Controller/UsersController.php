@@ -102,6 +102,8 @@ class UsersController extends AppController {
         
         $this->User->Userrating->virtualFields['Rating'] = 0;
         
+        
+        
         $ratings = $this->User->Userrating->query(
         "SELECT
         	userto, AVG(rating) as Userrating__Rating
@@ -115,6 +117,8 @@ class UsersController extends AppController {
         	userto
         "
         ); 
+        
+        print_r($ratings);
         $this->set('ratings',$ratings);
         
                 
