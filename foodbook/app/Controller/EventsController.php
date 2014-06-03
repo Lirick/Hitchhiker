@@ -156,6 +156,27 @@ class EventsController extends AppController {
     	$this->set('event', $event['Event']);
     	$this->set('invitesusers', $notansweredusers);
     }
+    
+    
+    
+    
+    
+    
+    public function send_invite_to_users($event_id, $users){
+	    	foreach($users as $user){
+	    		if(!$this->Event->Goingto->findByUserIdAndEventId($user, $event_id)){
+		    		$this->Event->Invitedto->create();
+		    		$this->Event->Invitedto->set('user_id', $user);
+		    		$this->Event->Invitedto->set('event_id', $event_id);
+		    		$this->Event->Invitedto->save();
+	    	}
+	    	
+	    	}
+	    	
+			
+		    
+	    
+    }
 
         
     
@@ -253,22 +274,27 @@ class EventsController extends AppController {
      * Create a new event 
      */
     public function create(){
+    	
     	$this->set('searched', false);
     	if ($this->request->is('post')) {    	
 			$this->Event->create();
-			$req = $this->request->data;
+			$data = $this->request->data;
+			$req = $data['values'];
+			$invitedusers = $data['arr'];
 			
 			//Create the location
-			$this->Event->Location->create();
-			$addr = $req['event-address'];
-			$this->Event->Location->save(array(
-					'display_address' => $addr['display_address'],
-					'lat' => $addr['lat'],
-					'lng' => $addr['lng'],
-					'city' => $addr['city'],
-					'country' => $addr['country']
+	
+		$this->Event->Location->create();
+		$addr = $req['event-address'];
+		$this->Event->Location->save(array(
+			'display_address' => $addr['display_address'],
+			'lat' => $addr['lat'],
+			'lng' => $addr['lng'],
+			'city' => $addr['city'],
+			'country' => $addr['country']
 			));
 			$location_id = $this->Event->Location->id;	
+			
 			
 
 			//#!todo: should we check: if event wasn't added - remove a record from locations as well?
@@ -307,6 +333,13 @@ class EventsController extends AppController {
 							
 			//$this->Session->setFlash( __("The event has been created"));			
 			//$this->redirect( array('action' => 'search'));
+			
+			
+			$eid = $this->Event->getLastInsertId();
+			$this->send_invite_to_users($eid,$invitedusers);
+			
+			
+			
     	} else{
     		$cuisines = $this->Event->Cuisine->find('all');
     		$this->set('cuisines', $cuisines);   		
