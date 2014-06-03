@@ -119,13 +119,13 @@
                     if (in_array($me, $pending_requests)) { //request already sent, not accepted yet
                         echo 'Waiting for accept';
                     } else if (in_array($me, $pending_invites)) { //invite send, accept now!
-                        echo 'Show Accept Button!';
-//             			echo $this->Form->postButton(
-//             					'Accept',
-//             					array('action' => 'accept', $event['Event']['id']),
-//             					array('class' => 'btn btn-primary btn-block btn-lg'));            			
+                        //echo 'Show Accept Button!';
+             			echo $this->Form->postButton(
+             					'Accept',
+             					array('action' => 'accept', $event['Event']['id']),
+             					array('class' => 'btn btn-success btn-block btn-lg'));
                     } else if (in_array($me, $going_users)) { //already going
-                        echo 'Going!';
+                        echo '<button type="button" class="btn btn-lg btn-block btn-info" disabled="disabled">You are already in!</button>';
                     } else {
                         echo $this->Form->postButton(
                             'I want to join!',
