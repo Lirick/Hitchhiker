@@ -107,8 +107,7 @@
 
                 <?php
                 //for some reasons, it's better to use Form->input(type => select) instead of Form->select
-                echo $this->Form->input(
-                    'cuisine', array(
+                echo $this->Form->input('cuisine', array(
                     'div' => 'form-group',
                     'options' => $cs,
                     'id' => 'event-cuisine',
