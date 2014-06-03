@@ -1,7 +1,3 @@
-<pre>
-    <?php print_r($events) ?>
-</pre>
-
 <div class="container">
     <h3><?php echo count($events) . " events have been found:" ?></h3>
     <hr>
