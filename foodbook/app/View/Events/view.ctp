@@ -67,6 +67,27 @@
                 </div>
 
             </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Pictures</h3>
+                </div>
+                <div class="panel-body">
+                    <?php $counter = 0;
+                    foreach($picture as $p){
+		        		echo $this->Html->image("events/" . $p, array('url' => "/img/events/" . $p,'class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true, 'width' => 158 )); 
+		        		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		        		$counter += 1;
+		        		if ($counter%3 == 0)
+		        		{
+		        			echo '<br>';
+		        		}
+                    
+                    }
+                    
+                    ?>
+                </div>
+
+            </div>
 
             <?php echo $this->element('comments'); ?>
         </div>
