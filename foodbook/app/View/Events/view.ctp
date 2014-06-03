@@ -67,6 +67,7 @@
                 </div>
 
             </div>
+            <?php if($picture[0] != 'default.png'): ?>
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">Pictures</h3>
@@ -88,7 +89,7 @@
                 </div>
 
             </div>
-
+			<?php endif ?>
             <?php echo $this->element('comments'); ?>
         </div>
         <div class="col-xs-3">
