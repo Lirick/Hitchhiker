@@ -32,14 +32,18 @@ class FollowersController extends AppController {
         
 		$options = array('conditions' => array('Follower.uid'  => $id));
 		$follower = $this->Follower->find('all', $options);
+
+        /*
 		$lookup = ClassRegistry::init('users');
 		$followers = array();
-		foreach($follower as $i)
-		{
+		foreach($follower as $i){
+            print_r($i);
 			$lookup->id = $i['Follower']['follower_id'];
 			$followers[$i['Follower']['follower_id']] = $lookup->field('username');
-		}
-		$this->set('followers',$followers);
+            $followers[$i['Follower']['follower_picture']] = $lookup->field('picture');
+            echo $lookup->field('username');
+		}*/
+		$this->set('follower',$follower);
 	}
 
 	public function count ($id = null) {

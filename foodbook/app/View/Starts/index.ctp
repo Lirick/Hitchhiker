@@ -1,5 +1,6 @@
 <?php 	    
-    echo $this->Html->script('typeahead.bundle.min');    
+    echo $this->Html->script('typeahead.bundle.min');
+
 ?>
 <div class="search-logo-homepage">
     <h1>Find your food in foodbook!</h1>
@@ -77,7 +78,7 @@
                             <div class="col-xs-2"><p><span class="glyphicon glyphicon-home"></span></p></div>
                             <div class="col-xs-10">
                                 <p>
-                                    <small><em>From Sweden</em></small>
+                                    <small><em>From <?php echo $u['User']['location']?></em></small>
                                 </p>
                             </div>
                         </div>
