@@ -71,7 +71,7 @@
             </div>
 
 
-            <div>
+            <div style="margin-bottom: 20px;">
                 <div class="carousel slide" data-ride="carousel">
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
@@ -91,41 +91,9 @@
                         ?>
                     </div>
 
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>echo '<div class="item">';
-                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
                     </div>
                 </div>
 
-                
-            <?php if($picture[0] != 'default.png'): ?>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Pictures</h3>
-                </div>
-                <div class="panel-body">
-                    <?php $counter = 0;
-                    foreach($picture as $p){
-		        		echo $this->Html->image("events/" . $p, array('url' => "/img/events/" . $p,'class' => 'img-responsive img-thumbnail', 'alt' => 'Event Picture', 'fullBase' => true, 'width' => 158 )); 
-		        		echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		        		$counter += 1;
-		        		if ($counter%3 == 0)
-		        		{
-		        			echo '<br>';
-		        		}
-                    
-                    }
-                    
-                    ?>
-                </div>
-
-
-            </div>
-			<?php endif ?>
             <?php echo $this->element('comments'); ?>
 
         </div>
