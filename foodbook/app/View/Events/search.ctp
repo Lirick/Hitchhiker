@@ -73,7 +73,7 @@
                                 ); ?>
                             </div>
                             <div class="col-xs-9">
-                                Host By <br>
+                                Hosted By <br>
                                 <?php echo $this->Html->link($event['EventHost']['username'], array(
                                         'controller' => 'users',
                                         'action' => 'view',
