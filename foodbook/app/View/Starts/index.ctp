@@ -68,7 +68,7 @@ echo $this->Html->script('typeahead.bundle.min');
                             <div class="col-xs-2"><p><span class="glyphicon glyphicon-user"></span></p></div>
                             <div class="col-xs-10">
                                 <p>
-                                    <strong><?php echo $this->Html->link($u['User']['username'], array(
+                                    <strong><?php echo $this->Html->link($u['User']['name'], array(
                                                 'controller' => 'users',
                                                 'action' => 'view',
                                                 $u['User']['id'])
