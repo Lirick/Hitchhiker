@@ -275,6 +275,13 @@ class EventsController extends AppController {
 		$data = $this->Paginator->paginate();
 		$cuisines = $this->Event->Cuisine->find('all');
 		$this->set('cuisines', $cuisines);
+		
+		$Eventpics = new EventpicsController;
+		for($i = 0; $i < count($data); $i++){
+			$data[$i]['Event']['picture'] = $Eventpics->getdef($data[$i]['Event']['id']);
+		}
+		
+		
 		$this->set('events', $data);
 		$this->render('search');
 		//$this->set('authUser', $this->Auth->user()); No need, since can user AuthComponent::user() globally accessible
@@ -490,9 +497,13 @@ class EventsController extends AppController {
 
 	
 	public function search() {
+		$settings = array();
+		$settings['limit'] = 8;
+		
 		if($this->request->is('post')){
 			$req = $this->request->data['Event'];
-			$settings = array();
+			
+			
 			
 			// Search events by name			
 			if( isset($req['ename']) && trim($req['ename']) !== '' ){
@@ -550,11 +561,11 @@ class EventsController extends AppController {
 				}
 				$settings['conditions'] = $set;							
 			}
-			$this->paginate = $settings;
+			
 		}	
+		$this->paginate = $settings;
+		$data = $this->paginate('Event');
 		
-		$data = $this->paginate('Event');		
-		$this->paginate = array('limit' => 8);
 		$Eventpics = new EventpicsController;
 		for($i = 0; $i < count($data); $i++){
 			$data[$i]['Event']['picture'] = $Eventpics->getdef($data[$i]['Event']['id']);
@@ -637,10 +648,18 @@ class EventsController extends AppController {
 			));
 
 			
-			$this->Paginator->settings = array('limit' => 8);
-			$data = $this->Paginator->paginate();
+			$this->paginate = array('limit' => 1);
+			$data = $this->paginate('Event');
 
-			$this->set('location_ids', $location_ids);
+			$Eventpics = new EventpicsController;
+			for($i = 0; $i < count($events); $i++){
+				$events[$i]['Event']['picture'] = $Eventpics->getdef($events[$i]['Event']['id']);
+			}
+				
+			
+			$cuisines = $this->Event->Cuisine->find('all');
+			$this->set('cuisines', $cuisines);
+			//$this->set('location_ids', $location_ids);
 			$this->set('events', $events);
 			$this->render('search');
 		}else{
