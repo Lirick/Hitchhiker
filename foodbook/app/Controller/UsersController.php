@@ -128,8 +128,7 @@ class UsersController extends AppController {
         $Eventpics = new EventpicsController;
         $Eventpics->constructClasses();
         for($i = 0; $i < count($events); $i++){
-        	$events[$i]['Event']['picture'] = $Eventpics->getdef($events[$i]['Event']['id']);
-        	echo $events[$i]['Event']['picture']."---";
+        	$events[$i]['Event']['picture'] = $Eventpics->getdef($events[$i]['Event']['id']);        
         }
         
         
