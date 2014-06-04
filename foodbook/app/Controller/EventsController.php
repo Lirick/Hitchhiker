@@ -196,6 +196,44 @@ class EventsController extends AppController {
 
 
 
+    /**
+     * @param int $event_id event id
+     */
+    public function inviteusers($event_id) {
+    	$event = $this->Event->findById($event_id);
+    	$users = $event['InvitedToEvent'];
+    	$notansweredusers = array();    	
+    	foreach ($users as $user){
+    		if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
+    			$notansweredusers[] = $user;
+    		}
+    	}
+    	$this->set('event', $event['Event']);
+    	$this->set('invitesusers', $notansweredusers);
+    }
+    
+    
+    
+    
+    
+    
+    public function send_invite_to_users($event_id, $users){
+	    	foreach($users as $user){
+	    		if(!$this->Event->Goingto->findByUserIdAndEventId($user, $event_id)){
+		    		$this->Event->Invitedto->create();
+		    		$this->Event->Invitedto->set('user_id', $user);
+		    		$this->Event->Invitedto->set('event_id', $event_id);
+		    		$this->Event->Invitedto->save();
+	    	}
+	    	
+	    	}
+	    	
+			
+		    
+	    
+    }
+
+
 	/**
 	 * Helper function
 	 * Returns a list of user ids who are going to the event
@@ -287,23 +325,32 @@ class EventsController extends AppController {
      * Create a new event 
      */
     public function create(){
+    	
     	$this->set('searched', false);
     	if ($this->request->is('post')) {    	
 			$this->Event->create();
-			$req = $this->request->data;
-				
+
+			$data = $this->request->data;
+			$req = $data['values'];
+			$invitedusers = $data['arr'];
+			
+
 			//Create the location
-			$this->Event->Location->create();
-			$addr = $req['event-address'];
-			$this->Event->Location->save(array(
-					'display_address' => $addr['display_address'],
-					'lat' => $addr['lat'],
-					'lng' => $addr['lng'],
-					'city' => $addr['city'],
-					'country' => $addr['country']
+	
+		$this->Event->Location->create();
+		$addr = $req['event-address'];
+		$this->Event->Location->save(array(
+			'display_address' => $addr['display_address'],
+			'lat' => $addr['lat'],
+			'lng' => $addr['lng'],
+			'city' => $addr['city'],
+			'country' => $addr['country']
 			));
-			$location_id = $this->Event->Location->id;
-				
+
+			$location_id = $this->Event->Location->id;	
+			
+			
+
 
 			//#!todo: should we check: if event wasn't added - remove a record from locations as well?
 				
@@ -341,14 +388,23 @@ class EventsController extends AppController {
 				
 			//$this->Session->setFlash( __("The event has been created"));
 			//$this->redirect( array('action' => 'search'));
-		} else{
-			$cuisines = $this->Event->Cuisine->find('all');
-			$this->set('cuisines', $cuisines);
-		}
-		 
-		 
-	}
 
+			
+			
+			$eid = $this->Event->getLastInsertId();
+			$this->send_invite_to_users($eid,$invitedusers);
+			
+			
+			
+    	} else{
+    		$cuisines = $this->Event->Cuisine->find('all');
+    		$this->set('cuisines', $cuisines);   		
+    	}
+    	
+    	
+    }
+    
+    
 
 	/**
 	 * Edit event
@@ -376,30 +432,29 @@ class EventsController extends AppController {
             'conditions' => array( 'Location.id' => $location_id)));
 
         $this->set('location', $loc);
-
-
-		if (!$event) {
-			throw new NotFoundException(__('Invalid event'));
-		}
-		 
-		//only the host/author of the event can modify it
-		if( $event['Event']['user_id'] != $this->Auth->user('id') ){
-			throw new UnauthorizedException(__('You are not allowed to modify the event'));
-		}
-		 
-		if ($this->request->is(array('post', 'put'))) {
-			$this->Event->id = $id;
-			if ($this->Event->save($this->request->data)) {
-				$this->Session->setFlash(__('The event has been updated'));
-				return $this->redirect(array('action' => 'index'));
-			}
-			$this->Session->setFlash(__('Unable to update the event'));
-		}
-		 
-		if (!$this->request->data) {
-			$this->request->data = $event;
-		}
-	}
+    	if (!$event) {
+    		throw new NotFoundException(__('Invalid event'));
+    	}
+    	
+    	//only the host/author of the event can modify it    	
+    	if( $event['Event']['user_id'] != $this->Auth->user('id') ){
+    		throw new UnauthorizedException(__('You are not allowed to modify the event'));
+    	}
+    	
+    	if ($this->request->is(array('post', 'put'))) {
+    		$this->Event->id = $id;
+    		if ($this->Event->save($this->request->data)) {
+    			$this->Session->setFlash(__('The event has been updated'));
+    			return $this->redirect(array('action' => 'view',$id));
+    		}
+    		$this->Session->setFlash(__('Unable to update the event'));
+    	}
+    	
+    	if (!$this->request->data) {
+    		$this->request->data = $event;
+    	} 
+    }
+    
 
     /**
      * Delete event
@@ -427,9 +482,10 @@ class EventsController extends AppController {
 		}
 
 		if( $this->Event->delete($id) ) {
-			$this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));
-			return $this->redirect(array('action' => 'index'));
-		}
+	        $this->Session->setFlash(__('The event with id: %s has been deleted', h($id)));
+	        return $this->redirect(array('controller' => 'starts', 'action' => 'index'));
+	    }
+
 	}
 
 	

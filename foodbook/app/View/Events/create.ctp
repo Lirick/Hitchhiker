@@ -191,10 +191,10 @@
 			        <h4 class="modal-title" id="myModalLabel">Invite users</h4>
 			      </div>
 			      <div class="modal-body">
-			        <div class="container">
+			        <div class="col-xs-6 col-xs-offset-3" style="border: 1px solid #e2e2e2; padding-bottom: 15px;">
 					<?php //echo $this->Form->create('Event');
 						 ?>
-					<?php echo $this->Form->input('Search', array('id' => 'search-i')); ?>
+					<?php echo $this->Form->input('Search', array('id' => 'search-i','div'=> false,'class' => 'form-control','label' => 'Username')); ?>
 					<?php echo $this->Form->button('Search',
 					array(
 						'type' => 'button',
@@ -202,7 +202,7 @@
 						
 						
 					</div>
-					<div class="container" id="search-container" style="width:400px; height:200px;overflow-y:scroll;">
+					<div class="container" id="search-container" style="width:400px; height:200px;overflow-y:scroll; padding-top: 15px">
 					
 						
 					
@@ -224,7 +224,7 @@
 					          		//f.setAttribute('action',"submit.php");
 					          		var divrow = document.createElement("div");
 					          		divrow.setAttribute('class', 'row');
-					          		divrow.setAttribute('style', 'width:550px');
+					          		divrow.setAttribute('style', 'width:600px;');
 					          		var limit = 3;
 					          		var count = 0;
 						          $.each(data, function(id,object){
@@ -235,7 +235,7 @@
 						          	  
 						          	  var divrow2 = document.createElement("div");
 						          	  divrow2.setAttribute('class', 'row');
-						          	  divrow2.setAttribute('style', 'width:150px');
+						          	  divrow2.setAttribute('style', 'width:200px;padding-bottom:15px');
 
 							          $.each(object, function(username,image){
 							          
@@ -244,41 +244,47 @@
 						          	  divrow3.setAttribute('style', 'width:150px');	          	  
 							          
 							          var div = document.createElement("div");
-							          div.setAttribute('class', 'col-xs-2');
+							          div.setAttribute('class', 'col-sm-1');
 							          
 							          
 							          var idiv = document.createElement("div");
 							          //idiv.setAttribute('style', 'width:50px');
-							          idiv.setAttribute('class', 'col-xs-6');
+							          idiv.setAttribute('class', 'col-sm-4');
 							          
 							          var h3div = document.createElement("div");
-							          h3div.setAttribute('class', 'col-xs-2');
+							          h3div.setAttribute('class', 'col-sm-6');
 							          
 							          
 							          var c = document.createElement("input"); //input element, checkbox
 							          c.setAttribute('type',"checkbox");
-							          c.setAttribute('value',username);
+							          c.setAttribute('class',"usercheckbox");
+							          c.setAttribute('value',id);
 							          //c.setAttribute('style', 'padding:5px');
 							          
 							          var img = document.createElement("img");
 							          img.setAttribute('src', '../img/users/' + image);
-							          img.setAttribute('style', 'height:50px;width:50px');
+							          //img.setAttribute('style', 'height:40px;width:40px');
 							          img.setAttribute('class','img-responsive img-thumbnail');
 							          
-							          var h3 = document.createElement("h3");
+							          var h3 = document.createElement("txt");
 							          h3.innerHTML = username;
-							          h3.setAttribute('class', 'panel-title');
+							          //h3.setAttribute('class', 'panel-title');
+							          
 							         
 							          
 							          div.appendChild(c);
 							          idiv.appendChild(img);
 							          h3div.appendChild(h3);
 							          
-							          divrow3.appendChild(div);
+							          /*
+divrow3.appendChild(div);
 							          divrow3.appendChild(idiv);
 							          divrow3.appendChild(h3div);
+*/
  
-							          divrow2.appendChild(divrow3);
+							          divrow2.appendChild(div);
+							          divrow2.appendChild(idiv);
+							          divrow2.appendChild(h3div);
 
 							          hdiv.appendChild(divrow2);
 							          
@@ -302,7 +308,18 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
+			        <button type="button" class="btn btn-primary" data-dismiss="modal" id="save-modal-button">Save changes</button>
+			        
+			        <script>
+			        var arr = [];
+			        $('#save-modal-button').click(function() {
+			        $('.usercheckbox:checked').each(function(){
+				    	arr.push($(this).val());
+			        });
+
+			        });
+			        </script>
+			        
 			      </div>
 			    </div>
 			  </div>
@@ -337,9 +354,13 @@
 			$.ajax({
 				type: 'POST',
                 url: "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'create')); ?>",
-				data: values,
-				success: function(){
+				data: {
+				'values': values,
+				'arr': arr},
+				success: function(id){
 					window.location.href = "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'search')); ?>";
+					
+
 				}
 			});
 	            	        
