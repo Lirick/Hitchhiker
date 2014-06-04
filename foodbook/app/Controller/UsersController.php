@@ -88,6 +88,7 @@ class UsersController extends AppController {
             $id = $this->Auth->user('id');
         }
         $this->User->id = $id;
+        $this->set("uid",$id);
     	$Followers = new FollowersController;
 		$Followers->constructClasses();
 		$Endorsers= new EndorsersController;

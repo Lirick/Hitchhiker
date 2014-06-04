@@ -390,8 +390,8 @@ class EventsController extends AppController {
     		$cuisines = $this->Event->Cuisine->find('all');
     		$this->set('cuisines', $cuisines);   		
     	}
-    	
-    	
+
+
     }
     
     

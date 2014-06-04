@@ -32,14 +32,8 @@ class EndorsersController extends AppController {
 
 		$options = array('conditions' => array('Endorser.uid'  => $id));
 		$endorser = $this->Endorser->find('all', $options);
-		$lookup = ClassRegistry::init('users');
-		$endorsers = array();
-		foreach($endorser as $i)
-		{
-			$lookup->id = $i['Endorser']['endorser_id'];
-			$endorsers[$i['Endorser']['endorser_id']] = $lookup->field('username');
-		}
-		$this->set('endorsers',$endorsers);
+
+		$this->set('endorsers',$endorser);
 	}
 
 	public function count ($id = null) {

@@ -12,7 +12,7 @@
                 ?>
             </div>
             <div>
-                <blockquote style="margin: 10px 0;"><p class="lead"><?php echo $event['EventHost']['username'] ?></p>
+                <blockquote style="margin: 10px 0;"><p class="lead"><?php echo $event['EventHost']['name'] ?></p>
                 </blockquote>
             </div>
             <div class="panel panel-default">
@@ -30,7 +30,7 @@
             <div>
                 <h2><?php echo h($event['Event']['ename']) ?></h2>
                 <h4 style="display: inline-block;">
-                    <small>Host by</small> <?php echo h($event['EventHost']['username']) ?></h4>
+                    <small>Host by</small> <?php echo h($event['EventHost']['name']) ?></h4>
             </div>
             <hr>
             <div class="panel panel-info">

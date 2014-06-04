@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-xs-9">
                                 Hosted By <br>
-                                <?php echo $this->Html->link($event['EventHost']['username'], array(
+                                <?php echo $this->Html->link($event['EventHost']['name'], array(
                                         'controller' => 'users',
                                         'action' => 'view',
                                         $event['Event']['user_id'])

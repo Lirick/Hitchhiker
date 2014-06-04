@@ -86,6 +86,7 @@ class Event extends AppModel {
             'className' => 'User',
             'foreignKey' => 'user_id',
             'fields' => array(
+                'name',
 			'username',
 			'email',
 			'phone',

@@ -2,6 +2,8 @@
 echo $this->Html->script('typeahead.bundle.min');
 ?>
 
+
+
 <div class="search-logo-homepage">
     <h1>Find your food in foodbook!</h1>
 
@@ -152,7 +154,7 @@ echo $this->Html->script('typeahead.bundle.min');
                         <div class="col-xs-10">
                             <p>
                                 <strong>By</strong>
-                                <?php echo $this->Html->link($e['EventHost']['username'], array(
+                                <?php echo $this->Html->link($e['EventHost']['name'], array(
                                         'controller' => 'users',
                                         'action' => 'view',
                                         $e['Event']['user_id'])
@@ -185,7 +187,7 @@ echo $this->Html->script('typeahead.bundle.min');
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             limit: 5, //max number of results
             remote: {
-                url: '/events/get_locations',
+                url: "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'get_locations')); ?>",
                 filter: function (list) {
                     return $.map(list, function (obj) {
                         return { value: obj };
@@ -193,7 +195,7 @@ echo $this->Html->script('typeahead.bundle.min');
                 }
             },
             prefetch: {
-                url: '/events/get_locations',
+                url: "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'get_locations')); ?>",
                 filter: function (list) {
                     return $.map(list, function (obj) {
                         return { value: obj };

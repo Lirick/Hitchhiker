@@ -8,9 +8,6 @@
             );?>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><?php echo $this->Html->link('Events', array('controller' => 'events','action' => 'search'));?></li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (AuthComponent::user('id')): ?>
                     <li class="dropdown">

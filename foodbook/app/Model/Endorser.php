@@ -13,4 +13,26 @@ class Endorser extends AppModel {
  */
 	public $primaryKey = 'id';
 
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+	public $belongsTo = array(
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'uid',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'EEndorser' => array(
+            'className' => 'User',
+            'foreignKey' => 'endorser_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
+
 }
