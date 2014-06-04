@@ -358,7 +358,7 @@ divrow3.appendChild(div);
 				'values': values,
 				'arr': arr},
 				success: function(id){
-					window.location.href = "<?php echo $this->Html->url(array('controller' => 'events', 'action' => 'search')); ?>";
+					window.location.href = "<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'view',AuthComponent::user('id'))); ?>";
 					
 
 				}
