@@ -122,131 +122,146 @@
     <div>
         <h4>Event to attend</h4>
         <hr>
+        <?php
+        	foreach($events as $event){
+        		$attend = $event['GoingToEvent'];
+        		foreach($attend as $at){
+        			// Picture
+        			echo '<div class="row" style="margin-bottom: 20px;">';
+        			
+        			echo '<div class="col-xs-3" style="text-align: center;">';
+        			echo $this->Html->image('events/'.$event['Event']['picture'],
+        					array("alt" => "user avatar",
+        						  "class" => "img-responsive img-thumbnail",
+        						  "style" => "width:120px;"));
+        			echo '</div>';
+        			
+        			//Event name
+        			echo '<div class="col-xs-9">';
+        			echo '<p style="font-size: 18px;">';
+        			echo $this->Html->link($event['Event']['ename'], array(
+        					'controller' => 'events',
+        					'action' => 'view', $at['Goingto']['event_id']));
+        			echo '</p>';
+        			
+        			//Host name
+        			
+        			echo '<p>';
+        			echo 'Host By '. $this->Html->link($event['EventHost']['username'], array(
+        					'controller' => 'users',
+        					'action' => 'view', $event['Event']['user_id']));
+        			echo '</p>';
 
-        <div class="row" style="margin-bottom: 20px;">
-            <div class="col-xs-3" style="text-align: center;">
-                <?php
-                echo $this->Html->image(
-                    "eventdefault.png",
-                    array(
-                        "alt" => "user avatar",
-                        "class" => "img-responsive img-thumbnail",
-                        "style" => "width:120px;")
-                ); ?>
-            </div>
-            <div class="col-xs-9">
-                <p style="font-size: 18px;">
-                    <?php echo $this->Html->link("Event Name", array(
-                        'controller' => 'events',
-                        'action' => 'view',
-                        '1')); ?>
-                </p>
-
-                <p>
-                    Host By <?php echo $this->Html->link("Host Name", array(
-                        'controller' => 'users',
-                        'action' => 'view',
-                        '1')); ?>
-                </p>
-
-                <p>
-                    <span class="glyphicon glyphicon-time"></span> 2014-06-03 16:02:00
-                </p>
-
-                <p>
-                    <span class="glyphicon glyphicon-home"></span> Flogstavägen, Uppsala, Sweden
-                </p>
-            </div>
-        </div>
-
-
+        			//Time
+        			echo '<p><span class="glyphicon glyphicon-time"></span> '.$event['Event']['date'].'</p>';
+        			
+        			//Location
+        			echo '<p><span class="glyphicon glyphicon-home"></span> '.$event['Location']['display_address'].'</p>';
+        			echo '</div>';
+        			
+        			echo '</div>'; //row
+        		}
+        		
+        	} 
+        ?>
+		
     </div>
+
+
     <div>
-        <h4>Event to Host</h4>
+        <h4>Event to Host</h4>        
         <hr>
+        <?php
+        	foreach($events as $event){
+        		if($event['Event']['user_id'] == AuthComponent::user('id') ){        			
+        			echo '<div class="row" style="margin-bottom: 20px;">';
+        			//Picture
+        			echo '<div class="col-xs-3" style="text-align: center;">';
+        			echo $this->Html->image('events/' . $event['Event']['picture'],
+        					array("alt" => "event picture",
+        							"class" => "img-responsive img-thumbnail",
+        							"style" => "width:120px;"));
+         			echo '</div>';
+         			
 
-        <div class="row" style="margin-bottom: 20px;">
-            <div class="col-xs-3" style="text-align: center;">
-                <?php
-                echo $this->Html->image(
-                    "eventdefault.png",
-                    array(
-                        "alt" => "user avatar",
-                        "class" => "img-responsive img-thumbnail",
-                        "style" => "width:120px;")
-                ); ?>
-            </div>
-            <div class="col-xs-9">
-                <p style="font-size: 18px;">
-                    <?php echo $this->Html->link("Event Name", array(
-                        'controller' => 'events',
-                        'action' => 'view',
-                        '1')); ?>
-                </p>
-
-                <p>
-                    <span class="glyphicon glyphicon-time"></span> 2014-06-03 16:02:00
-                </p>
-
-                <p>
-                    <span class="glyphicon glyphicon-home"></span> Flogstavägen, Uppsala, Sweden
-                </p>
-            </div>
-        </div>
-
-
+         			//Event Name
+         			echo '<div class="col-xs-9">';
+         			echo '<p style="font-size: 18px;">';
+         			echo $this->Html->link($event['Event']['ename'], array(
+         					'controller' => 'events',
+         					'action' => 'view', $event['Event']['id']));
+         			echo '</p>';
+         			
+         			echo '<p><span class="glyphicon glyphicon-time"></span> '.$event['Event']['date'].'</p>';
+         			echo '<p><span class="glyphicon glyphicon-home"></span> '.$event['Location']['display_address'].'</p>';
+         			echo '</div>';
+         			echo '</div>';//row
+        		}
+        	} 
+        ?>            
     </div>
-    <div>
+        
+    
+    
+    <div>    
         <h4>Pending event request</h4>
         <hr>
-        <div class="row" style="margin-bottom:15px;">
-            <div class="col-xs-2" style="text-align: center;">
-                <?php
-                echo $this->Html->image(
-                    "users/default.png",
-                    array(
-                        "alt" => "user avatar",
-                        "class" => "img-responsive img-thumbnail",
-                        "style" => "width:60px;")
-                ); ?>
-            </div>
-            <div class="col-xs-7" style="border-right: 1px solid #e2e2e2;">
-                <p style="line-height:60px;font-size: 16px;">
-                    <?php echo $this->Html->link("Host Name", array(
-                        'controller' => 'users',
-                        'action' => 'view',
-                        '1')); ?>
-                    &nbsp;
-                    wants to join in
-                    &nbsp;
-                    <?php echo $this->Html->link("Event Name", array(
-                        'controller' => 'events',
-                        'action' => 'view',
-                        '1')); ?>
+        
+        <?php
+        	foreach($events as $event){
+        		$requests = $event['RequestInviteToEvent'];
+        		foreach($requests as $req){
+        			echo '<div class="row" style="margin-bottom:15px;">';
+        			// Picture
+        			echo '<div class="col-xs-2" style="text-align: center;">';
+        			echo $this->Html->image('users/'.$req['picture'],
+        					array(
+        							"alt" => "user avatar",
+        							"class" => "img-responsive img-thumbnail",
+        							"style" => "width:60px;")
+        			                );
+        			echo '</div>';
+        			
+        			//Host Name
+        			echo '<div class="col-xs-7" style="border-right: 1px solid #e2e2e2;">';
+        			echo '<p style="line-height:60px;font-size: 16px;">';
+        			echo $this->Html->link($req['username'], array(
+        					'controller' => 'users',
+        					'action' => 'view',$req['id'])) .' wants to join in '.
+        			     $this->Html->link("Event Name", array(
+        			         'controller' => 'events',
+        			         'action' => 'view', $req['Requestinvite']['event_id']));
+        			echo '</p></div>';
 
-                </p>
-            </div>
-            <div class="col-xs-3">
-                <?php echo $this->Html->link("Accept",
-                    array(
-                        'controller' => 'foo',
-                        'action' => 'foo',
-                        '1'),
-                    array(
-                        'class' => 'btn btn-success btn-sm btn-block'
-                    )); ?>
-                <?php echo $this->Html->link("Decline",
-                    array(
-                        'controller' => 'foo',
-                        'action' => 'foo',
-                        '1'),
-                    array(
-                        'class' => 'btn btn-danger btn-sm btn-block'
-                    )); ?>
-            </div>
+        			
+        			echo '<div class="col-xs-3">';
+        			//Accept Request
+        			echo $this->Form->postLink("Accept",
+        					array(
+        							'controller' => 'events',
+        							'action' => 'acceptuser',
+        							$req['id'], $req['Requestinvite']['event_id']),
+        					array(
+        							'class' => 'btn btn-success btn-sm btn-block'
+        					));
+        			
+        			//Reject request
+        			echo $this->Form->postLink("Decline",
+        					array(
+        							'controller' => 'events',
+        							'action' => 'rejectuser',
+        							$req['id'], $req['Requestinvite']['event_id']),
+        					array(
+        							'class' => 'btn btn-danger btn-sm btn-block'
+        					));
+        			echo '</div>';
+        			echo '</div>'; //row
+        		}
+        	} 
+        ?>                  
         </div>
     </div>
 </div>
 </div>
-</div>
+
 

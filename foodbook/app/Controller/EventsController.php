@@ -70,23 +70,60 @@ class EventsController extends AppController {
 	 * @throws NotFoundException
 	 */
 	public function acceptuser($id, $eid) {
+		$this->autoRender = false;
 		if(!$id){
 			throw new NotFoundException(__('Invalid user'));
 		}
-		if(!$id){
+		if(!$eid){
 			throw new NotFoundException(__('Invalid event'));
 		}
-		$uid = $this->Auth->user('id');
+				
 		if($this->request->is('post')){
 			$this->Event->Goingto->create();
-			$this->Event->Goingto->set('user_id',$id);
-			$this->Event->Goingto->set('event_id',$eid);
+			$this->Event->Goingto->set('user_id',$id+0);
+			$this->Event->Goingto->set('event_id',$eid+0);
 			$this->Event->Goingto->save($this->request->data);
-			$this->redirect(array('action' => 'requestusers', $uid));
+			
+			$this->Event->Requestinvite->deleteAll(
+					array(
+						'Requestinvite.event_id' => $eid+0,
+						'Requestinvite.user_id' => $id+0
+					),
+					false);
+			$this->redirect($this->referer());		
 		}
 	}
 
 
+	/**
+	 * Reject the user's request 
+	 * 
+	 * @param int $id
+	 * @param int $eid
+	 * @throws NotFoundException
+	 */
+	public function rejectuser($id, $eid){
+		$this->autoRender = false;
+		if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if(!$eid){
+			throw new NotFoundException(__('Invalid event'));
+		}
+		
+		if($this->request->is('post')){			
+			$this->Event->Requestinvite->deleteAll(
+					array(
+						'Requestinvite.event_id' => $eid+0,
+						'Requestinvite.user_id' => $id+0
+					), 
+					false);			
+			$this->redirect($this->referer());			
+		}
+	}
+	
+	
+	
 	/**
 	 * Helper function
 	 * Returns a list of user ids of those users
@@ -108,19 +145,19 @@ class EventsController extends AppController {
 	/**
 	 * @param int $event_id event id
 	 */
-	public function requestusers($event_id) {
-		$event = $this->Event->findById($event_id);
-		$users = $event['RequestInviteToEvent'];
-		$notansweredusers = array();
-		foreach ($users as $user){
-			if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
-				$notansweredusers[] = $user;
-			}
+// 	public function requestusers($event_id) {
+// 		$event = $this->Event->findById($event_id);
+// 		$users = $event['RequestInviteToEvent'];
+// 		$notansweredusers = array();
+// 		foreach ($users as $user){
+// 			if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
+// 				$notansweredusers[] = $user;
+// 			}
 
-		}
-		$this->set('event', $event['Event']);
-		$this->set('requestusers', $notansweredusers);
-	}
+// 		}
+// 		$this->set('event', $event['Event']);
+// 		$this->set('requestusers', $notansweredusers);
+// 	}
 
 
 	/**
@@ -144,6 +181,7 @@ class EventsController extends AppController {
 	/**
 	 * @param int $event_id event id
 	 */
+
 	public function inviteusers($event_id) {
 		$event = $this->Event->findById($event_id);
 		$users = $event['InvitedToEvent'];
@@ -156,6 +194,7 @@ class EventsController extends AppController {
 		$this->set('event', $event['Event']);
 		$this->set('invitesusers', $notansweredusers);
 	}
+
     
     
     
@@ -196,19 +235,19 @@ class EventsController extends AppController {
 	}
 
 
-	public function requested($id) {
-		if(!$id){
-			throw new NotFoundException(__('Invalid event'));
-		}
-		$event = $this->Event->findById($id);
+// 	public function requested($id) {
+// 		if(!$id){
+// 			throw new NotFoundException(__('Invalid event'));
+// 		}
+// 		$event = $this->Event->findById($id);
 
-		if(!$event){
-			throw new NotFoundException(__("Invalid Event"));
-		}
-		if($this->request->is('post')){
-			$this->redirect(array('action' => 'requestusers', $id));
-		}
-	}
+// 		if(!$event){
+// 			throw new NotFoundException(__("Invalid Event"));
+// 		}
+// 		if($this->request->is('post')){
+// 			$this->redirect(array('action' => 'requestusers', $id));
+// 		}
+// 	}
 	 
 
 
@@ -236,14 +275,10 @@ class EventsController extends AppController {
         }
         $id = $id + 0; //cast to int
         $event = $this->Event->findById($id);
-   		$Eventpics = new EventpicsController;
-		$Eventpics->constructClasses();
-		$this->set('picture', $Eventpics->findall($id));
         $isowner = false;
         if ($this->Auth->user('id') == $event['Event']['user_id']) {
             $isowner = true;
         }
-
 
         if(!$event){
         	throw new NotFoundException(__("Invalid Event"));
@@ -258,8 +293,7 @@ class EventsController extends AppController {
 
 
         $this->set('event', $event);
-        $this->set('isowner',$isowner);
-        
+        $this->set('isowner',$isowner);        
         $this->set('pending_requests',$this->get_pending_requests($id));
         $this->set('pending_invites',$this->get_pending_invites($id));
 		$this->set('going_users', $this->get_going_users($id));
