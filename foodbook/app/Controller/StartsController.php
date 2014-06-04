@@ -23,7 +23,7 @@ class StartsController extends AppController {
 		$this->set("title_for_layout","Foodbook");
 		$userswithrating = array();
 		
-		$users = $this->User->find('all', array('limit' => 8));
+		$users = $this->User->find('all', array('limit' => 7));
 		$this->User->Userrating->virtualFields['Rating'] = 0;
 		foreach($users as $user){
 		$rating = $this->User->Userrating->query(

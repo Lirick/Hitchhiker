@@ -536,7 +536,7 @@ class EventsController extends AppController {
 			$this->paginate = $settings;
 		}	
 		
-		$data = $this->paginate('Event');		
+		$data = $this->paginate('Event');
 		$this->paginate = array('limit' => 8);
 		$Eventpics = new EventpicsController;
 		for($i = 0; $i < count($data); $i++){

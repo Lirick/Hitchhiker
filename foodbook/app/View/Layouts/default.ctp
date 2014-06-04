@@ -52,7 +52,7 @@
     <div id="header"></div>
     
     <div id="content" class="container">
-        <?php echo $this->Session->flash(); ?>
+        <?php #echo $this->Session->flash(); ?>
     </div>
     
     <?php echo $this->fetch('content'); ?>
@@ -62,8 +62,6 @@
 <div class="footer">
     © 2014 Foodbook Team All Rights Reserved
 </div>
-<?php echo $this->element('sql_dump'); ?>
-<?php echo $this->Js->writeBuffer(); ?>
 </body>
 <script>
     $(function () {
