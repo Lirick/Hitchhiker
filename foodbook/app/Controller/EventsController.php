@@ -156,25 +156,6 @@ class EventsController extends AppController {
 		$this->set('event', $event['Event']);
 		$this->set('invitesusers', $notansweredusers);
 	}
-
-
-
-    /**
-     * @param int $event_id event id
-     */
-    public function inviteusers($event_id) {
-    	$event = $this->Event->findById($event_id);
-    	$users = $event['InvitedToEvent'];
-    	$notansweredusers = array();    	
-    	foreach ($users as $user){
-    		if(!$this->Event->Goingto->findByUserIdAndEventId($user['id'], $event_id)){
-    			$notansweredusers[] = $user;
-    		}
-    	}
-    	$this->set('event', $event['Event']);
-    	$this->set('invitesusers', $notansweredusers);
-    }
-    
     
     
     

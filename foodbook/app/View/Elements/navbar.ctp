@@ -16,7 +16,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:10px;">
                             <?php echo $this->Html->image("users/" .AuthComponent::user('picture'), array('style' =>'height:30px;padding:0;', 'class' => 'img-responsive img-thumbnail', 'alt' => 'Profile Picture', 'fullBase' => true)); ?>
-                            <?= AuthComponent::user('username') ?> <b class="caret"></b>
+                            <?= AuthComponent::user('name') ?> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><?php echo $this->Html->link('Host your event', array('controller' => 'events', 'action' => 'create'));?></li>
