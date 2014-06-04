@@ -3,6 +3,7 @@
  App::import('Controller', 'Followers');
  App::import('Controller', 'Endorsers');
  App::import('Controller', 'Recipes');
+ App::import('Controller', 'Eventpics');
  
 class UsersController extends AppController {
 
@@ -103,12 +104,8 @@ class UsersController extends AppController {
         $this->set('nrrecipes', $Recipes->count($id));
         $this->readData($id);
 
-
-
         $this->User->Userrating->virtualFields['Rating'] = 0;
-        
-        
-        
+                
         $ratings = $this->User->Userrating->query(
         "SELECT
         	userto, AVG(rating) as Userrating__Rating
@@ -122,10 +119,21 @@ class UsersController extends AppController {
         	userto
         "
         ); 
-
         $this->set('ratings',$ratings);
         
-                
+        $events = $this->User->Event->find('all');
+        
+        
+        //picture for each event
+        $Eventpics = new EventpicsController;
+        $Eventpics->constructClasses();
+        for($i = 0; $i < count($events); $i++){
+        	$events[$i]['Event']['picture'] = $Eventpics->getdef($events[$i]['Event']['id']);
+        	echo $events[$i]['Event']['picture']."---";
+        }
+        
+        
+        $this->set('events', $events);           
     }
     
     public function rate($id,$rating) {
