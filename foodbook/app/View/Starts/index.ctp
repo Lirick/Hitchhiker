@@ -1,7 +1,7 @@
 <?php
 echo $this->Html->script('typeahead.bundle.min');
-
 ?>
+
 <div class="search-logo-homepage">
     <h1>Find your food in foodbook!</h1>
 
@@ -65,7 +65,7 @@ echo $this->Html->script('typeahead.bundle.min');
                     </div>
                     <div class="col-xs-8">
                         <div class="row">
-                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-cutlery"></span></p></div>
+                            <div class="col-xs-2"><p><span class="glyphicon glyphicon-user"></span></p></div>
                             <div class="col-xs-10">
                                 <p>
                                     <strong><?php echo $this->Html->link($u['User']['username'], array(

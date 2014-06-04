@@ -20,7 +20,7 @@ class StartsController extends AppController {
     public function index() {
 		$Eventpics = new EventpicsController;
 		$events = $this->Event->find('all', array('limit' => 9));
-
+		$this->set("title_for_layout","Foodbook");
 		$userswithrating = array();
 		
 		$users = $this->User->find('all', array('limit' => 8));
